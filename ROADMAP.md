@@ -7,7 +7,7 @@
 ## v0.1 — Foundation
 
 - [x] Repository setup and license
-- [ ] Core architecture specification
+- [x] Core architecture specification
 - [ ] Provider abstraction interface
 - [ ] OpenAI provider implementation
 - [ ] Anthropic provider implementation

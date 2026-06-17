@@ -56,7 +56,7 @@ Community → Active → Regular → Core → BDFL
 
 ## License
 
-All contributions are under [Apache 2.0](LICENSE).
+All contributions are under [Apache 2.0](../LICENSE).
 
 ## Amendments
 

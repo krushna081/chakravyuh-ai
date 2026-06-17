@@ -39,7 +39,9 @@ Yes for cloud providers. Ollama runs fully offline.
 
 **How to start?**  
 ```bash
-git clone && npm install && cp .env.example .env && npm run dev
+git clone https://github.com/anomalyco/chakravyuh-ai.git
+cd chakravyuh-ai
+npm install && cp .env.example .env && npm run dev
 ```
 
 **Custom agents?**  
@@ -54,13 +56,13 @@ Free (Apache 2.0). Pay only for API usage or infrastructure.
 ## Community
 
 **How to contribute?**  
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md](../CONTRIBUTING.md).
 
 **Found a bug?**  
 Open a [GitHub Issue](https://github.com/anomalyco/chakravyuh-ai/issues).
 
 **Security issue?**  
-Email security@chakravyuh.dev — see [SECURITY.md](SECURITY.md).
+Email security@chakravyuh.dev — see [SECURITY.md](../SECURITY.md).
 
 **License?**  
 Apache 2.0.
