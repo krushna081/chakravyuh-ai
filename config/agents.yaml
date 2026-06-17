@@ -1,0 +1,156 @@
+# =============================================================================
+# Chakravyuh AI — Agent Configuration
+# =============================================================================
+# Define agents, their assigned providers, models, and permitted tools.
+# Agents can be assigned static providers or use the capability router.
+# =============================================================================
+
+agents:
+  coordinator:
+    name: Coordinator
+    role: Task routing and delegation
+    provider: openai
+    model: gpt-4o
+    systemPrompt: prompts/coordinator.md
+    tools: [registry, event-bus]
+    memoryScope: [working, episodic]
+    allowedPeers: [planner, coder, researcher, browser, qa, memory, security]
+    limits:
+      maxTokensPerTask: 2048
+      maxConsecutiveCalls: 20
+      timeout: 30000
+
+  planner:
+    name: Planner
+    role: Goal decomposition and workflow planning
+    provider: openai
+    model: gpt-4o
+    systemPrompt: prompts/planner.md
+    tools: []
+    memoryScope: [working, episodic]
+    allowedPeers: [coordinator, coder, researcher, qa]
+    limits:
+      maxTokensPerTask: 4096
+      maxConsecutiveCalls: 15
+      timeout: 60000
+
+  coder:
+    name: Coder
+    role: Write, review, and refactor code
+    provider: strategy
+    strategy:
+      type: capability
+      minCapability: code
+      prefer: [openai, anthropic]
+    systemPrompt: prompts/coder.md
+    tools: [filesystem, github, terminal]
+    memoryScope: [working, episodic, procedural]
+    allowedPeers: [planner, qa, researcher]
+    limits:
+      maxTokensPerTask: 8192
+      maxConsecutiveCalls: 30
+      timeout: 120000
+
+  researcher:
+    name: Researcher
+    role: Information gathering and analysis
+    provider: strategy
+    strategy:
+      type: capability
+      minCapability: reasoning
+      preferCheapest: true
+    systemPrompt: prompts/researcher.md
+    tools: [web-fetch, web-search]
+    memoryScope: [working, episodic, semantic]
+    allowedPeers: [planner, coder, qa]
+    limits:
+      maxTokensPerTask: 4096
+      maxConsecutiveCalls: 20
+      timeout: 60000
+
+  browser:
+    name: Browser
+    role: Web automation and interaction
+    provider: anthropic
+    model: claude-sonnet-4-20250514
+    systemPrompt: prompts/browser.md
+    tools: [browser, web-fetch]
+    memoryScope: [working, episodic]
+    allowedPeers: [planner, researcher, qa]
+    limits:
+      maxTokensPerTask: 4096
+      maxConsecutiveCalls: 25
+      timeout: 120000
+
+  qa:
+    name: QA
+    role: Testing, validation, and quality assurance
+    provider: anthropic
+    model: claude-3-5-haiku-20241022
+    systemPrompt: prompts/qa.md
+    tools: [filesystem, github, terminal]
+    memoryScope: [working, episodic]
+    allowedPeers: [planner, coder]
+    limits:
+      maxTokensPerTask: 4096
+      maxConsecutiveCalls: 20
+      timeout: 60000
+
+  memory:
+    name: Memory Agent
+    role: Memory management and retrieval
+    provider: openai
+    model: gpt-4o-mini
+    systemPrompt: prompts/memory.md
+    tools: [memory-store, memory-search, memory-delete]
+    memoryScope: [working, episodic, semantic, procedural]
+    allowedPeers: [all]
+    limits:
+      maxTokensPerTask: 2048
+      maxConsecutiveCalls: 50
+      timeout: 30000
+
+  security:
+    name: Security Agent
+    role: Security analysis and threat detection
+    provider: strategy
+    strategy:
+      type: fixed
+      provider: anthropic
+      model: claude-sonnet-4-20250514
+    systemPrompt: prompts/security.md
+    tools: [filesystem, github, terminal]
+    memoryScope: [episodic, semantic]
+    allowedPeers: [coordinator]
+    limits:
+      maxTokensPerTask: 4096
+      maxConsecutiveCalls: 15
+      timeout: 60000
+
+  github:
+    name: GitHub Agent
+    role: Repository management and automation
+    provider: openai
+    model: gpt-4o-mini
+    systemPrompt: prompts/github.md
+    tools: [github]
+    memoryScope: [working, episodic]
+    allowedPeers: [coder, qa, coordinator]
+    limits:
+      maxTokensPerTask: 4096
+      maxConsecutiveCalls: 30
+      timeout: 60000
+
+  deployment:
+    name: Deployment Agent
+    role: Build, deploy, and infrastructure management
+    provider: openai
+    model: gpt-4o
+    systemPrompt: prompts/deployment.md
+    tools: [filesystem, terminal, docker, kubernetes]
+    memoryScope: [working, episodic, procedural]
+    allowedPeers: [coder, qa, coordinator]
+    limits:
+      maxTokensPerTask: 8192
+      maxConsecutiveCalls: 25
+      timeout: 180000

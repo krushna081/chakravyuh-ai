@@ -1,0 +1,70 @@
+{
+  "name": "@chakravyuh/core",
+  "version": "0.1.0-alpha",
+  "description": "Multi-Agent AI Operating System — Unify, Orchestrate, Autonomous",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "Chakravyuh AI Contributors",
+  "homepage": "https://github.com/anomalyco/chakravyuh-ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anomalyco/chakravyuh-ai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anomalyco/chakravyuh-ai/issues"
+  },
+  "engines": {
+    "node": ">=18.x",
+    "npm": ">=9.x"
+  },
+  "type": "module",
+  "workspaces": [
+    "backend",
+    "agents/*",
+    "mcp/servers/*",
+    "memory/drivers/*"
+  ],
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "npm run build --workspaces",
+    "start": "node backend/dist/index.js",
+    "clean": "npm run clean --workspaces",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md,yaml,yml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,json,md,yaml,yml}\"",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "docs": "typedoc --out docs/api backend/src/index.ts",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "eslint": "^9.0.0",
+    "husky": "^9.0.0",
+    "prettier": "^3.0.0",
+    "typedoc": "^0.26.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  },
+  "dependencies": {
+    "zod": "^3.23.0"
+  },
+  "keywords": [
+    "ai",
+    "multi-agent",
+    "orchestrator",
+    "mcp",
+    "model-context-protocol",
+    "llm",
+    "openai",
+    "anthropic",
+    "gemini",
+    "deepseek",
+    "ollama",
+    "autonomous",
+    "agents"
+  ]
+}
