@@ -8,7 +8,7 @@
 - [Architecture](docs/ARCHITECTURE.md) — system design overview
 
 ### Community
-- **Discord**: [Join the community](https://discord.gg/chakravyuh) — real-time chat
+- **Discord**: [Join the community](https://discord.gg/xGeeBAWDq) — real-time chat
 - **GitHub Discussions**: [Ask questions and share ideas](https://github.com/krushna081/chakravyuh-ai/discussions)
 
 ### Reporting Issues

@@ -16,7 +16,7 @@
   <a href="#"><img src="https://img.shields.io/badge/node-%3E%3D18.x-green?style=flat-square" alt="Node"></a>
   <a href="#"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square" alt="PRs Welcome"></a>
   <a href="#"><img src="https://img.shields.io/badge/TypeScript-strict-3178C6?style=flat-square" alt="TypeScript"></a>
-  <a href="https://discord.gg/chakravyuh"><img src="https://img.shields.io/badge/discord-join-5865F2?style=flat-square" alt="Discord"></a>
+  <a href="https://discord.gg/xGeeBAWDq"><img src="https://img.shields.io/badge/discord-join-5865F2?style=flat-square" alt="Discord"></a>
 </p>
 
 <p align="center">
@@ -166,7 +166,7 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for:
 
 ## Community
 
-- **Discord**: [Join the community](https://discord.gg/chakravyuh)
+- **Discord**: [Join the community](https://discord.gg/xGeeBAWDq)
 - **GitHub Discussions**: [Ask questions, share ideas](https://github.com/krushna081/chakravyuh-ai/discussions)
 - **Issues**: [Report bugs, request features](https://github.com/krushna081/chakravyuh-ai/issues)
 

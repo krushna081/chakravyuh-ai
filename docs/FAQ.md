@@ -108,7 +108,7 @@ Open a [Feature Request](https://github.com/krushna081/chakravyuh-ai/issues/new?
 
 **Where can I ask questions?**
 - [GitHub Discussions](https://github.com/krushna081/chakravyuh-ai/discussions)
-- [Discord Community](https://discord.gg/chakravyuh)
+- [Discord Community](https://discord.gg/xGeeBAWDq)
 
 ---
 
