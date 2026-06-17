@@ -200,7 +200,7 @@ git clone https://github.com/YOUR_USERNAME/chakravyuh-ai.git
 cd chakravyuh-ai
 
 # Add upstream
-git remote add upstream https://github.com/anomalyco/chakravyuh-ai.git
+git remote add upstream https://github.com/krushna081/chakravyuh-ai.git
 
 # Install dependencies
 npm install

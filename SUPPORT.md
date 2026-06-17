@@ -9,16 +9,16 @@
 
 ### Community
 - **Discord**: [Join the community](https://discord.gg/chakravyuh) — real-time chat
-- **GitHub Discussions**: [Ask questions and share ideas](https://github.com/anomalyco/chakravyuh-ai/discussions)
+- **GitHub Discussions**: [Ask questions and share ideas](https://github.com/krushna081/chakravyuh-ai/discussions)
 
 ### Reporting Issues
-- **Bug reports**: Open a [Bug Report](https://github.com/anomalyco/chakravyuh-ai/issues/new?template=01_bug_report.yml)
-- **Feature requests**: Open a [Feature Request](https://github.com/anomalyco/chakravyuh-ai/issues/new?template=02_feature_request.yml)
+- **Bug reports**: Open a [Bug Report](https://github.com/krushna081/chakravyuh-ai/issues/new?template=01_bug_report.yml)
+- **Feature requests**: Open a [Feature Request](https://github.com/krushna081/chakravyuh-ai/issues/new?template=02_feature_request.yml)
 - **Security vulnerabilities**: See [SECURITY.md](SECURITY.md) for private reporting
 
 ## Commercial Support
 
-For enterprise support, custom integrations, and consulting, contact the maintainers via [GitHub](https://github.com/anomalyco/chakravyuh-ai).
+For enterprise support, custom integrations, and consulting, contact the maintainers via [GitHub](https://github.com/krushna081/chakravyuh-ai).
 
 ## Contributing
 

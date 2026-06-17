@@ -7,7 +7,7 @@ body:
       value: |
         **RFCs** are for significant changes to Chakravyuh AI's architecture, API, or design.
         For smaller features, use the Feature Request template instead.
-        Read the [RFC process](https://github.com/anomalyco/chakravyuh-ai/blob/main/docs/GOVERNANCE.md#decision-making) before submitting.
+        Read the [RFC process](https://github.com/krushna081/chakravyuh-ai/blob/main/docs/GOVERNANCE.md#decision-making) before submitting.
 
   - type: input
     id: title

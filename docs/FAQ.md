@@ -66,7 +66,7 @@ Yes — configure Ollama with local models and disable cloud providers. No inter
 **How do I get started?**
 
 ```bash
-git clone https://github.com/anomalyco/chakravyuh-ai.git
+git clone https://github.com/krushna081/chakravyuh-ai.git
 cd chakravyuh-ai
 cp .env.example .env   # add your API keys
 npm install
@@ -98,16 +98,16 @@ Chakravyuh itself is free (Apache 2.0). You pay only for the API usage of the mo
 See [CONTRIBUTING.md](../CONTRIBUTING.md) for development workflow, coding standards, and contribution guidelines.
 
 **How do I report a bug?**
-Open a [Bug Report](https://github.com/anomalyco/chakravyuh-ai/issues/new?template=01_bug_report.yml).
+Open a [Bug Report](https://github.com/krushna081/chakravyuh-ai/issues/new?template=01_bug_report.yml).
 
 **How do I report a security issue?**
 Email **security@chakravyuh.dev** — see [SECURITY.md](../SECURITY.md).
 
 **How do I suggest a feature?**
-Open a [Feature Request](https://github.com/anomalyco/chakravyuh-ai/issues/new?template=02_feature_request.yml).
+Open a [Feature Request](https://github.com/krushna081/chakravyuh-ai/issues/new?template=02_feature_request.yml).
 
 **Where can I ask questions?**
-- [GitHub Discussions](https://github.com/anomalyco/chakravyuh-ai/discussions)
+- [GitHub Discussions](https://github.com/krushna081/chakravyuh-ai/discussions)
 - [Discord Community](https://discord.gg/chakravyuh)
 
 ---

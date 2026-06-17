@@ -7,7 +7,7 @@
 **Do not** open public issues for security vulnerabilities. Report privately:
 
 - **Email**: security@chakravyuh.dev
-- **GitHub**: [Security Advisory](https://github.com/anomalyco/chakravyuh-ai/security/advisories/new)
+- **GitHub**: [Security Advisory](https://github.com/krushna081/chakravyuh-ai/security/advisories/new)
 
 ### Response Timeline
 

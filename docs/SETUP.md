@@ -19,7 +19,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/anomalyco/chakravyuh-ai.git
+git clone https://github.com/krushna081/chakravyuh-ai.git
 cd chakravyuh-ai
 
 # Install dependencies

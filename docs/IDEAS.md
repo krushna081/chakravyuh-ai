@@ -1,6 +1,6 @@
 # Ideas
 
-> **Propose new ideas**: Open a [GitHub Discussion](https://github.com/anomalyco/chakravyuh-ai/discussions/new?category=ideas).
+> **Propose new ideas**: Open a [GitHub Discussion](https://github.com/krushna081/chakravyuh-ai/discussions/new?category=ideas).
 > **Status**: 💡 Idea · 🔍 Researching · 📋 Planned · 🔨 In Progress
 
 ---
@@ -126,8 +126,8 @@ Dynamic team composition:
 
 ## How to Contribute Ideas
 
-1. Search existing [Discussions](https://github.com/anomalyco/chakravyuh-ai/discussions) and [Issues](https://github.com/anomalyco/chakravyuh-ai/issues) for duplicates
-2. Open a new [Discussion](https://github.com/anomalyco/chakravyuh-ai/discussions/new?category=ideas) with the `ideas` category
+1. Search existing [Discussions](https://github.com/krushna081/chakravyuh-ai/discussions) and [Issues](https://github.com/krushna081/chakravyuh-ai/issues) for duplicates
+2. Open a new [Discussion](https://github.com/krushna081/chakravyuh-ai/discussions/new?category=ideas) with the `ideas` category
 3. Describe the idea, use case, and potential implementation approach
 4. Engage with the community on the discussion thread
 5. If accepted, it will be added to this file and the roadmap

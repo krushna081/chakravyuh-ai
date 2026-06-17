@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/anomalyco/chakravyuh-ai/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue?style=flat-square" alt="License"></a>
+  <a href="https://github.com/krushna081/chakravyuh-ai/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue?style=flat-square" alt="License"></a>
   <a href="#"><img src="https://img.shields.io/badge/version-0.1.0--alpha-orange?style=flat-square" alt="Version"></a>
   <a href="#"><img src="https://img.shields.io/badge/node-%3E%3D18.x-green?style=flat-square" alt="Node"></a>
   <a href="#"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square" alt="PRs Welcome"></a>
@@ -46,7 +46,7 @@ Chakravyuh AI is an **AI Operating System** that connects multiple AI models, ag
 ## Quick Start
 
 ```bash
-git clone https://github.com/anomalyco/chakravyuh-ai.git
+git clone https://github.com/krushna081/chakravyuh-ai.git
 cd chakravyuh-ai
 cp .env.example .env   # add your API keys
 npm install
@@ -167,8 +167,8 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for:
 ## Community
 
 - **Discord**: [Join the community](https://discord.gg/chakravyuh)
-- **GitHub Discussions**: [Ask questions, share ideas](https://github.com/anomalyco/chakravyuh-ai/discussions)
-- **Issues**: [Report bugs, request features](https://github.com/anomalyco/chakravyuh-ai/issues)
+- **GitHub Discussions**: [Ask questions, share ideas](https://github.com/krushna081/chakravyuh-ai/discussions)
+- **Issues**: [Report bugs, request features](https://github.com/krushna081/chakravyuh-ai/issues)
 
 ## License
 

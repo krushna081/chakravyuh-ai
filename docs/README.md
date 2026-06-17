@@ -35,9 +35,9 @@
 
 ## Quick Links
 
-- **Repository**: [github.com/anomalyco/chakravyuh-ai](https://github.com/anomalyco/chakravyuh-ai)
-- **Issues**: [github.com/anomalyco/chakravyuh-ai/issues](https://github.com/anomalyco/chakravyuh-ai/issues)
-- **Discussions**: [github.com/anomalyco/chakravyuh-ai/discussions](https://github.com/anomalyco/chakravyuh-ai/discussions)
+- **Repository**: [github.com/krushna081/chakravyuh-ai](https://github.com/krushna081/chakravyuh-ai)
+- **Issues**: [github.com/krushna081/chakravyuh-ai/issues](https://github.com/krushna081/chakravyuh-ai/issues)
+- **Discussions**: [github.com/krushna081/chakravyuh-ai/discussions](https://github.com/krushna081/chakravyuh-ai/discussions)
 - **Discord**: [discord.gg/chakravyuh](https://discord.gg/chakravyuh)
 
 ---
