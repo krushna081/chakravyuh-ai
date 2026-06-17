@@ -90,10 +90,10 @@ chakravyuh-ai/
 | [AGENTS.md](AGENTS.md) | Agent types and protocols |
 | [MODELS.md](MODELS.md) | Provider and model configuration |
 | [MCP_SERVERS.md](MCP_SERVERS.md) | MCP integration details |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | Development workflow |
-| [SECURITY.md](SECURITY.md) | Security policies |
+| [CONTRIBUTING.md](../CONTRIBUTING.md) | Development workflow |
+| [SECURITY.md](../SECURITY.md) | Security policies |
 | [VISION.md](VISION.md) | Project philosophy |
-| [ROADMAP.md](ROADMAP.md) | Milestones and planning |
+| [ROADMAP.md](../ROADMAP.md) | Milestones and planning |
 
 ## License
 

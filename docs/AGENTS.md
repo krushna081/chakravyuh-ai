@@ -33,7 +33,7 @@ export interface AgentConfig {
   provider: string
   model: string
   tools: string[]
-  memoryScope: string[]
+  memoryScope: ('working' | 'episodic' | 'semantic' | 'procedural')[]
   allowedPeers: string[]
   limits: {
     maxTokensPerTask: number
