@@ -1,0 +1,58 @@
+name: RFC — Request for Comments
+description: Propose a significant architectural or design change
+labels: [rfc]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **RFCs** are for significant changes to Chakravyuh AI's architecture, API, or design.
+        For smaller features, use the Feature Request template instead.
+        Read the [RFC process](https://github.com/krushna081/chakravyuh-ai/blob/main/docs/GOVERNANCE.md#decision-making) before submitting.
+
+  - type: input
+    id: title
+    attributes:
+      label: RFC Title
+      description: Clear, descriptive title prefixed with `[RFC]`
+      placeholder: "[RFC] Ephemeral agent spawning for parallel task execution"
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why is this change needed? What problem does it solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: design
+    attributes:
+      label: Design
+      description: Detailed technical design — interfaces, data flow, edge cases
+      render: typescript
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Other approaches considered and why they were rejected
+
+  - type: textarea
+    id: migration
+    attributes:
+      label: Migration Path
+      description: How will existing users migrate? Backward compatibility?
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Dependencies
+      options:
+        - label: This change affects the public API
+        - label: This change affects the agent protocol
+        - label: This change affects memory schema
+        - label: This change requires database migrations

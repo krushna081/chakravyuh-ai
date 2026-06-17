@@ -1,100 +1,61 @@
-<p align="center">
-  <img src="https://img.shields.io/badge/version-0.1.0--alpha-orange" alt="Version">
-  <img src="https://img.shields.io/badge/license-Apache%202.0-blue" alt="License">
-  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen" alt="PRs Welcome">
-  <img src="https://img.shields.io/badge/node-%3E%3D18.x-green" alt="Node">
-</p>
+# Documentation
 
-# ⚔️ Chakravyuh AI
-
-**Multi-Agent AI Operating System** — Connect AI models, agents, MCP servers, and memory into autonomous workflows.
+> **Chakravyuh AI** — Multi-Agent AI Operating System
 
 ---
 
-## Overview
+## Core Documentation
 
-Chakravyuh AI orchestrates multiple AI providers (OpenAI, Anthropic, Google, DeepSeek, Ollama), MCP servers, and specialized agents under a central runtime. Agents communicate, share memory, and collaborate autonomously.
+| Document | Description |
+|----------|-------------|
+| [Getting Started](SETUP.md) | Installation, configuration, and first run |
+| [Architecture](ARCHITECTURE.md) | System design, data flow, and component details |
+| [Agents](AGENTS.md) | Agent types, protocols, and custom agent development |
+| [Models & Providers](MODELS.md) | Provider configuration, model tables, and routing strategies |
+| [MCP Servers](MCP_SERVERS.md) | MCP integration, server catalog, and custom server development |
 
-## Quick Start
+## Project Documentation
 
-```bash
-git clone https://github.com/anomalyco/chakravyuh-ai.git
-cd chakravyuh-ai
-cp .env.example .env   # add API keys
-npm install
-npm run dev
-```
+| Document | Description |
+|----------|-------------|
+| [Vision](VISION.md) | Project philosophy and north star |
+| [Roadmap](../ROADMAP.md) | Version milestones, priorities, and timeline |
+| [Changelog](CHANGELOG.md) | Release history and change tracking |
+| [Ideas](IDEAS.md) | Future ideas and feature proposals |
+| [FAQ](FAQ.md) | Frequently asked questions |
+| [Governance](GOVERNANCE.md) | Project governance and community roles |
 
-## Architecture
+## Contributing
 
-```
-┌─────────────────────────────────────────────┐
-│              Orchestrator Engine             │
-│  ┌──────────┐ ┌──────────┐ ┌──────────────┐ │
-│  │  Router   │ │Scheduler │ │Agent Registry│ │
-│  └────┬─────┘ └────┬─────┘ └──────┬───────┘ │
-│       │            │               │         │
-│  ┌────▼────────────▼───────────────▼───────┐ │
-│  │           Agent Mesh Network             │ │
-│  │  Coder · Browser · Researcher · Planner │ │
-│  │  QA · Memory · Coordinator              │ │
-│  └────────────────┬────────────────────────┘ │
-│                   │                          │
-│  ┌────────────────▼────────────────────────┐ │
-│  │           Provider Layer                 │ │
-│  │  OpenAI · Anthropic · Google · DeepSeek │ │
-│  │  Ollama · Open-Source                   │ │
-│  └────────────────┬────────────────────────┘ │
-│                   │                          │
-│  ┌────────────────▼────────────────────────┐ │
-│  │           MCP Server Layer               │ │
-│  │  FileSystem · GitHub · Browser · Web     │ │
-│  │  Database · Custom                       │ │
-│  └─────────────────────────────────────────┘ │
-└──────────────────────────────────────────────┘
-```
+| Document | Description |
+|----------|-------------|
+| [Contributing](../CONTRIBUTING.md) | Development workflow, conventions, and standards |
+| [Code of Conduct](CODE_OF_CONDUCT.md) | Community guidelines and enforcement |
+| [Security](../SECURITY.md) | Security policies and vulnerability reporting |
 
-## Features
+## Quick Links
 
-| Feature | Description |
-|---------|-------------|
-| Multi-Provider | Use any AI model interchangeably |
-| MCP Protocol | Native Model Context Protocol support |
-| Agent Mesh | Specialized agents with peer-to-peer comms |
-| Memory Systems | Working, episodic, semantic, procedural |
-| Autonomous Workflows | Declarative multi-step task execution |
-| GitHub Integration | Code review, PRs, repo management |
-| Browser Automation | Headless web interaction via MCP |
-| Local Models | Full Ollama integration for offline use |
+- **Repository**: [github.com/krushna081/chakravyuh-ai](https://github.com/krushna081/chakravyuh-ai)
+- **Issues**: [github.com/krushna081/chakravyuh-ai/issues](https://github.com/krushna081/chakravyuh-ai/issues)
+- **Discussions**: [github.com/krushna081/chakravyuh-ai/discussions](https://github.com/krushna081/chakravyuh-ai/discussions)
+- **Discord**: [discord.gg/chakravyuh](https://discord.gg/chakravyuh)
 
-## Project Structure
+---
+
+## Documentation Map
 
 ```
-chakravyuh-ai/
-├── backend/      # Orchestrator, API, providers, memory
-├── agents/       # Agent definitions and tools
-├── mcp/          # MCP server implementations
-├── memory/       # Storage backends
-├── docs/         # Documentation
-├── tests/        # Test suites
-├── examples/     # Usage examples
-└── frontend/     # (reserved)
+docs/
+├── README.md              ← This file — documentation index
+├── SETUP.md               ← Installation and configuration
+├── ARCHITECTURE.md        ← System architecture and design
+├── AGENTS.md              ← Agent types, protocols, and development
+├── MODELS.md              ← Provider catalog and routing strategies
+├── MCP_SERVERS.md         ← MCP integration and server catalog
+├── VISION.md              ← Project philosophy
+├── CHANGELOG.md           ← Release history
+├── IDEAS.md               ← Future feature ideas
+├── FAQ.md                 ← Frequently asked questions
+├── GOVERNANCE.md          ← Project governance model
+└── CODE_OF_CONDUCT.md     ← Community guidelines
 ```
-
-## Documentation
-
-| File | Contents |
-|------|----------|
-| [SETUP.md](SETUP.md) | Installation and configuration |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | System design and data flow |
-| [AGENTS.md](AGENTS.md) | Agent types and protocols |
-| [MODELS.md](MODELS.md) | Provider and model configuration |
-| [MCP_SERVERS.md](MCP_SERVERS.md) | MCP integration details |
-| [CONTRIBUTING.md](../CONTRIBUTING.md) | Development workflow |
-| [SECURITY.md](../SECURITY.md) | Security policies |
-| [VISION.md](VISION.md) | Project philosophy |
-| [ROADMAP.md](../ROADMAP.md) | Milestones and planning |
-
-## License
-
-Apache 2.0 — see [LICENSE](LICENSE).

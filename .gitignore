@@ -53,3 +53,9 @@ memory/data/
 
 # Workspace (agent file operations)
 workspace/
+
+# Runtime data
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3

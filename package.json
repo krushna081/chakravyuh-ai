@@ -1,0 +1,62 @@
+{
+  "name": "@chakravyuh/core",
+  "version": "0.1.0-alpha",
+  "description": "Multi-Agent AI Operating System \u2014 Unify, Orchestrate, Autonomous",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "krushna081",
+  "homepage": "https://github.com/krushna081/chakravyuh-ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/krushna081/chakravyuh-ai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/krushna081/chakravyuh-ai/issues"
+  },
+  "engines": {
+    "node": ">=18.x",
+    "npm": ">=9.x"
+  },
+  "type": "module",
+  "workspaces": [
+    "backend",
+    "agents/*",
+    "mcp/servers/*",
+    "memory/drivers/*"
+  ],
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "echo 'Build not yet configured \u2014 planning phase'",
+    "start": "echo 'Start not yet configured \u2014 planning phase'",
+    "clean": "echo 'Clean not yet configured \u2014 planning phase'",
+    "lint": "echo 'Lint not yet configured \u2014 planning phase'",
+    "lint:fix": "echo 'Lint fix not yet configured \u2014 planning phase'",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md,yaml,yml}\" || echo ok",
+    "format:check": "prettier --check \"**/*.{ts,tsx,json,md,yaml,yml}\" || echo ok",
+    "typecheck": "echo 'TypeCheck not yet configured \u2014 planning phase'",
+    "test": "echo 'Tests not yet configured \u2014 planning phase'",
+    "test:watch": "echo 'Tests not yet configured \u2014 planning phase'",
+    "test:coverage": "echo 'Tests not yet configured \u2014 planning phase'",
+    "docs": "echo 'Docs build not yet configured \u2014 planning phase'",
+    "preinstall": "npx only-allow npm"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.0"
+  },
+  "dependencies": {},
+  "keywords": [
+    "ai",
+    "multi-agent",
+    "orchestrator",
+    "mcp",
+    "model-context-protocol",
+    "llm",
+    "openai",
+    "anthropic",
+    "gemini",
+    "deepseek",
+    "ollama",
+    "autonomous",
+    "agents"
+  ]
+}
