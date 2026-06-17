@@ -38,7 +38,7 @@
 - **Repository**: [github.com/krushna081/chakravyuh-ai](https://github.com/krushna081/chakravyuh-ai)
 - **Issues**: [github.com/krushna081/chakravyuh-ai/issues](https://github.com/krushna081/chakravyuh-ai/issues)
 - **Discussions**: [github.com/krushna081/chakravyuh-ai/discussions](https://github.com/krushna081/chakravyuh-ai/discussions)
-- **Discord**: [discord.gg/chakravyuh](https://discord.gg/chakravyuh)
+- **Discord**: [discord.gg/chakravyuh](https://discord.gg/xGeeBAWDq)
 
 ---
 
