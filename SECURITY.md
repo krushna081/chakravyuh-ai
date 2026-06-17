@@ -4,8 +4,6 @@
 
 **Do not** open public issues. Report privately:
 
-
-
 - **Email**: security@chakravyuh.dev
 - **GitHub**: [Security Advisory](https://github.com/anomalyco/chakravyuh-ai/security/advisories/new)
 
