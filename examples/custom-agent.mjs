@@ -1,47 +1,32 @@
-/**
- * Custom Agent Example
- *
- * Demonstrates how to create and register a custom agent.
- * Run: node examples/custom-agent.mjs
- */
+import { BaseAgent, Engine } from '@chakravyuh/core'
 
-class CustomAgent {
+class MyCustomAgent extends BaseAgent {
   constructor(config) {
-    this.id = config.id
-    this.name = config.name
-    this.tools = config.tools || []
+    super(config)
+    this.id = config.id ?? 'my-custom-agent'
+    this.name = config.name ?? 'My Custom Agent'
+    this.role = config.role ?? 'Custom task processing'
   }
 
-  async handleMessage(message) {
-    console.log(`[${this.name}] Received:`, message.payload.task)
-
-    // Custom logic here
-    const result = `Processed by ${this.name}: ${message.payload.task}`
-
-    return {
-      type: 'response',
-      from: this.id,
-      to: message.from,
-      payload: { data: result },
-    }
+  async handle(message) {
+    console.log(`[${this.name}] Received:`, message.payload?.task ?? message.content)
+    const result = `Processed by ${this.name}: ${message.payload?.task ?? message.content}`
+    return { type: 'response', from: this.id, to: message.from, payload: { data: result } }
   }
 }
 
-// Registration payload
-const agentDefinition = {
-  id: 'my-custom-agent',
-  name: 'My Custom Agent',
-  role: 'Custom task processing',
-  provider: 'openai',
-  model: 'gpt-4o-mini',
-  tools: ['filesystem'],
-  memoryScope: ['working'],
-  allowedPeers: ['coordinator'],
-  limits: {
-    maxTokensPerTask: 2048,
-    maxConsecutiveCalls: 10,
-    timeout: 30000,
-  },
+async function main() {
+  const config = { backend: 'openai', model: 'gpt-4o-mini' }
+  const engine = new Engine(config)
+  await engine.start()
+
+  const agent = new MyCustomAgent({ name: 'Analyzer', role: 'text analysis' })
+  engine.registerAgent(agent)
+
+  const response = await engine.send(agent.id, { task: 'Summarize the meeting notes' })
+  console.log(response)
+
+  await engine.shutdown()
 }
 
-export { CustomAgent, agentDefinition }
+main().catch(console.error)

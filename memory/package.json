@@ -1,0 +1,9 @@
+{
+  "name": "@chakravyuh/memory",
+  "version": "0.1.0-alpha",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@chakravyuh/core": "*"
+  }
+}

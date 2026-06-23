@@ -1,0 +1,15 @@
+{
+  "name": "@chakravyuh/mcp-server-github",
+  "version": "0.1.0",
+  "description": "MCP server for GitHub API – PRs, issues, repos, branches",
+  "private": true,
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "start": "node --loader ts-node/esm index.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

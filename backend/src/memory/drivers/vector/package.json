@@ -1,0 +1,15 @@
+{
+  "name": "@chakravyuh/memory-vector",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "driver.js",
+  "types": "driver.ts",
+  "exports": {
+    ".": {
+      "import": "./driver.js",
+      "types": "./driver.ts"
+    }
+  },
+  "description": "Semantic Memory driver for Vector DB with in-memory fallback",
+  "license": "MIT"
+}

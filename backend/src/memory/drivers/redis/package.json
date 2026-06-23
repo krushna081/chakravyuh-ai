@@ -1,0 +1,15 @@
+{
+  "name": "@chakravyuh/memory-redis",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "driver.js",
+  "types": "driver.ts",
+  "exports": {
+    ".": {
+      "import": "./driver.js",
+      "types": "./driver.ts"
+    }
+  },
+  "description": "Working Memory driver using Redis (in-memory Map placeholder)",
+  "license": "MIT"
+}
