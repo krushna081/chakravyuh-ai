@@ -1,0 +1,15 @@
+{
+  "name": "@chakravyuh/mcp-server-filesystem",
+  "version": "0.1.0",
+  "description": "MCP server for filesystem operations – read, write, edit, delete, list, search",
+  "private": true,
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "start": "node --loader ts-node/esm index.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "@chakravyuh/agent-security",
+  "version": "0.1.0-alpha",
+  "type": "module",
+  "private": true,
+  "main": "index.ts",
+  "dependencies": {
+    "@chakravyuh/core": "*"
+  }
+}

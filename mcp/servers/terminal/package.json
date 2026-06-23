@@ -1,0 +1,15 @@
+{
+  "name": "@chakravyuh/mcp-server-terminal",
+  "version": "0.1.0",
+  "description": "MCP server for terminal execution – commands, scripts, process management",
+  "private": true,
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "start": "node --loader ts-node/esm index.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

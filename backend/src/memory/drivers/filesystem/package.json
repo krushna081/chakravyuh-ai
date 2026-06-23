@@ -1,0 +1,15 @@
+{
+  "name": "@chakravyuh/memory-filesystem",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "driver.js",
+  "types": "driver.ts",
+  "exports": {
+    ".": {
+      "import": "./driver.js",
+      "types": "./driver.ts"
+    }
+  },
+  "description": "Procedural Memory driver using File System (markdown files)",
+  "license": "MIT"
+}
