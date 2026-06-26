@@ -1,0 +1,20 @@
+# AMD ROCm GPU support overlay for Docker Compose
+# Usage: COMPOSE_FILE=docker-compose.yml:docker/gpu.amd.yml docker compose up -d
+services:
+  ollama:
+    devices:
+      - /dev/kfd
+      - /dev/dri
+    group_add:
+      - video
+      - render
+    environment:
+      - HSA_OVERRIDE_GFX_VERSION=11.0.0
+
+  chakravyuh:
+    devices:
+      - /dev/kfd
+      - /dev/dri
+    group_add:
+      - video
+      - render

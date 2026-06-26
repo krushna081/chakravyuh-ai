@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "chakravyuh"
+version = "0.2.0-alpha"
+description = "Multi-Agent AI Operating System — local-first, Ollama-powered"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "krushna081", email = "contact@krushna081.online" }
+]
+requires-python = ">=3.11"
+dependencies = [
+  "typer>=0.12.0",
+  "rich>=13.0.0",
+  "httpx>=0.27.0",
+  "pydantic>=2.0.0",
+  "pydantic-settings>=2.0.0",
+  "python-dotenv>=1.0.0",
+  "questionary>=2.0.0",
+  "textual>=1.0.0",
+]
+
+[project.scripts]
+chakravyuh = "cli.main:app"
+cv = "cli.main:app"
+
+[tool.setuptools.packages.find]
+include = ["cli*", "backend*"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
