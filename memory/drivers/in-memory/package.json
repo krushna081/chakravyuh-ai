@@ -1,0 +1,7 @@
+{
+  "name": "@chakravyuh/memory-driver-in-memory",
+  "version": "0.1.0-alpha",
+  "private": true,
+  "type": "module",
+  "description": "In-memory driver for Chakravyuh AI memory system"
+}
