@@ -1,6 +1,7 @@
 # MCP Servers
 
-**Model Context Protocol (MCP)** provides a standardized way for AI agents to interact with tools, resources, and data sources. Chakravyuh AI uses MCP as its primary tool integration layer.
+> **⚠ Legacy Document (v0.1 TypeScript)** — The system now uses Python-native tools in [`tools/`](../tools/).  
+> See `tools/base.py` for the tool interface, and individual tool files for implementations.
 
 ---
 

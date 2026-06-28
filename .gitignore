@@ -54,8 +54,19 @@ memory/data/
 # Workspace (agent file operations)
 workspace/
 
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
 # Runtime data
 *.db
 *.db-journal
 *.sqlite
 *.sqlite3
+
+# ChromaDB
+chroma_data/

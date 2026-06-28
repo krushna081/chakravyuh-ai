@@ -1,61 +1,41 @@
 # Documentation
 
-> **Chakravyuh AI** — Multi-Agent AI Operating System
+> **⚠ These docs are being updated for v0.2 (Python-native).**  
+> Some content below reflects the old TypeScript engine. See the main [README.md](../README.md) for current information.
 
 ---
 
 ## Core Documentation
 
-| Document | Description |
-|----------|-------------|
-| [Getting Started](SETUP.md) | Installation, configuration, and first run |
-| [Architecture](ARCHITECTURE.md) | System design, data flow, and component details |
-| [Agents](AGENTS.md) | Agent types, protocols, and custom agent development |
-| [Models & Providers](MODELS.md) | Provider configuration, model tables, and routing strategies |
-| [MCP Servers](MCP_SERVERS.md) | MCP integration, server catalog, and custom server development |
-
-## Project Documentation
-
-| Document | Description |
-|----------|-------------|
-| [Vision](VISION.md) | Project philosophy and north star |
-| [Roadmap](../ROADMAP.md) | Version milestones, priorities, and timeline |
-| [Changelog](CHANGELOG.md) | Release history and change tracking |
-| [Ideas](IDEAS.md) | Future ideas and feature proposals |
-| [FAQ](FAQ.md) | Frequently asked questions |
-| [Governance](GOVERNANCE.md) | Project governance and community roles |
-
-## Contributing
-
-| Document | Description |
-|----------|-------------|
-| [Contributing](../CONTRIBUTING.md) | Development workflow, conventions, and standards |
-| [Code of Conduct](CODE_OF_CONDUCT.md) | Community guidelines and enforcement |
-| [Security](../SECURITY.md) | Security policies and vulnerability reporting |
-
-## Quick Links
-
-- **Repository**: [github.com/krushna081/chakravyuh-ai](https://github.com/krushna081/chakravyuh-ai)
-- **Issues**: [github.com/krushna081/chakravyuh-ai/issues](https://github.com/krushna081/chakravyuh-ai/issues)
-- **Discussions**: [github.com/krushna081/chakravyuh-ai/discussions](https://github.com/krushna081/chakravyuh-ai/discussions)
-- **Discord**: [discord.gg/chakravyuh](https://discord.gg/xGeeBAWDq)
+| Document | Description | Status |
+|----------|-------------|--------|
+| [Architecture](ARCHITECTURE.md) | System design and data flow | ⚠ Legacy |
+| [Agents](AGENTS.md) | Agent types and protocols | ⚠ Legacy |
+| [Models & Providers](MODELS.md) | Provider config and routing | ⚠ Legacy |
+| [MCP Servers](MCP_SERVERS.md) | MCP integration catalog | ⚠ Legacy |
+| [Setup Guide](SETUP.md) | Native + Docker setup | ✅ Updated |
+| [FAQ](FAQ.md) | Frequently asked questions | ✅ Updated |
+| [Changelog](CHANGELOG.md) | Release history | ✅ Updated |
 
 ---
 
-## Documentation Map
+## Quick Reference
 
-```
-docs/
-├── README.md              ← This file — documentation index
-├── SETUP.md               ← Installation and configuration
-├── ARCHITECTURE.md        ← System architecture and design
-├── AGENTS.md              ← Agent types, protocols, and development
-├── MODELS.md              ← Provider catalog and routing strategies
-├── MCP_SERVERS.md         ← MCP integration and server catalog
-├── VISION.md              ← Project philosophy
-├── CHANGELOG.md           ← Release history
-├── IDEAS.md               ← Future feature ideas
-├── FAQ.md                 ← Frequently asked questions
-├── GOVERNANCE.md          ← Project governance model
-└── CODE_OF_CONDUCT.md     ← Community guidelines
+```bash
+# Ollama Cloud (no GPU needed)
+cp .env.example .env
+# Set OLLAMA_HOST=https://ollama.com and OLLAMA_API_KEY
+pip install -r requirements.txt
+pip install -e .
+cv setup --no-pull
+cv run
+
+# Local Ollama (requires GPU)
+pip install -r requirements.txt
+pip install -e .
+cv setup
+cv run
+
+# TUI (no browser)
+cv tui
 ```

@@ -4,7 +4,37 @@
 
 ---
 
-## [Unreleased] — v0.1.0-alpha
+## [v0.2.0-alpha] — 2026-06-28
+
+### Added
+- Python-native rewrite — unified FastAPI backend, CLI, agents, tools, memory
+- 10 specialized Python agents (Coordinator, Planner, Coder, Researcher, Browser, QA, Memory, Security, GitHub, Deployment)
+- Control Agent with keyword-based task routing and workflow decomposition
+- Per-agent PTY terminal manager with sandbox directories
+- Prompt Engineer module for task analysis and prompt crafting
+- Textual multi-pane TUI with F1-F10 agent focus switching
+- Ollama Cloud support (`OLLAMA_HOST=https://ollama.com`) — no GPU or local downloads
+- 7 tool implementations (Filesystem, WebFetch, WebSearch, Terminal, GitHub, Docker, MCP)
+- 3 memory backends (InMemory, SQLite, ChromaDB)
+- FastAPI REST API with 5 route modules
+- React + Vite web dashboard
+- Docker Compose with CPU, NVIDIA GPU, and AMD GPU support
+- Marketing landing page (`index.html`) + agent control center (`dashboard.html`)
+- Cloud provider auth headers for Ollama Cloud API
+
+### Changed
+- Migrated from TypeScript/Node.js to Python-native architecture
+- Unified backend from dual-stack to single FastAPI server
+- CLI migrated from npm scripts to Typer commands (`cv`)
+- Environment config migrated from YAML to `.env` with pydantic-settings
+- All agent configurations migrated from YAML to Python dataclasses
+
+### Removed
+- TypeScript engine backend (`backend/src/` — legacy reference only)
+- Python backend (`backend/python/` — legacy reference only)
+- YAML configuration files (`config/` directory)
+
+## [v0.1.0-alpha] — 2026-06
 
 ### Added
 - Repository scaffolding and directory structure

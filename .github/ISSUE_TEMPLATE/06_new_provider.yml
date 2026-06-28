@@ -1,0 +1,79 @@
+name: New Provider Integration
+description: Request integration with a new AI model provider
+labels: [new-provider, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new provider! Providers give agents access to AI models.
+
+  - type: input
+    id: provider_name
+    attributes:
+      label: Provider Name
+      description: Name of the AI provider
+      placeholder: "e.g., Together AI, Groq, Replicate"
+    validations:
+      required: true
+
+  - type: input
+    id: website
+    attributes:
+      label: Website / API Docs
+      description: Link to provider website and API documentation
+    validations:
+      required: true
+
+  - type: textarea
+    id: models
+    attributes:
+      label: Supported Models
+      description: List models this provider offers with context windows
+      placeholder: |
+        - model: llama-3-70b
+          context: 8192
+          capabilities: [chat, code, reasoning]
+        - model: mixtral-8x7b
+          context: 32768
+          capabilities: [chat, reasoning]
+    validations:
+      required: true
+
+  - type: dropdown
+    id: pricing
+    attributes:
+      label: Pricing Model
+      options:
+        - Free (with rate limits)
+        - Pay-per-token
+        - Subscription
+        - Self-hosted / Local
+        - Unknown
+    validations:
+      required: true
+
+  - type: input
+    id: api_key
+    attributes:
+      label: Auth Method
+      description: How does authentication work?
+      placeholder: "API key in header, OAuth, etc."
+
+  - type: textarea
+    id: special_features
+    attributes:
+      label: Special Features
+      description: What makes this provider unique?
+      placeholder: "e.g., 1M token context, image generation, audio processing, fastest inference"
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have searched existing providers for duplicates
+          required: true
+        - label: This provider has a REST API (not gRPC/proprietary)
+          required: true
+        - label: I have provided model names and context windows
+          required: true

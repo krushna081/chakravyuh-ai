@@ -1,0 +1,77 @@
+version: "3.9"
+
+x-common: &common
+  restart: unless-stopped
+  networks: [chakravyuh]
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+services:
+  # ── Ollama (Local LLM Inference) ──────────────────────────────────
+  ollama:
+    image: ollama/ollama:latest
+    <<: *common
+    ports: ["11434:11434"]
+    volumes:
+      - ollama_data:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "ollama", "--version"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Chakravyuh AI App ─────────────────────────────────────────────
+  chakravyuh:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    <<: *common
+    ports: ["3001:3001"]
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - CHAKRAVYUH_HOST=0.0.0.0
+      - CHAKRAVYUH_PORT=3001
+      - LOG_LEVEL=info
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+    volumes:
+      - chakravyuh_data:/app/data
+      - chakravyuh_logs:/app/logs
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      ollama:
+        condition: service_healthy
+    command: >
+      sh -c "chakravyuh setup --yes && chakravyuh run --open=false"
+
+  # ── ChromaDB (Vector Store for Memory / RAG) ──────────────────────
+  chromadb:
+    image: chromadb/chroma:latest
+    <<: *common
+    ports: ["8100:8000"]
+    volumes:
+      - chroma_data:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+      - PERSIST_DIRECTORY=/chroma/chroma
+      - ANONYMIZED_TELEMETRY=FALSE
+
+volumes:
+  ollama_data:
+  chakravyuh_data:
+  chakravyuh_logs:
+  chroma_data:
+
+networks:
+  chakravyuh:
+    driver: bridge

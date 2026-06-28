@@ -1,5 +1,9 @@
 # Agents
 
+> **⚠ Legacy Document (v0.1 TypeScript)** — The system is now **Python-native** (v0.2+).  
+> See the actual agent implementations in [`agents/`](../agents/) and [`core/`](../core/).  
+> The architecture below remains conceptually accurate but the implementation language is now Python.
+
 Chakravyuh AI uses a **mesh of specialized agents**, each with a single domain responsibility. Agents communicate via structured messages, share memory, and collaborate on complex workflows.
 
 ---

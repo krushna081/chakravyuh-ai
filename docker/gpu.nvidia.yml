@@ -1,0 +1,20 @@
+# NVIDIA GPU support overlay for Docker Compose
+# Usage: COMPOSE_FILE=docker-compose.yml:docker/gpu.nvidia.yml docker compose up -d
+services:
+  ollama:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  chakravyuh:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
