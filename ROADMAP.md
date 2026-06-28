@@ -1,7 +1,7 @@
 # Roadmap
 
-> **Phase**: Pre-Alpha · Q2–Q4 2026
-> **Status**: Architecture & Planning
+> **Phase**: Alpha · Q2–Q3 2026
+> **Status**: v0.2 Python-native rewrite complete — 10 agents, FastAPI, CLI/TUI, cloud support
 
 ---
 
@@ -16,19 +16,23 @@ gantt
     section v0.1 — Foundation
     Repository setup & license        :done, 2026-04, 2026-05
     Architecture specification        :done, 2026-05, 2026-06
-    Provider abstraction interface    :active, 2026-06, 2026-07
-    OpenAI provider                    :2026-07, 2026-08
-    Anthropic provider                 :2026-07, 2026-08
-    Google Gemini provider             :2026-08, 2026-09
-    DeepSeek provider                  :2026-08, 2026-09
-    Ollama provider                    :2026-07, 2026-08
-    MCP client implementation         :2026-08, 2026-09
-    Agent registry & lifecycle        :2026-08, 2026-09
-    Memory interface definition       :2026-07, 2026-08
-    CI/CD pipeline                    :2026-08, 2026-09
-    Contributor documentation         :2026-08, 2026-09
 
-    section v0.2 — Engine
+    section v0.2 — Python-Native Rewrite
+    Python core (types, event bus)    :done, 2026-06, 2026-07
+    Control Agent (orchestrator)      :done, 2026-06, 2026-07
+    10 Python agents                  :done, 2026-06, 2026-07
+    CLI overhaul (Typer + Rich TUI)   :done, 2026-06, 2026-07
+    FastAPI unified backend (api/)    :done, 2026-06, 2026-07
+    React + Vite web dashboard       :done, 2026-06, 2026-07
+    SQLite memory backend            :done, 2026-06, 2026-07
+    ChromaDB vector memory           :done, 2026-06, 2026-07
+    Tool system (filesystem, web)    :done, 2026-06, 2026-07
+    Docker Compose + GPU overlays    :done, 2026-06, 2026-07
+    Index + dashboard pages          :done, 2026-06, 2026-07
+    Ollama Cloud support             :done, 2026-06, 2026-07
+    Per-agent terminal manager       :done, 2026-06, 2026-07
+
+    section v0.3 — Engine
     Core orchestrator engine          :2026-09, 2026-10
     Message routing engine            :2026-09, 2026-10
     Agent-to-agent protocol           :2026-09, 2026-10
@@ -42,7 +46,7 @@ gantt
     Rate limiting & cost tracking     :2026-11, 2026-12
     Logging & tracing                 :2026-11, 2026-12
 
-    section v0.3 — Intelligence
+    section v0.4 — Intelligence
     Capability router                 :2027-01, 2027-02
     Autonomous workflow planner       :2027-01, 2027-02
     Parallel agent execution          :2027-02, 2027-03
@@ -53,11 +57,11 @@ gantt
     Multi-modal support               :2027-03, 2027-04
     Performance benchmarks            :2027-04, 2027-05
 
-    section v0.4 — Ecosystem
+    section v0.5 — Ecosystem
     Custom MCP server SDK             :2027-04, 2027-05
     Plugin system                     :2027-05, 2027-06
     Agent marketplace                 :2027-05, 2027-06
-    Docker/Kubernetes deployment      :2027-05, 2027-06
+    Kubernetes deployment             :2027-05, 2027-06
     Authentication & RBAC             :2027-06, 2027-07
     >90% test coverage                :2027-06, 2027-07
     Security audit                    :2027-07, 2027-08
@@ -71,45 +75,69 @@ gantt
 
 ---
 
-## v0.1 — Foundation (Q2–Q3 2026)
+## v0.1 — Foundation (Q2 2026)
 
-**Goal**: Establish the core architecture, provider interfaces, and development infrastructure.
+**Goal**: Establish the core architecture and development infrastructure.
 
-| Area | Item | Status | Priority |
-|------|------|--------|----------|
-| Infrastructure | Repository setup and license | ✅ Complete | P0 |
-| Architecture | Core architecture specification | ✅ Complete | P0 |
-| Architecture | Provider abstraction interface | 🔨 In Progress | P0 |
-| Provider | OpenAI provider implementation | 📋 Planned | P0 |
-| Provider | Anthropic provider implementation | 📋 Planned | P0 |
-| Provider | Google Gemini provider implementation | 📋 Planned | P0 |
-| Provider | DeepSeek provider implementation | 📋 Planned | P1 |
-| Provider | Ollama provider implementation | 📋 Planned | P0 |
-| Core | MCP client implementation | 📋 Planned | P0 |
-| Core | Agent registry and lifecycle | 📋 Planned | P0 |
-| Core | Memory interface definition | 📋 Planned | P0 |
-| DevOps | CI/CD pipeline | 📋 Planned | P1 |
-| Community | Contributor documentation | 📋 Planned | P1 |
-
-### v0.1 Deliverables
-
-- [x] Repository initialization with Apache 2.0 license
-- [x] Architecture specification with Mermaid diagrams
-- [ ] Provider abstraction interface (`LLMProvider`)
-- [ ] OpenAI provider (GPT-4o, GPT-4o-mini, o1, o1-mini)
-- [ ] Anthropic provider (Sonnet 4, Haiku 3.5)
-- [ ] Google provider (Gemini 2.5 Pro, Gemini 2.0 Flash)
-- [ ] DeepSeek provider (chat, coder, reasoner)
-- [ ] Ollama provider (llama3, mistral, codellama, etc.)
-- [ ] MCP client with connection pooling
-- [ ] Agent registry with CRUD operations
-- [ ] Memory interface (working, episodic, semantic, procedural)
-- [ ] CI/CD with lint, typecheck, test, security audit
-- [ ] Contributor documentation (CONTRIBUTING.md, setup guide)
+| Area | Item | Status |
+|------|------|--------|
+| Infrastructure | Repository setup and license | ✅ |
+| Architecture | Core architecture specification | ✅ |
 
 ---
 
-## v0.2 — Engine (Q3–Q4 2026)
+## v0.2 — Python-Native Rewrite (Q2–Q3 2026)
+
+**Goal**: Complete Python-native rewrite — CLI, API, agents, tools, memory, cloud support.
+
+| Area | Item | Status |
+|------|------|--------|
+| Core | Type definitions & enums | ✅ |
+| Core | Async event bus with history | ✅ |
+| Core | Base agent with async worker loop | ✅ |
+| Core | Control Agent (task decomposition) | ✅ |
+| Core | Orchestrator (lifecycle management) | ✅ |
+| Core | Terminal manager (per-agent PTY subprocesses) | ✅ |
+| Core | Prompt engineer (keyword routing + prompt crafting) | ✅ |
+| Agents | 10 specialized agents with real handlers | ✅ |
+| CLI | Typer entrypoint (9 commands) | ✅ |
+| CLI | Textual multi-pane TUI | ✅ |
+| CLI | Ollama manager (local + cloud) | ✅ |
+| API | FastAPI with lifespan orchestrator | ✅ |
+| API | Routes: system, agents, models, memory, chat | ✅ |
+| Tools | Filesystem, WebFetch, WebSearch, Terminal, GitHub, Docker, MCP | ✅ |
+| Memory | InMemory, SQLite, ChromaDB backends | ✅ |
+| Web | React + Vite dashboard | ✅ |
+| Docker | Dockerfile, docker-compose, GPU overlays | ✅ |
+| Markdown | index.html (marketing) + dashboard.html (control center) | ✅ |
+| Cloud | Ollama Cloud support (no GPU, no local downloads) | ✅ |
+| Config | .env.example with Ollama Cloud + provider keys | ✅ |
+
+### v0.2 Deliverables
+
+- [x] Python type system with all enums and dataclasses
+- [x] Async event bus with publish/subscribe and history
+- [x] Abstract BaseAgent with worker loop, message queue, status
+- [x] Control Agent with keyword-based task routing
+- [x] Orchestrator with full lifecycle management (start/stop/status)
+- [x] Terminal manager — 10 per-agent PTY subprocesses
+- [x] Prompt engineer — task analysis + prompt crafting + terminal dispatch
+- [x] 10 Python agents (Coordinator, Planner, Coder, Researcher, Browser, QA, Memory, Security, GitHub, Deployment)
+- [x] Typer CLI with 9 commands (setup, run, tui, status, models, chat, task, agents, term)
+- [x] Textual TUI with multi-pane agent grid (F1-F10 switching)
+- [x] FastAPI app with lifespan, CORS, health, static serving
+- [x] 5 REST route modules (system, agents, models, memory, chat)
+- [x] 7 tool implementations (Filesystem, WebFetch, WebSearch, Terminal, GitHub, Docker, MCP)
+- [x] 3 memory backends (InMemory, SQLite, ChromaDB)
+- [x] React + Vite web dashboard
+- [x] Docker Compose with CPU and GPU (NVIDIA + AMD) support
+- [x] Marketing index.html + agent control center dashboard.html
+- [x] Ollama Cloud support (host + API key auth)
+- [x] Per-agent terminal with sandbox directories and file permissions
+
+---
+
+## v0.3 — Engine (Q3–Q4 2026)
 
 **Goal**: Build the core runtime — orchestrator, routing, agent communication, and memory.
 
@@ -128,25 +156,9 @@ gantt
 | Observability | Rate limiting and cost tracking | P1 |
 | Observability | Logging and tracing | P1 |
 
-### v0.2 Deliverables
-
-- [ ] Orchestrator engine with lifecycle management
-- [ ] Message router with priority queue
-- [ ] Agent-to-agent structured communication protocol
-- [ ] FileSystem MCP server (sandboxed)
-- [ ] GitHub MCP server
-- [ ] Browser MCP server (Playwright-based)
-- [ ] Episodic memory with SQLite driver
-- [ ] Semantic memory with vector DB driver (pgvector/Qdrant)
-- [ ] Working memory with Redis driver
-- [ ] YAML-based workflow definition and execution
-- [ ] Per-provider rate limiting (sliding window)
-- [ ] Per-task token cost tracking
-- [ ] OpenTelemetry integration
-
 ---
 
-## v0.3 — Intelligence (Q1–Q2 2027)
+## v0.4 — Intelligence (Q1–Q2 2027)
 
 **Goal**: Add autonomous capabilities — dynamic routing, planning, parallel execution.
 
@@ -162,21 +174,9 @@ gantt
 | Models | Multi-modal support (images, audio) | P2 |
 | Performance | Performance benchmarks | P2 |
 
-### v0.3 Deliverables
-
-- [ ] Capability router (cost-aware, fallback, ensemble strategies)
-- [ ] Autonomous planner agent that decomposes goals
-- [ ] Parallel agent execution with result merging
-- [ ] Conditional branching in workflows (if/else, switch)
-- [ ] Human approval gates for sensitive operations
-- [ ] Memory consolidation (auto-summarization, forgetting curves)
-- [ ] Agent system prompt template library
-- [ ] Image input support for vision-capable models
-- [ ] Benchmark suite (latency, cost, quality)
-
 ---
 
-## v0.4 — Ecosystem (Q2–Q3 2027)
+## v0.5 — Ecosystem (Q2–Q3 2027)
 
 **Goal**: Build the ecosystem — plugin system, marketplace, enterprise features.
 
@@ -185,20 +185,10 @@ gantt
 | Ecosystem | Custom MCP server SDK | P1 |
 | Ecosystem | Plugin system | P1 |
 | Ecosystem | Agent marketplace | P2 |
-| Deployment | Docker/Kubernetes deployment | P1 |
+| Deployment | Kubernetes deployment | P1 |
 | Security | Authentication and RBAC | P1 |
 | Quality | >90% test coverage | P1 |
 | Security | Security audit | P1 |
-
-### v0.4 Deliverables
-
-- [ ] MCP server SDK (Python + TypeScript)
-- [ ] Plugin system for third-party agent registration
-- [ ] Agent marketplace with versioning and ratings
-- [ ] Docker Compose and Helm charts
-- [ ] JWT-based authentication with role-based access
-- [ ] 90%+ line coverage across all modules
-- [ ] Third-party security audit report
 
 ---
 
@@ -213,28 +203,15 @@ gantt
 | Enterprise | Enterprise feature set | P2 |
 | Governance | LTS policy | P1 |
 
-### v1.0 Deliverables
-
-- [ ] Stable API surface with deprecation policy
-- [ ] Migration guides from v0.x
-- [ ] Enterprise features (SSO, audit trails, compliance)
-- [ ] LTS release policy and schedule
-- [ ] Full documentation site
-
 ---
 
-## Priority Matrix
+## Progress Summary
 
-| Area | v0.1 | v0.2 | v0.3 | v0.4 | v1.0 |
-|------|------|------|------|------|------|
-| **Provider Abstraction** | P0 | — | — | — | — |
-| **Core Orchestrator** | — | P0 | — | — | — |
-| **Agent Communication** | — | P0 | — | — | — |
-| **Memory Systems** | P1 | P0 | P1 | — | — |
-| **Capability Routing** | — | — | P0 | — | — |
-| **Autonomous Workflows** | — | P1 | P0 | — | — |
-| **Plugin System** | — | — | — | P1 | — |
-| **Security** | P1 | P1 | P1 | P1 | P0 |
-| **Documentation** | P1 | P1 | P1 | P1 | P0 |
-| **Testing** | P2 | P1 | P1 | P1 | P0 |
-| **Deployment** | — | — | — | P1 | P0 |
+```
+v0.1 Foundation    ████████████████████████████████ 100%
+v0.2 Python Rewrite████████████████████████████████ 100%
+v0.3 Engine        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   0%
+v0.4 Intelligence  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   0%
+v0.5 Ecosystem     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   0%
+v1.0 Stable        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   0%
+```

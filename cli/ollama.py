@@ -1,10 +1,18 @@
 """Ollama integration — auto-detect, pull, and manage local models."""
 
 import json
+import os
 import shutil
 import subprocess
 import sys
 from pathlib import Path
+
+try:
+    from dotenv import load_dotenv
+
+    load_dotenv()
+except ImportError:
+    pass
 
 import httpx
 from rich.console import Console
@@ -20,6 +28,8 @@ from rich.progress import (
 console = Console()
 
 OLLAMA_DEFAULT_HOST = "http://127.0.0.1:11434"
+OLLAMA_CLOUD_HOST = "https://ollama.com"
+
 RECOMMENDED_MODELS = {
     "llama3.1:8b": {
         "description": "Meta Llama 3.1 8B — best general-purpose (default)",
@@ -58,8 +68,14 @@ class OllamaManager:
     """Manages Ollama server detection, model pulling, and API calls."""
 
     def __init__(self, host: str | None = None):
-        self.host = (host or OLLAMA_DEFAULT_HOST).rstrip("/")
-        self.client = httpx.Client(base_url=self.host, timeout=5)
+        self.host = (host or os.environ.get("OLLAMA_HOST", OLLAMA_DEFAULT_HOST)).rstrip("/")
+        self.is_cloud = self.host == OLLAMA_CLOUD_HOST or "ollama.com" in self.host
+        headers = {}
+        if self.is_cloud:
+            api_key = os.environ.get("OLLAMA_API_KEY", "")
+            if api_key:
+                headers["Authorization"] = f"Bearer {api_key}"
+        self.client = httpx.Client(base_url=self.host, timeout=5, headers=headers)
 
     # ── Detection ──────────────────────────────────────────────────────
 
@@ -77,6 +93,10 @@ class OllamaManager:
 
     def detect(self) -> str:
         """Return a human-readable status string."""
+        if self.is_cloud:
+            if self.is_running():
+                return "cloud"
+            return "cloud_unreachable"
         if not self.is_installed():
             return "not_installed"
         if not self.is_running():
@@ -151,6 +171,24 @@ class OllamaManager:
             console.print("[red]✗[/] `ollama` CLI not found")
             return False
 
+    def pull(self, name: str) -> bool:
+        return self.pull_model(name)
+
+    def remove(self, name: str) -> bool:
+        try:
+            result = subprocess.run(["ollama", "rm", name], capture_output=True, text=True)
+            if result.returncode == 0:
+                console.print(f"[green]✓[/] Removed {name}")
+                return True
+            console.print(f"[red]✗[/] Failed to remove {name}: {result.stderr}")
+            return False
+        except FileNotFoundError:
+            console.print("[red]✗[/] `ollama` CLI not found")
+            return False
+
+    def start(self) -> None:
+        self.start_server()
+
     def pull_recommended(self, models: list[str] | None = None) -> None:
         """Pull a selection of recommended models."""
         if models is None:
@@ -192,6 +230,12 @@ class OllamaManager:
 
     def start_server(self) -> subprocess.Popen | None:
         """Start Ollama server in background. Returns process or None."""
+        if self.is_cloud:
+            if self.is_running():
+                console.print("[green]✓[/] Ollama Cloud reachable")
+            else:
+                console.print("[red]✗[/] Ollama Cloud unreachable — check OLLAMA_API_KEY")
+            return None
         if self.is_running():
             console.print("[yellow]Ollama already running[/]")
             return None

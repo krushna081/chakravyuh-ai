@@ -3,1169 +3,382 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chakravyuh AI — Many Agents. One Intelligence.</title>
+  <title>Chakravyuh AI — Multi-Agent Command Center</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #FAEEE7;
-      --black: #1a1a2e;
-      --white: #ffffff;
-      --accent: #00B4D8;
-      --accent2: #90E0EF;
-      --accent3: #0077B6;
-      --accent4: #CAF0F8;
-      --orange: #F4A261;
-      --green: #2A9D8F;
-      --red: #E76F51;
-      --border: 4px solid var(--black);
-      --shadow: 10px 10px 0 var(--black);
-      --shadow-sm: 5px 5px 0 var(--black);
-      --shadow-lg: 14px 14px 0 var(--black);
-      --font: 'Space Grotesk', sans-serif;
+      --bg: #f8f9fb;
+      --bg-card: #ffffff;
+      --bg-alt: #f0f2f5;
+      --border: #e2e5ea;
+      --text: #1a1d23;
+      --text-secondary: #6b7280;
+      --text-muted: #9ca3af;
+      --accent: #6366f1;
+      --accent-light: #eef2ff;
+      --accent-dark: #4f46e5;
+      --green: #10b981;
+      --green-light: #ecfdf5;
+      --red: #ef4444;
+      --orange: #f59e0b;
+      --blue: #3b82f6;
+      --purple: #8b5cf6;
+      --teal: #14b8a6;
+      --font: 'Inter', -apple-system, sans-serif;
       --mono: 'JetBrains Mono', monospace;
-      scroll-behavior: smooth;
+      --radius: 12px;
+      --radius-sm: 8px;
     }
+    html { scroll-behavior: smooth; }
     body {
       font-family: var(--font);
       background: var(--bg);
-      color: var(--black);
+      color: var(--text);
       line-height: 1.6;
-      overflow-x: hidden;
     }
-    ::selection { background: var(--accent); color: var(--white); }
+    ::selection { background: var(--accent); color: #fff; }
 
-    /* ─── UTILITY ─── */
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-    .section { padding: 100px 0; position: relative; }
-    .section-tag {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 4px;
-      color: var(--accent);
-      margin-bottom: 16px;
-      font-weight: 700;
-    }
-    .section-title {
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 800;
-      line-height: 1.1;
-      margin-bottom: 20px;
-      letter-spacing: -1.5px;
-    }
-    .section-sub {
-      font-size: 1.05rem;
-      color: #555;
-      max-width: 640px;
-      line-height: 1.7;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 16px 32px;
-      font-family: var(--font);
-      font-weight: 700;
-      font-size: 1rem;
-      border: var(--border);
-      cursor: pointer;
-      transition: all 0.12s ease;
-      text-decoration: none;
-      background: var(--white);
-      color: var(--black);
-      box-shadow: var(--shadow-sm);
-    }
-    .btn:hover { transform: translate(-5px, -5px); box-shadow: var(--shadow-lg); }
-    .btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--black); }
-    .btn-primary { background: var(--accent); color: var(--white); }
-    .btn-primary:hover { background: var(--accent3); }
-    .btn-ghost { background: transparent; border-color: transparent; box-shadow: none; }
-    .btn-ghost:hover { box-shadow: none; transform: translate(-4px,-4px); }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-    /* ─── ANIMATED BG ─── */
-    #hero-bg {
-      position: absolute; inset: 0; overflow: hidden; z-index: 0;
-      background: linear-gradient(135deg, #FAEEE7 0%, #e8f4f8 40%, #f0fafc 100%);
+    /* Header */
+    header {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-card);
+      position: sticky; top: 0; z-index: 100;
     }
-    #hero-bg .orb {
-      position: absolute;
-      width: 600px; height: 600px;
-      filter: blur(100px);
-      opacity: 0.15;
-      animation: float 16s ease-in-out infinite;
+    header .container { display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-weight: 800; font-size: 1.2rem; display: flex; align-items: center; gap: 8px; }
+    .logo span { color: var(--accent); }
+    .logo .logo-icon {
+      width: 32px; height: 32px;
+      background: var(--accent); border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 0.9rem;
     }
-    #hero-bg .orb:nth-child(1) { background: var(--accent); top: -20%; left: -10%; animation-delay: 0s; }
-    #hero-bg .orb:nth-child(2) { background: var(--accent2); bottom: -15%; right: -10%; animation-delay: -5s; }
-    #hero-bg .orb:nth-child(3) { background: var(--accent3); top: 30%; left: 40%; animation-delay: -10s; width: 400px; height: 400px; }
-    #hero-bg .orb:nth-child(4) { background: var(--accent4); top: 55%; left: 10%; animation-delay: -3s; width: 250px; height: 250px; }
-    #hero-bg .grid {
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(0,180,216,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,180,216,0.04) 1px, transparent 1px);
-      background-size: 60px 60px;
+    nav { display: flex; gap: 8px; align-items: center; }
+    nav a {
+      padding: 8px 16px; text-decoration: none; color: var(--text-secondary);
+      font-size: 0.85rem; font-weight: 500; border-radius: var(--radius-sm);
+      transition: all 0.15s;
     }
-    @keyframes float {
-      0%, 100% { transform: translate(0,0) scale(1); }
-      25% { transform: translate(50px,-40px) scale(1.08); }
-      50% { transform: translate(-30px,30px) scale(0.92); }
-      75% { transform: translate(20px,15px) scale(1.03); }
-    }
-
-    /* ─── STICKY BUTTON ─── */
-    .sticky-start {
-      position: fixed; bottom: 36px; right: 36px; z-index: 99;
-      display: flex; align-items: center; gap: 10px;
-      padding: 18px 30px;
-      background: var(--accent); color: var(--white);
-      font-family: var(--font); font-weight: 800; font-size: 1rem;
-      border: 4px solid var(--black);
-      box-shadow: 8px 8px 0 var(--black);
-      cursor: pointer; text-decoration: none;
-      transition: all 0.2s ease;
-      animation: sticky-bounce 3s ease-in-out infinite;
-    }
-    .sticky-start:hover {
-      transform: translate(-5px, -5px);
-      box-shadow: 12px 12px 0 var(--black);
-      animation: none;
-    }
-    .sticky-start:active { transform: translate(2px, 2px); box-shadow: 3px 3px 0 var(--black); }
-    .sticky-start .ss-icon { font-size: 1.3rem; }
-    @keyframes sticky-bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-    @media (max-width: 480px) {
-      .sticky-start { bottom: 20px; right: 20px; padding: 14px 22px; font-size: 0.85rem; }
-    }
-
-    /* ─── NAV ─── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 14px 28px;
-      background: rgba(250,238,231,0.9);
-      backdrop-filter: blur(16px);
-      border-bottom: var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    nav .logo {
-      font-weight: 800; font-size: 1.35rem;
-      display: flex; align-items: center; gap: 10px;
-      text-decoration: none; color: var(--black);
-    }
-    nav .logo span { color: var(--accent); }
-    nav .nav-links { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
-    nav .nav-links a {
-      font-size: 0.85rem; font-weight: 600; text-decoration: none;
-      color: var(--black); padding: 8px 16px;
-      border: 2px solid transparent; transition: all 0.12s;
-    }
-    nav .nav-links a:hover { border-color: var(--black); background: var(--white); }
-    .nav-cta {
-      padding: 10px 22px !important; background: var(--accent) !important;
-      color: var(--white) !important; font-weight: 700 !important;
-      border: 3px solid var(--black) !important;
-    }
-    .nav-cta:hover { background: var(--accent3) !important; }
-    .hamburger {
-      display: none; flex-direction: column; gap: 5px;
-      cursor: pointer; background: none; border: 3px solid var(--black); padding: 8px;
-    }
-    .hamburger span { display: block; width: 26px; height: 3px; background: var(--black); }
-
-    /* ─── HERO ─── */
-    #hero {
-      min-height: 100vh;
-      display: flex; align-items: center;
-      padding-top: 100px;
-      position: relative;
-      overflow: hidden;
-    }
-    #hero .container { position: relative; z-index: 1; }
-    #hero .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-family: var(--mono); font-size: 0.8rem;
-      background: var(--white); border: 3px solid var(--black);
-      padding: 8px 22px; margin-bottom: 28px;
-      box-shadow: var(--shadow-sm);
-    }
-    #hero .hero-badge .dot {
-      width: 10px; height: 10px;
-      background: var(--green);
-      animation: pulse-dot 2s ease-in-out infinite;
-    }
-    @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.7)} }
-    #hero h1 {
-      font-size: clamp(3rem, 11vw, 6.5rem);
-      font-weight: 800;
-      line-height: 0.92;
-      margin-bottom: 14px;
-      letter-spacing: -3px;
-    }
-    #hero h1 .highlight { color: var(--accent); position: relative; display: inline-block; }
-    #hero h1 .highlight::after {
-      content: ''; position: absolute; bottom: 2px; left: 0; right: 0;
-      height: 10px; background: var(--accent); opacity: 0.2;
-    }
-    #hero .tagline {
-      font-size: clamp(1.2rem, 3vw, 2rem);
+    nav a:hover { color: var(--text); background: var(--bg); }
+    nav .btn-primary {
+      background: var(--accent); color: #fff; padding: 8px 20px; border-radius: var(--radius-sm);
       font-weight: 600;
-      color: #444;
-      margin-bottom: 10px;
     }
-    #hero .desc {
-      font-size: 1.1rem;
-      color: #666;
-      max-width: 600px;
-      line-height: 1.7;
-      margin-bottom: 40px;
-    }
-    #hero .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 60px; }
-    #hero .hero-actions .btn { font-size: 1.05rem; padding: 18px 38px; }
-    #hero .stats {
-      display: inline-flex; gap: 56px; flex-wrap: wrap;
-      background: var(--white); border: var(--border);
-      padding: 28px 44px; box-shadow: var(--shadow);
-    }
-    #hero .stats .stat-item { text-align: center; }
-    #hero .stats .stat-num { font-size: 2.4rem; font-weight: 800; line-height: 1; color: var(--accent); }
-    #hero .stats .stat-label { font-size: 0.8rem; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+    nav .btn-primary:hover { background: var(--accent-dark); }
 
-    /* ─── REVEAL ─── */
-    .reveal {
-      opacity: 0; transform: translateY(40px);
-      transition: all 0.7s cubic-bezier(0.16,1,0.3,1);
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-    .reveal-delay-5 { transition-delay: 0.5s; }
-
-    /* ─── VISION ─── */
-    #vision { background: var(--white); position: relative; overflow: hidden; }
-    #vision::before {
-      content: ''; position: absolute; top: -50%; right: -20%;
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(0,180,216,0.06), transparent);
-    }
-    .vision-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-      margin-top: 48px;
-      position: relative; z-index: 1;
-    }
-    .vision-text p { font-size: 1.05rem; color: #555; margin-bottom: 16px; }
-    .vision-cards { display: flex; flex-direction: column; gap: 14px; }
-    .vision-card {
-      display: flex; align-items: flex-start; gap: 16px;
-      background: var(--bg); border: 3px solid var(--black);
-      padding: 22px; transition: all 0.2s; cursor: default;
-    }
-    .vision-card:hover { transform: translateX(10px); box-shadow: -10px 10px 0 var(--black); }
-    .vision-card .vc-icon {
-      width: 52px; height: 52px; min-width: 52px;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--accent); border: 3px solid var(--black);
-      font-size: 1.4rem; color: var(--white);
-    }
-    .vision-card .vc-title { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
-    .vision-card .vc-desc { font-size: 0.85rem; color: #666; }
-
-    /* ─── ARCHITECTURE ─── */
-    #architecture {
-      background: linear-gradient(180deg, var(--bg) 0%, #eaf4f7 100%);
-      position: relative;
-    }
-    .arch-flow {
-      display: flex; flex-direction: column; align-items: center;
-      margin-top: 48px; gap: 0;
-    }
-    .arch-node {
-      display: flex; align-items: center; justify-content: center;
-      padding: 18px 36px;
-      background: var(--white); border: var(--border);
-      font-weight: 700; font-size: 1rem;
-      box-shadow: var(--shadow-sm);
-      transition: all 0.25s;
-      min-width: 220px;
-    }
-    .arch-node:hover { transform: scale(1.06) translateY(-3px); box-shadow: var(--shadow); }
-    .arch-node.accent { background: var(--accent); color: var(--white); }
-    .arch-node.green { background: var(--accent2); color: var(--black); }
-    .arch-node.deep { background: var(--accent3); color: var(--white); }
-    .arch-node.orange { background: var(--orange); color: var(--white); }
-    .arch-node.light { background: var(--accent4); color: var(--black); }
-    .arch-arrow { font-size: 1.4rem; color: var(--accent); padding: 8px 0; font-weight: 700; }
-    .arch-row {
-      display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
-      margin: 8px 0;
-    }
-    .arch-row .arch-node { min-width: auto; padding: 14px 22px; font-size: 0.9rem; }
-
-    /* ─── MODELS ─── */
-    #models { background: var(--white); }
-    .models-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 24px;
-      margin-top: 48px;
-    }
-    .model-card {
-      background: var(--white); border: var(--border);
-      padding: 28px; box-shadow: var(--shadow-sm);
-      transition: all 0.25s; cursor: default;
-      border-top: 8px solid var(--accent);
-    }
-    .model-card:nth-child(1) { border-top-color: #10a37f; }
-    .model-card:nth-child(2) { border-top-color: #4285f4; }
-    .model-card:nth-child(3) { border-top-color: #d97757; }
-    .model-card:nth-child(4) { border-top-color: #004225; }
-    .model-card:nth-child(5) { border-top-color: #1d1d1d; }
-    .model-card:nth-child(6) { border-top-color: #7c3aed; }
-    .model-card:nth-child(7) { border-top-color: #2563eb; }
-    .model-card:nth-child(8) { border-top-color: #059669; }
-    .model-card:hover { transform: translate(-6px,-6px); box-shadow: var(--shadow-lg); }
-    .model-card .mc-name { font-weight: 800; font-size: 1.3rem; margin-bottom: 12px; }
-    .model-card .mc-badges { display: flex; gap: 8px; flex-wrap: wrap; }
-    .model-card .mc-badge {
-      background: var(--bg); border: 2px solid var(--black);
-      padding: 4px 14px;
-      font-size: 0.7rem; font-weight: 700;
-    }
-
-    /* ─── AGENTS ─── */
-    #agents { background: var(--bg); }
-    .agents-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 24px;
-      margin-top: 48px;
-    }
-    .agent-card {
-      background: var(--white); border: var(--border);
-      padding: 28px; box-shadow: var(--shadow-sm);
-      transition: all 0.25s; cursor: default;
-      display: flex; flex-direction: column;
-    }
-    .agent-card:hover {
-      transform: translate(-6px,-6px);
-      box-shadow: var(--shadow-lg);
-    }
-    .agent-card .ac-icon {
-      width: 56px; height: 56px;
-      display: flex; align-items: center; justify-content: center;
-      border: 3px solid var(--black);
-      font-size: 1.6rem; font-weight: 800; margin-bottom: 16px;
-    }
-    .agent-card .ac-name { font-weight: 800; font-size: 1.15rem; }
-    .agent-card .ac-desc { font-size: 0.85rem; color: #666; margin: 8px 0 14px; flex:1; line-height: 1.5; }
-    .agent-card .ac-tools { display: flex; gap: 6px; flex-wrap: wrap; }
-    .agent-card .ac-tool {
-      background: var(--bg); border: 2px solid var(--black);
-      padding: 4px 12px;
-      font-size: 0.65rem; font-weight: 700;
-    }
-
-    /* ─── MCP ─── */
-    #mcp { background: var(--white); }
-    .mcp-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 22px;
-      margin-top: 48px;
-    }
-    .mcp-card {
-      background: var(--white); border: var(--border);
-      padding: 24px; box-shadow: var(--shadow-sm);
-      transition: all 0.25s; cursor: default;
+    /* Hero */
+    .hero {
+      padding: 80px 0 60px;
       text-align: center;
     }
-    .mcp-card:hover { transform: translate(-5px,-5px); box-shadow: var(--shadow); }
-    .mcp-card .mcp-icon {
-      width: 52px; height: 52px; margin: 0 auto 14px;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--accent2); border: 3px solid var(--black);
-      font-size: 1.4rem;
+    .hero h1 {
+      font-size: 3rem; font-weight: 900; line-height: 1.1;
+      margin-bottom: 16px;
     }
-    .mcp-card .mcp-name { font-weight: 700; font-size: 1rem; }
-    .mcp-card .mcp-desc { font-size: 0.8rem; color: #666; margin-top: 6px; }
-
-    /* ─── ROADMAP ─── */
-    #roadmap { background: var(--bg); }
-    .roadmap-track {
-      display: flex; justify-content: space-between; gap: 16px;
-      margin-top: 48px; position: relative;
-      flex-wrap: wrap;
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      font-size: 1.15rem; color: var(--text-secondary);
+      max-width: 640px; margin: 0 auto 28px;
     }
-    .roadmap-track::before {
-      content: ''; position: absolute; top: 44px; left: 12%; right: 12%;
-      height: 4px; background: var(--black);
-    }
-    .roadmap-item {
-      flex: 1; min-width: 130px; text-align: center;
-      position: relative; z-index: 1;
-      background: var(--white); border: var(--border);
-      padding: 26px 16px 22px; box-shadow: var(--shadow-sm);
-      transition: all 0.25s; cursor: default;
-    }
-    .roadmap-item:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
-    .roadmap-item .rm-phase {
-      font-family: var(--mono); font-size: 0.65rem;
-      background: var(--accent); color: var(--white);
-      padding: 4px 14px;
-      display: inline-block; margin-bottom: 10px;
-      font-weight: 700; letter-spacing: 1px;
-    }
-    .roadmap-item .rm-title { font-weight: 700; font-size: 0.95rem; }
-    .roadmap-item .rm-dot {
-      width: 18px; height: 18px; background: var(--accent);
-      border: 3px solid var(--black);
-      margin: 0 auto 14px;
-    }
-
-    /* ─── ABOUT CREATOR ─── */
-    #about-creator {
-      background: linear-gradient(135deg, var(--white) 0%, #eaf4f7 100%);
-      position: relative; overflow: hidden;
-    }
-    #about-creator::before {
-      content: ''; position: absolute; top: -30%; right: -10%;
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(0,180,216,0.07), transparent);
-    }
-    .creator-wrap {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 48px;
-      align-items: center;
-      margin-top: 48px;
-      background: var(--white);
-      border: var(--border);
-      padding: 40px;
-      box-shadow: var(--shadow-lg);
-    }
-    .creator-avatar {
-      width: 160px; height: 160px; min-width: 160px;
-      border: 5px solid var(--black);
-      display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(135deg, var(--accent), var(--accent3));
-      font-size: 3.5rem; font-weight: 800; color: var(--white);
-      box-shadow: var(--shadow-sm);
-    }
-    .creator-info .ci-name { font-size: 2rem; font-weight: 800; line-height: 1.1; }
-    .creator-info .ci-name span { color: var(--accent); }
-    .creator-info .ci-role {
-      font-family: var(--mono); font-size: 0.85rem;
-      color: var(--accent); margin: 6px 0 14px;
-      letter-spacing: 1px;
-    }
-    .creator-info .ci-bio {
-      color: #555; font-size: 0.95rem; line-height: 1.7; margin-bottom: 16px;
-    }
-    .creator-info .ci-links { display: flex; gap: 12px; flex-wrap: wrap; }
-    .creator-info .ci-links a {
+    .hero-actions { display: flex; gap: 12px; justify-content: center; }
+    .hero-actions .btn {
       display: inline-flex; align-items: center; gap: 8px;
-      padding: 10px 20px; border: 3px solid var(--black);
-      font-weight: 700; font-size: 0.85rem; text-decoration: none;
-      color: var(--black); background: var(--bg);
-      transition: all 0.12s;
+      padding: 14px 28px; border-radius: var(--radius-sm);
+      font-size: 1rem; font-weight: 600; text-decoration: none;
+      transition: all 0.15s;
     }
-    .creator-info .ci-links a:hover { transform: translate(-4px,-4px); box-shadow: var(--shadow-sm); }
-    .creator-info .ci-links a.primary-link { background: var(--accent); color: var(--white); }
+    .hero-actions .btn-primary { background: var(--accent); color: #fff; }
+    .hero-actions .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
+    .hero-actions .btn-secondary {
+      background: var(--bg-card); color: var(--text); border: 1px solid var(--border);
+    }
+    .hero-actions .btn-secondary:hover { border-color: var(--accent); }
 
-    /* ─── CONTACT ─── */
-    #contact {
-      background: var(--black); color: var(--white);
-      position: relative; overflow: hidden;
-    }
-    #contact::before {
-      content: ''; position: absolute; inset: 0;
-      background:
-        radial-gradient(circle at 30% 50%, rgba(0,180,216,0.15), transparent 50%),
-        radial-gradient(circle at 70% 50%, rgba(144,224,239,0.1), transparent 50%);
-    }
-    #contact .container { position: relative; z-index: 1; }
-    #contact .section-title { color: var(--white); }
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
+    .hero-terminal {
       margin-top: 40px;
+      background: #1a1d23; border-radius: var(--radius);
+      padding: 24px 28px; text-align: left;
+      font-family: var(--mono); font-size: 0.85rem; line-height: 1.8;
+      color: #a5b4cb;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
     }
-    .contact-card {
-      background: rgba(255,255,255,0.06);
-      border: 2px solid rgba(255,255,255,0.15);
-      padding: 28px;
-      transition: all 0.2s; cursor: default;
-    }
-    .contact-card:hover { border-color: var(--accent); transform: translateY(-5px); }
-    .contact-card .c-icon { font-size: 2rem; margin-bottom: 12px; }
-    .contact-card .c-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 6px; }
-    .contact-card .c-desc { color: rgba(255,255,255,0.6); font-size: 0.9rem; line-height: 1.6; }
-    .contact-card .c-link {
-      display: inline-flex; align-items: center; gap: 8px;
-      margin-top: 12px; color: var(--accent2); font-weight: 600;
-      text-decoration: none; font-size: 0.9rem;
-    }
-    .contact-card .c-link:hover { color: var(--white); }
-    .contact-social {
-      display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap;
-    }
-    .contact-social a {
-      display: flex; align-items: center; justify-content: center;
-      width: 48px; height: 48px;
-      background: rgba(255,255,255,0.08);
-      border: 2px solid rgba(255,255,255,0.2);
-      text-decoration: none; font-size: 1.2rem;
-      transition: all 0.12s;
-    }
-    .contact-social a:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-4px); }
+    .hero-terminal .prompt { color: var(--green); }
+    .hero-terminal .cmd { color: #e2e8f0; }
+    .hero-terminal .output { color: #94a3b8; }
+    .hero-terminal .highlight { color: var(--accent); }
 
-    /* ─── CONTRIBUTORS ─── */
-    #contributors { background: var(--white); }
-    .contrib-intro { text-align: center; margin-bottom: 48px; }
-    .contrib-intro h2 { font-size: clamp(1.8rem,4vw,2.8rem); }
-    .contrib-roles {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 14px;
-      margin-bottom: 48px;
+    /* Sections */
+    section { padding: 60px 0; }
+    section h2 {
+      font-size: 2rem; font-weight: 800; margin-bottom: 12px;
+      text-align: center;
     }
-    .contrib-role {
-      background: var(--bg); border: 3px solid var(--black);
-      padding: 18px 12px; text-align: center;
+    section .subtitle {
+      text-align: center; color: var(--text-secondary);
+      max-width: 560px; margin: 0 auto 40px;
+    }
+
+    /* Features */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .feature-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px;
+      transition: all 0.2s;
+    }
+    .feature-card:hover { border-color: var(--accent); box-shadow: 0 4px 20px rgba(99,102,241,0.08); }
+    .feature-card .icon {
+      width: 40px; height: 40px; border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; margin-bottom: 12px;
+    }
+    .feature-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+    .feature-card p { font-size: 0.85rem; color: var(--text-secondary); }
+
+    /* Agents */
+    .agent-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+    }
+    .agent-item {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .agent-item .a-icon {
+      width: 36px; height: 36px; border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
       font-weight: 700; font-size: 0.85rem;
-      transition: all 0.2s; cursor: default;
     }
-    .contrib-role:hover { transform: translate(-4px,-4px); box-shadow: var(--shadow-sm); }
-    .contrib-role .cr-icon { font-size: 1.6rem; margin-bottom: 6px; }
-    .contrib-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 20px;
+    .agent-item .a-name { font-weight: 600; font-size: 0.9rem; }
+    .agent-item .a-role { font-size: 0.75rem; color: var(--text-muted); }
+    .agent-item .a-model {
+      margin-left: auto; font-size: 0.65rem; color: var(--text-muted);
+      font-family: var(--mono); background: var(--bg); padding: 2px 8px;
+      border-radius: 4px;
     }
-    .contrib-card {
-      background: var(--white); border: var(--border);
-      padding: 22px 16px; text-align: center;
-      box-shadow: var(--shadow-sm); transition: all 0.2s;
-    }
-    .contrib-card:hover { transform: translate(-5px,-5px); box-shadow: var(--shadow); }
-    .contrib-card .avatar {
-      width: 68px; height: 68px;
-      border: 3px solid var(--black); margin: 0 auto 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.6rem; font-weight: 800; color: var(--white);
-    }
-    .contrib-card .cc-name { font-weight: 700; font-size: 0.9rem; }
-    .contrib-card .cc-role { font-size: 0.75rem; color: #888; }
-    .contrib-card.featured {
-      border-color: var(--accent);
-      box-shadow: 8px 8px 0 var(--accent);
-      position: relative;
-    }
-    .contrib-card.featured::after {
-      content: 'CREATOR'; position: absolute; top: -12px; right: -12px;
-      background: var(--accent); color: var(--white);
-      font-family: var(--mono); font-size: 0.5rem; font-weight: 700;
-      padding: 4px 10px; border: 2px solid var(--black);
-      letter-spacing: 1px;
-    }
-    .contrib-card.placeholder { opacity: 0.4; border-style: dashed; }
-    .contrib-card.placeholder .avatar { background: #ddd !important; color: #999 !important; border-style: dashed; }
-    .contrib-card.placeholder .cc-name { color: #aaa; }
 
-    /* ─── COLLAB ─── */
-    #collab {
-      background: linear-gradient(135deg, #0d2137 0%, #1a3a4a 100%);
-      color: var(--white); position: relative; overflow: hidden;
+    /* Commands */
+    .commands {
+      background: var(--bg-alt); border-radius: var(--radius);
+      padding: 32px;
     }
-    #collab::before {
-      content: ''; position: absolute; inset: 0;
-      background:
-        radial-gradient(circle at 20% 50%, rgba(0,180,216,0.18), transparent 60%),
-        radial-gradient(circle at 80% 50%, rgba(144,224,239,0.1), transparent 60%);
+    .commands code {
+      display: block; padding: 12px 16px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); margin-bottom: 8px;
+      font-family: var(--mono); font-size: 0.85rem;
     }
-    #collab .container { position: relative; z-index: 1; }
-    #collab .section-title { color: var(--white); }
+    .commands code .arrow { color: var(--accent); }
+    .commands code .desc { color: var(--text-muted); font-size: 0.75rem; }
+
+    /* Collaboration */
     .collab-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 14px;
-      margin: 40px 0;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
     }
-    .collab-item {
-      display: flex; align-items: center; gap: 14px;
-      background: rgba(255,255,255,0.06);
-      border: 2px solid rgba(255,255,255,0.12);
-      padding: 18px;
-      font-weight: 600; font-size: 0.9rem;
-      transition: all 0.2s; cursor: default;
+    .collab-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px; text-align: center;
     }
-    .collab-item:hover {
-      background: rgba(255,255,255,0.12);
-      border-color: var(--accent);
-      transform: translateX(8px);
+    .collab-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .collab-card p { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 16px; }
+    .collab-card .btn {
+      display: inline-block; padding: 8px 20px; border-radius: var(--radius-sm);
+      text-decoration: none; font-size: 0.85rem; font-weight: 600;
+      background: var(--bg); color: var(--text); border: 1px solid var(--border);
+      transition: all 0.15s;
     }
-    .collab-item .ci-icon { font-size: 1.4rem; }
-    .collab-cta { text-align: center; margin-top: 40px; }
-    .collab-cta .btn {
-      font-size: 1.2rem; padding: 22px 52px;
-      background: var(--accent); color: var(--white);
-      border-color: var(--white);
-    }
-    .collab-cta .btn:hover { background: var(--accent3); }
+    .collab-card .btn:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* ─── WORKFLOW ─── */
-    #workflow { background: var(--bg); }
-    .workflow-vis {
-      display: flex; align-items: center; justify-content: center;
-      gap: 0; margin-top: 48px; flex-wrap: wrap;
-    }
-    .wf-node {
-      padding: 18px 32px; font-weight: 800; border: var(--border);
-      background: var(--white);
-      box-shadow: var(--shadow-sm); transition: all 0.2s;
-      font-size: 1rem;
-    }
-    .wf-node:hover { transform: scale(1.06) translateY(-4px); box-shadow: var(--shadow); }
-    .wf-node.main { background: var(--accent); color: var(--white); }
-    .wf-node.dev { background: var(--accent2); color: var(--black); }
-    .wf-node.test { background: var(--accent4); color: var(--black); }
-    .wf-node.feature { background: var(--accent3); color: var(--white); }
-    .wf-arrow { font-size: 1.6rem; font-weight: 700; padding: 0 12px; color: var(--accent); }
-    .workflow-desc {
-      text-align: center; margin-top: 32px;
-      font-size: 0.95rem; color: #666; max-width: 640px; margin-inline: auto;
-      line-height: 1.7;
-    }
-
-    /* ─── ISSUES ─── */
-    #issues { background: var(--white); }
-    .issues-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 22px;
-      margin-top: 48px;
-    }
-    .issue-card {
-      background: var(--white); border: var(--border);
-      padding: 26px; box-shadow: var(--shadow-sm);
-      transition: all 0.2s; cursor: default;
-    }
-    .issue-card:hover { transform: translate(-5px,-5px); box-shadow: var(--shadow); }
-    .issue-card .ic-top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-    .issue-card .ic-label {
-      font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
-      padding: 4px 12px;
-      border: 2px solid var(--black); letter-spacing: 1px;
-    }
-    .issue-card .ic-label.orange { background: var(--orange); color: var(--white); border-color: var(--orange); }
-    .issue-card .ic-label.green { background: var(--green); color: var(--white); border-color: var(--green); }
-    .issue-card .ic-label.accent { background: var(--accent); color: var(--white); border-color: var(--accent); }
-    .issue-card .ic-label.light { background: var(--accent4); border-color: var(--accent4); }
-    .issue-card .ic-title { font-weight: 700; font-size: 1rem; }
-    .issue-card .ic-desc { font-size: 0.8rem; color: #666; margin-top: 6px; line-height: 1.5; }
-
-    /* ─── FOOTER ─── */
+    /* Footer */
     footer {
-      background: #0d2137; color: var(--white);
-      padding: 60px 0 0;
-      border-top: 6px solid var(--accent);
+      border-top: 1px solid var(--border); padding: 32px 0;
+      text-align: center; color: var(--text-muted); font-size: 0.85rem;
     }
-    footer .container { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; }
-    footer .f-col h3 { font-size: 1.1rem; margin-bottom: 16px; font-weight: 700; }
-    footer .f-col a {
-      display: block; color: rgba(255,255,255,0.65); text-decoration: none;
-      margin-bottom: 8px; font-size: 0.9rem;
-      transition: all 0.12s;
-    }
-    footer .f-col a:hover { color: var(--white); transform: translateX(6px); }
-    footer .f-col p { color: rgba(255,255,255,0.5); font-size: 0.85rem; max-width: 260px; line-height: 1.6; }
-    footer .f-bottom {
-      width: 100%;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding: 24px 0;
-      margin-top: 40px;
-      text-align: center;
-      font-size: 0.85rem; color: rgba(255,255,255,0.4);
-    }
-    footer .f-bottom a { color: var(--accent2); text-decoration: none; }
-    footer .f-bottom a:hover { text-decoration: underline; }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
 
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 900px) {
-      .creator-wrap { grid-template-columns: 1fr; text-align: center; }
-      .creator-avatar { margin: 0 auto; }
-      .creator-info .ci-links { justify-content: center; }
-      .contact-grid { grid-template-columns: 1fr; }
-    }
     @media (max-width: 768px) {
-      nav .nav-links {
-        display: none; flex-direction: column; position: absolute;
-        top: 100%; left: 0; right: 0;
-        background: var(--bg); border-bottom: var(--border);
-        padding: 20px; gap: 10px; box-shadow: var(--shadow);
-      }
-      nav .nav-links.open { display: flex; }
-      nav .nav-links a { padding: 12px 16px; }
-      .hamburger { display: flex; }
-      .vision-grid { grid-template-columns: 1fr; }
-      .roadmap-track::before { display: none; }
-      .roadmap-track { flex-direction: column; }
-      #hero h1 { font-size: clamp(2.2rem, 14vw, 3.5rem); letter-spacing: -2px; }
-      #hero .stats { padding: 20px 24px; gap: 32px; width: 100%; justify-content: center; }
-      .arch-row .arch-node { padding: 10px 16px; font-size: 0.75rem; min-width: auto; }
-      .workflow-vis .wf-node { font-size: 0.85rem; padding: 14px 20px; }
-    }
-    @media (max-width: 480px) {
-      #hero .stats { gap: 20px; padding: 16px; }
-      #hero .stats .stat-num { font-size: 1.4rem; }
-      .section { padding: 60px 0; }
-      .collab-grid { grid-template-columns: 1fr; }
-      .creator-avatar { width: 120px; height: 120px; min-width: 120px; font-size: 2.5rem; }
-      .creator-wrap { padding: 24px; }
+      .hero h1 { font-size: 2rem; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      nav { display: none; }
     }
   </style>
 </head>
 <body>
-
-  <!-- ═══ NAV ═══ -->
-  <nav>
-    <a href="#" class="logo">&#9876;&#65039; <span>Chakravyuh</span> AI</a>
-    <button class="hamburger" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="nav-links">
-      <a href="#vision">Vision</a>
-      <a href="#architecture">Architecture</a>
-      <a href="#models">Models</a>
-      <a href="#agents">Agents</a>
-      <a href="#roadmap">Roadmap</a>
-      <a href="#about-creator">Creator</a>
-      <a href="#contact" class="nav-cta">Contact</a>
-    </div>
-  </nav>
-
-  <!-- ═══ HERO ═══ -->
-  <section id="hero">
-    <div id="hero-bg">
-      <div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="orb"></div>
-      <div class="grid"></div>
-    </div>
+  <header>
     <div class="container">
-      <div class="hero-badge reveal visible">
-        <span class="dot"></span> v0.1.0-alpha &mdash; Implementation Phase
+      <div class="logo">
+        <div class="logo-icon">&#9670;</div>
+        <span>Chakravyuh</span> AI
       </div>
-      <h1 class="reveal visible">Chakravyuh <span class="highlight">AI</span></h1>
-      <p class="tagline reveal visible reveal-delay-1">Many Agents. One Intelligence.</p>
-      <p class="desc reveal visible reveal-delay-2">
-        An open-source Multi-Agent AI Operating System that connects AI models, MCP servers,
-        memory systems, and autonomous agents under a central orchestrator.
-        Source code is now live &mdash; explore the backend, agents, MCP servers, and memory drivers.
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#agents">Agents</a>
+        <a href="#commands">Commands</a>
+        <a href="#collaborate">Collaborate</a>
+        <a href="dashboard.html" class="btn-primary">&#9654; Dashboard</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Your <span>Multi-Agent</span> Command Center</h1>
+      <p>
+        Chakravyuh AI orchestrates specialized AI agents — coder, researcher, planner, QA, security —
+        into a coordinated mesh that runs on your hardware. Terminal-first, Ollama-powered, open-source.
       </p>
-      <div class="hero-actions reveal visible reveal-delay-3">
-        <a href="https://github.com/krushna081/chakravyuh-ai" class="btn btn-primary" target="_blank">&#9733; Star on GitHub</a>
-        <a href="#contributors" class="btn">Join Contributors</a>
-        <a href="docs/README.md" class="btn btn-ghost">Read Docs &rarr;</a>
-        <a href="backend/src/index.ts" class="btn btn-ghost">Source Code &rarr;</a>
+      <div class="hero-actions">
+        <a href="#features" class="btn btn-primary">Explore Features</a>
+        <a href="dashboard.html" class="btn btn-secondary">&#9654; Launch Dashboard</a>
       </div>
-     <!-- <div class="stats reveal visible reveal-delay-4">
-        <div class="stat-item"><div class="stat-num">8+</div><div class="stat-label">AI Providers</div></div>
-        <div class="stat-item"><div class="stat-num">10</div><div class="stat-label">Built-in Agents</div></div>
-        <div class="stat-item"><div class="stat-num">14+</div><div class="stat-label">MCP Servers</div></div>
-        <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">Memory Tiers</div></div>
-      </div> -->
+      <div class="hero-terminal">
+        <span class="prompt">$</span> <span class="cmd">cv run</span><br/>
+        <span class="output">  ⚔ Starting Chakravyuh AI...</span><br/>
+        <span class="output">  ✓ Ollama detected (llama3.1:8b, qwen2.5:7b, mistral:7b)</span><br/>
+        <span class="output">  ✓ 10 agents registered</span><br/>
+        <span class="output">  ✓ Control Agent online</span><br/>
+        <span class="output">  Dashboard: <span class="highlight">http://127.0.0.1:3001/</span></span>
+      </div>
     </div>
   </section>
 
-  <!-- ═══ VISION ═══ -->
-  <section id="vision" class="section">
+  <section id="features">
     <div class="container">
-      <span class="section-tag reveal">Our Vision</span>
-      <h2 class="section-title reveal">Why <span style="color:var(--accent)">Chakravyuh</span> Exists</h2>
-      <div class="vision-grid">
-        <div class="vision-text reveal">
-          <p>AI ecosystems are fragmented. Every provider has its own API, its own tools, its own conventions. Multi-agent workflows require significant custom engineering. Memory is ephemeral. Agent collaboration is ad-hoc.</p>
-          <p><strong>Chakravyuh AI</strong> is a unified runtime &mdash; an <strong>AI Operating System</strong> &mdash; that abstracts providers, standardizes tool access via MCP, and orchestrates specialized agents into autonomous workflows.</p>
-          <p>Think of it as a conductor for an orchestra of AIs: each agent masters one domain, communicates through structured messages, shares memory, and collaborates to accomplish complex goals.</p>
+      <h2>Why Chakravyuh?</h2>
+      <p class="subtitle">A new approach to multi-agent AI — designed for local-first, developer-controlled agent orchestration</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="icon" style="background:var(--accent-light);color:var(--accent)">&#129302;</div>
+          <h3>Control Agent</h3>
+          <p>An intelligent orchestrator that decomposes complex tasks, assigns subtasks to specialized agents, and monitors execution in real-time.</p>
         </div>
-        <div class="vision-cards reveal reveal-delay-1">
-          <div class="vision-card">
-            <div class="vc-icon">&#9889;</div>
-            <div><div class="vc-title">Provider Agnostic</div><div class="vc-desc">Swap any model without code changes. OpenAI, Claude, Gemini, DeepSeek, local &mdash; all interchangeable.</div></div>
-          </div>
-          <div class="vision-card">
-            <div class="vc-icon" style="background:var(--accent2)">&#128279;</div>
-            <div><div class="vc-title">MCP Native</div><div class="vc-desc">Model Context Protocol connects agents to tools, data sources, and services through a standardized interface.</div></div>
-          </div>
-          <div class="vision-card">
-            <div class="vc-icon" style="background:var(--accent3)">&#129504;</div>
-            <div><div class="vc-title">Memory as Core</div><div class="vc-desc">Four-tier memory &mdash; working, episodic, semantic, procedural &mdash; treated as a first-class system primitive.</div></div>
-          </div>
-          <div class="vision-card">
-            <div class="vc-icon" style="background:var(--accent4)">&#9881;&#65039;</div>
-            <div><div class="vc-title">Autonomous by Default</div><div class="vc-desc">Declarative workflows with planning, execution, human oversight, and automatic recovery.</div></div>
-          </div>
+        <div class="feature-card">
+          <div class="icon" style="background:var(--green-light);color:var(--green)">&#127775;</div>
+          <h3>Terminal-First</h3>
+          <p>Rich CLI + Textual TUI. Full control from the command line: <code>cv run</code>, <code>cv chat</code>, <code>cv status</code>, <code>cv tui</code>.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon" style="background:var(--blue-light);color:var(--blue)">&#9881;</div>
+          <h3>Model Router</h3>
+          <p>Three modes: <strong>local</strong> (always Ollama), <strong>hybrid</strong> (Ollama + cloud), <strong>cloud</strong> (always cloud). Switch with one env var.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon" style="background:var(--purple-light);color:var(--purple)">&#128214;</div>
+          <h3>Tiered Memory</h3>
+          <p>Working, episodic, semantic, procedural memory with SQLite or ChromaDB backends. Swap backends with an env variable.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon" style="background:var(--orange-light);color:var(--orange)">&#128187;</div>
+          <h3>MCP Tools</h3>
+          <p>Filesystem, web fetch/search, GitHub, Docker, terminal — all available to agents via a uniform tool interface.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon" style="background:var(--teal);color:#fff">&#127760;</div>
+          <h3>Web Dashboard</h3>
+          <p>React + Vite light-themed UI for visual agent management, task submission, and model management.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ ARCHITECTURE ═══ -->
-  <section id="architecture" class="section">
+  <section id="agents" style="background:var(--bg-alt)">
     <div class="container">
-      <span class="section-tag reveal">Architecture</span>
-      <h2 class="section-title reveal">System Flow</h2>
-      <p class="section-sub reveal">A layered microkernel architecture: orchestrator &rarr; agents &rarr; providers &rarr; MCP servers.</p>
-      <div class="arch-flow reveal">
-        <div class="arch-node accent">&#128100; User</div>
-        <div class="arch-arrow">&darr;</div>
-        <div class="arch-node">&#9881;&#65039; Orchestrator Engine</div>
-        <div class="arch-arrow">&darr;</div>
-        <div class="arch-node green">&#128270; Capability Router</div>
-        <div class="arch-arrow">&darr;</div>
-        <div class="arch-row">
-          <div class="arch-node">GPT-4o</div>
-          <div class="arch-node">Gemini</div>
-          <div class="arch-node">Claude</div>
-          <div class="arch-node">DeepSeek</div>
-          <div class="arch-node">Ollama</div>
-        </div>
-        <div class="arch-arrow">&darr;</div>
-        <div class="arch-node pink">&#129302; Agent Mesh</div>
-        <div class="arch-arrow">&darr;</div>
-        <div class="arch-node orange">&#127760; MCP Servers</div>
-        <div class="arch-arrow">&darr;</div>
-        <div class="arch-node yellow">&#128736;&#65039; External Tools</div>
+      <h2>Agent Mesh</h2>
+      <p class="subtitle">10 specialized agents collaborating through the Control Agent</p>
+      <div class="agent-list">
+        <div class="agent-item"><div class="a-icon" style="background:#eef2ff;color:#6366f1">C</div><div><div class="a-name">Coordinator</div><div class="a-role">Task routing & delegation</div></div><span class="a-model">llama3.1:8b</span></div>
+        <div class="agent-item"><div class="a-icon" style="background:#ecfdf5;color:#10b981">P</div><div><div class="a-name">Planner</div><div class="a-role">Goal decomposition & planning</div></div><span class="a-model">llama3.1:8b</span></div>
+        <div class="agent-item"><div class="a-icon" style="background:#f5f3ff;color:#8b5cf6">C</div><div><div class="a-name">Coder</div><div class="a-role">Write, review & refactor code</div></div><span class="a-model">qwen2.5:7b</span></div>
+        <div class="agent-item"><div class="a-icon" style="background:#fffbeb;color:#f59e0b">R</div><div><div class="a-name">Researcher</div><div class="a-role">Information gathering & analysis</div></div><span class="a-model">llama3.1:8b</span></div>
+        <div class="agent-item"><div class="a-icon" style="background:#fdf2f8;color:#ec4899">B</div><div><div class="a-name">Browser</div><div class="a-role">Web automation & interaction</div></div><span class="a-model">mistral:7b</span></div>
+        <div class="agent-item"><div class="a-icon" style="background:#eff6ff;color:#3b82f6">Q</div><div><div class="a-name">QA</div><div class="a-role">Testing, validation & QA</div></div><span class="a-model">gemma2:9b</span></div>
+        <div class="agent-item"><div class="a-icon" style="background:#ecfdf5;color:#10b981">M</div><div><div class="a-name">Memory Agent</div><div class="a-role">Memory management & retrieval</div></div><span class="a-model">nomic-embed-text</span></div>
+        <div class="agent-item"><div class="a-icon" style="background:#fef2f2;color:#ef4444">S</div><div><div class="a-name">Security</div><div class="a-role">Security analysis & threat detection</div></div><span class="a-model">llama3.1:8b</span></div>
+        <div class="agent-item"><div class="a-icon" style="background:#eff6ff;color:#3b82f6">G</div><div><div class="a-name">GitHub Agent</div><div class="a-role">Repository management & automation</div></div><span class="a-model">qwen2.5:7b</span></div>
+        <div class="agent-item"><div class="a-icon" style="background:#fffbeb;color:#f59e0b">D</div><div><div class="a-name">Deployment</div><div class="a-role">Build, deploy & infrastructure</div></div><span class="a-model">phi3:14b</span></div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ MODELS ═══ -->
-  <section id="models" class="section">
+  <section id="commands">
     <div class="container">
-      <span class="section-tag reveal">Providers</span>
-      <h2 class="section-title reveal">Supported AI Models</h2>
-      <p class="section-sub reveal">Connect your own API keys. Chakravyuh automatically selects the best model for every task.</p>
-      <div class="models-grid reveal">
-        <div class="model-card"><div class="mc-name">&#9670; OpenAI</div><div class="mc-badges"><span class="mc-badge">Coding</span><span class="mc-badge">Reasoning</span><span class="mc-badge">Vision</span></div></div>
-        <div class="model-card"><div class="mc-name">&#9729; Gemini</div><div class="mc-badges"><span class="mc-badge">Research</span><span class="mc-badge">1M Context</span><span class="mc-badge">Audio</span></div></div>
-        <div class="model-card"><div class="mc-name">&#128154; Claude</div><div class="mc-badges"><span class="mc-badge">Coding</span><span class="mc-badge">Security</span><span class="mc-badge">Tool Use</span></div></div>
-        <div class="model-card"><div class="mc-name">&#127470;&#127475; DeepSeek</div><div class="mc-badges"><span class="mc-badge">Code</span><span class="mc-badge">Reasoning</span><span class="mc-badge">Budget</span></div></div>
-        <div class="model-card"><div class="mc-name">&#10070; Grok</div><div class="mc-badges"><span class="mc-badge">Chat</span><span class="mc-badge">Code</span><span class="mc-badge">Vision</span></div></div>
-        <div class="model-card"><div class="mc-name">&#128187; Ollama</div><div class="mc-badges"><span class="mc-badge">Offline</span><span class="mc-badge">Local</span><span class="mc-badge">Private</span></div></div>
-        <div class="model-card"><div class="mc-name">&#127760; OpenRouter</div><div class="mc-badges"><span class="mc-badge">200+ Models</span><span class="mc-badge">Unified API</span></div></div>
-        <div class="model-card"><div class="mc-name">&#128209; Local Models</div><div class="mc-badges"><span class="mc-badge">Free</span><span class="mc-badge">Private</span><span class="mc-badge">Custom</span></div></div>
+      <h2>One-Command Control</h2>
+      <p class="subtitle">Everything is a <code>cv</code> command away</p>
+      <div class="commands">
+        <code><span class="arrow">→</span> cv setup <span class="desc">— Auto-detect Ollama, pull models, create .env</span></code>
+        <code><span class="arrow">→</span> cv run <span class="desc">— Start the API server + open dashboard</span></code>
+        <code><span class="arrow">→</span> cv tui <span class="desc">— Launch the Textual terminal dashboard</span></code>
+        <code><span class="arrow">→</span> cv status <span class="desc">— System health overview</span></code>
+        <code><span class="arrow">→</span> cv models --list <span class="desc">— List installed Ollama models</span></code>
+        <code><span class="arrow">→</span> cv models --pull llama3.2:3b <span class="desc">— Pull a new model</span></code>
+        <code><span class="arrow">→</span> cv chat -m llama3.1:8b <span class="desc">— Interactive chat session</span></code>
+        <code><span class="arrow">→</span> cv task "Build a CLI tool" <span class="desc">— Submit to agent mesh</span></code>
+        <code><span class="arrow">→</span> cv agents <span class="desc">— List all registered agents</span></code>
       </div>
     </div>
   </section>
 
-  <!-- ═══ AGENTS ═══ -->
-  <section id="agents" class="section">
+  <section id="collaborate" style="background:var(--bg-alt)">
     <div class="container">
-      <span class="section-tag reveal">Agents</span>
-      <h2 class="section-title reveal">Specialized Agent Mesh</h2>
-      <p class="section-sub reveal">Each agent masters one domain. Collaboration emerges from structured communication.</p>
-      <div class="agents-grid reveal">
-        <div class="agent-card">
-          <div class="ac-icon" style="background:var(--accent);color:#fff">O</div>
-          <div class="ac-name">Orchestrator</div>
-          <div class="ac-desc">Routes tasks, delegates to agents, manages lifecycle and escalation.</div>
-          <div class="ac-tools"><span class="ac-tool">Router</span><span class="ac-tool">Registry</span></div>
-        </div>
-        <div class="agent-card">
-          <div class="ac-icon" style="background:var(--accent2)">R</div>
-          <div class="ac-name">Researcher</div>
-          <div class="ac-desc">Gathers information, analyzes data, synthesizes findings across sources.</div>
-          <div class="ac-tools"><span class="ac-tool">Web Search</span><span class="ac-tool">Web Fetch</span></div>
-        </div>
-        <div class="agent-card">
-          <div class="ac-icon" style="background:var(--accent3);color:#fff">C</div>
-          <div class="ac-name">Coding Agent</div>
-          <div class="ac-desc">Writes, reviews, and refactors code across any language and framework.</div>
-          <div class="ac-tools"><span class="ac-tool">FileSystem</span><span class="ac-tool">GitHub</span></div>
-        </div>
-        <div class="agent-card">
-          <div class="ac-icon" style="background:var(--orange);color:#fff">B</div>
-          <div class="ac-name">Browser Agent</div>
-          <div class="ac-desc">Automates web interactions &mdash; navigation, forms, data extraction.</div>
-          <div class="ac-tools"><span class="ac-tool">Browser MCP</span></div>
-        </div>
-        <div class="agent-card">
-          <div class="ac-icon" style="background:var(--black);color:#fff">G</div>
-          <div class="ac-name">GitHub Agent</div>
-          <div class="ac-desc">Manages repos, PRs, issues, code search, and automation workflows.</div>
-          <div class="ac-tools"><span class="ac-tool">GitHub MCP</span></div>
-        </div>
-        <div class="agent-card">
-          <div class="ac-icon" style="background:var(--green);color:#fff">M</div>
-          <div class="ac-name">Memory Agent</div>
-          <div class="ac-desc">Manages all four memory tiers &mdash; storage, retrieval, consolidation.</div>
-          <div class="ac-tools"><span class="ac-tool">SQLite</span><span class="ac-tool">Redis</span><span class="ac-tool">Vector DB</span></div>
-        </div>
-        <div class="agent-card">
-          <div class="ac-icon" style="background:var(--red);color:#fff">S</div>
-          <div class="ac-name">Security Agent</div>
-          <div class="ac-desc">Threat detection, code audit, prompt injection prevention, compliance.</div>
-          <div class="ac-tools"><span class="ac-tool">Audit</span><span class="ac-tool">Scanner</span></div>
-        </div>
-        <div class="agent-card">
-          <div class="ac-icon" style="background:var(--accent4)">D</div>
-          <div class="ac-name">Deployment Agent</div>
-          <div class="ac-desc">Build, deploy, infrastructure management, CI/CD orchestration.</div>
-          <div class="ac-tools"><span class="ac-tool">Docker</span><span class="ac-tool">K8s</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ MCP ═══ -->
-  <section id="mcp" class="section">
-    <div class="container">
-      <span class="section-tag reveal">Ecosystem</span>
-      <h2 class="section-title reveal">MCP Server Ecosystem</h2>
-      <p class="section-sub reveal">Model Context Protocol provides standardized tool access. Any MCP-compatible server works.</p>
-      <div class="mcp-grid reveal">
-        <div class="mcp-card"><div class="mcp-icon">&#127760;</div><div class="mcp-name">Browser MCP</div><div class="mcp-desc">Headless web automation</div></div>
-        <div class="mcp-card"><div class="mcp-icon" style="background:var(--accent3)">&#128190;</div><div class="mcp-name">GitHub MCP</div><div class="mcp-desc">Repos, PRs, issues, code search</div></div>
-        <div class="mcp-card"><div class="mcp-icon" style="background:var(--green)">&#128193;</div><div class="mcp-name">FileSystem MCP</div><div class="mcp-desc">Read, write, edit, search files</div></div>
-        <div class="mcp-card"><div class="mcp-icon" style="background:var(--orange);color:#fff">&#128451;</div><div class="mcp-name">Database MCP</div><div class="mcp-desc">SQL queries, schema exploration</div></div>
-        <div class="mcp-card"><div class="mcp-icon" style="background:var(--black);color:#fff">&#128421;</div><div class="mcp-name">Terminal MCP</div><div class="mcp-desc">Safe command execution</div></div>
-        <div class="mcp-card"><div class="mcp-icon" style="background:var(--red);color:#fff">&#9993;</div><div class="mcp-name">Gmail MCP</div><div class="mcp-desc">Read, send, search emails</div></div>
-        <div class="mcp-card"><div class="mcp-icon" style="background:var(--accent4)">&#128196;</div><div class="mcp-name">Drive MCP</div><div class="mcp-desc">File management, document creation</div></div>
-        <div class="mcp-card"><div class="mcp-icon" style="background:var(--accent2)">&#128197;</div><div class="mcp-name">Calendar MCP</div><div class="mcp-desc">Events, scheduling, availability</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ ROADMAP ═══ -->
-  <section id="roadmap" class="section">
-    <div class="container">
-      <span class="section-tag reveal">Timeline</span>
-      <h2 class="section-title reveal">Development Roadmap</h2>
-      <p class="section-sub reveal">Building toward a production-ready AI Operating System.</p>
-      <div class="roadmap-track reveal">
-        <div class="roadmap-item"><div class="rm-dot"></div><div class="rm-phase">Phase 1</div><div class="rm-title">Documentation</div></div>
-        <div class="roadmap-item"><div class="rm-dot" style="background:var(--accent2)"></div><div class="rm-phase" style="background:var(--accent2)">Phase 2</div><div class="rm-title">Architecture</div></div>
-        <div class="roadmap-item"><div class="rm-dot" style="background:var(--accent3)"></div><div class="rm-phase" style="background:var(--accent3)">Phase 3</div><div class="rm-title">Model Integrations</div></div>
-        <div class="roadmap-item"><div class="rm-dot" style="background:var(--orange)"></div><div class="rm-phase" style="background:var(--orange)">Phase 4</div><div class="rm-title">MCP Ecosystem</div></div>
-        <div class="roadmap-item"><div class="rm-dot" style="background:var(--green)"></div><div class="rm-phase" style="background:var(--green)">Phase 5</div><div class="rm-title">Autonomous Agents</div></div>
-        <div class="roadmap-item"><div class="rm-dot" style="background:var(--black)"></div><div class="rm-phase" style="background:var(--black)">Phase 6</div><div class="rm-title">AI Operating System</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ ABOUT CREATOR ═══ -->
-
-
-  <!-- ═══ CONTACT ═══ -->
-  <section id="contact" class="section">
-    <div class="container reveal">
-      <span class="section-tag" style="color:var(--accent2)">Get in Touch</span>
-      <h2 class="section-title">Contact Us</h2>
-      <p style="color:rgba(255,255,255,0.6);max-width:540px;line-height:1.7">
-        Have a question, idea, or want to contribute? Reach out &mdash; we'd love to hear from you.
-      </p>
-      <div class="contact-grid">
-        <div class="contact-card">
-          <div class="c-icon">&#9993;</div>
-          <div class="c-title">Email</div>
-          <div class="c-desc">For general inquiries, collaboration proposals, or any questions about Chakravyuh AI.</div>
-          <a href="mailto:contact@krushna081.online" class="c-link">contact@krushna081.online &rarr;</a>
-        </div>
-        <div class="contact-card">
-          <div class="c-icon">&#127760;</div>
-          <div class="c-title">Website</div>
-          <div class="c-desc">Visit the creator's personal site to learn more about ongoing projects and work.</div>
-          <a href="http://krushna081.online/" target="_blank" class="c-link">krushna081.online &rarr;</a>
-        </div>
-        <div class="contact-card">
-          <div class="c-icon">&#128101;</div>
-          <div class="c-title">Community</div>
-          <div class="c-desc">Join the discussion on GitHub or Discord. Share ideas, report issues, and collaborate with the community.</div>
-          <a href="https://discord.gg/xGeeBAWDq" target="_blank" class="c-link">Discord &rarr;</a>
-          <a href="https://github.com/krushna081/chakravyuh-ai/discussions" target="_blank" class="c-link" style="margin-left:12px">GitHub Discussions &rarr;</a>
-        </div>
-        <div class="contact-card">
-          <div class="c-icon">&#128221;</div>
-          <div class="c-title">Contributions</div>
-          <div class="c-desc">Ready to contribute? Check open issues, fork the repo, and submit your first PR.</div>
-          <a href="https://github.com/krushna081/chakravyuh-ai/issues" target="_blank" class="c-link">Open Issues &rarr;</a>
-        </div>
-      </div>
-      <div class="contact-social" style="margin-top:32px;justify-content:center">
-        <a href="https://discord.gg/xGeeBAWDq" target="_blank" title="Discord">&#128172;</a>
-        <a href="https://github.com/krushna081" target="_blank" title="GitHub">&#9733;</a>
-        <a href="http://krushna081.online/" target="_blank" title="Website">&#127760;</a>
-        <a href="mailto:contact@krushna081.online" title="Email">&#9993;</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ CONTRIBUTORS ═══ -->
-  <section id="contributors" class="section">
-    <div class="container">
-      <div class="contrib-intro reveal">
-        <span class="section-tag">Community</span>
-        <h2 class="section-title">Join the <span style="color:var(--accent)">Chakravyuh</span> Community</h2>
-        <p style="color:#666;max-width:580px;margin:0 auto;line-height:1.7">We're looking for contributors across every domain. Your skills can shape the future of multi-agent AI.</p>
-      </div>
-      <div class="contrib-roles reveal">
-        <div class="contrib-role"><div class="cr-icon">&#127912;</div>Frontend</div>
-        <div class="contrib-role"><div class="cr-icon">&#9881;&#65039;</div>Backend</div>
-        <div class="contrib-role"><div class="cr-icon">&#129302;</div>AI/ML</div>
-        <div class="contrib-role"><div class="cr-icon">&#128737;</div>Cybersecurity</div>
-        <div class="contrib-role"><div class="cr-icon">&#128221;</div>Documentation</div>
-        <div class="contrib-role"><div class="cr-icon">&#127760;</div>MCP Servers</div>
-      </div>
-      <div class="contrib-grid reveal">
-        <div class="contrib-card featured">
-          <div class="avatar" style="background:linear-gradient(135deg,var(--accent),var(--accent3))">K</div>
-          <div class="cc-name">krushna081</div>
-          <div class="cc-role">Founder &amp; Lead Dev</div>
-        </div>
-        <div class="contrib-card"><div class="avatar" style="background:var(--accent2)">o</div><div class="cc-name">omkar</div><div class="cc-role">AI/ML Engineer</div></div>
-        <div class="contrib-card"><div class="avatar" style="background:var(--accent3)"></div><div class="cc-name"> Not yet </div><div class="cc-role">Security</div></div>
-       <!-- <div class="contrib-card"><div class="avatar" style="background:var(--orange)"></div><div class="cc-name">Maya Singh</div><div class="cc-role">MCP Developer</div></div>
-        <div class="contrib-card"><div class="avatar" style="background:var(--green)"></div><div class="cc-name">Tom Wagner</div><div class="cc-role">Documentation</div></div>
-        <div class="contrib-card"><div class="avatar" style="background:var(--red)"></div><div class="cc-name">Lea Kim</div><div class="cc-role">Testing &amp; QA</div></div> -->
-        <div class="contrib-card placeholder"><div class="avatar" style="background:#ddd">?</div><div class="cc-name">Your Profile</div><div class="cc-role">Could Be Here</div></div>
-        <div class="contrib-card placeholder"><div class="avatar" style="background:#ddd">?</div><div class="cc-name">Your Profile</div><div class="cc-role">Could Be Here</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ COLLAB ═══ -->
-  <section id="collab" class="section">
-    <div class="container reveal">
-      <span class="section-tag" style="color:var(--accent2)">Collaborate</span>
-      <h2 class="section-title">Why Contribute to Chakravyuh?</h2>
+      <h2>How to Collaborate</h2>
+      <p class="subtitle">Chakravyuh is open-source and community-driven. Everyone is welcome.</p>
       <div class="collab-grid">
-        <div class="collab-item"><span class="ci-icon">&#127775;</span>Real open-source experience</div>
-        <div class="collab-item"><span class="ci-icon">&#128187;</span>Build portfolio projects</div>
-        <div class="collab-item"><span class="ci-icon">&#129302;</span>Work with multi-agent AI</div>
-        <div class="collab-item"><span class="ci-icon">&#128218;</span>Learn MCP protocol</div>
-        <div class="collab-item"><span class="ci-icon">&#128300;</span>Learn LLM architecture</div>
-        <div class="collab-item"><span class="ci-icon">&#128101;</span>Collaborate with peers</div>
-        <div class="collab-item"><span class="ci-icon">&#128640;</span>Shape a production-grade OS</div>
-        <div class="collab-item"><span class="ci-icon">&#127891;</span>Earn recognition &amp; badges</div>
-      </div>
-      <div class="collab-cta">
-        <a href="https://github.com/krushna081/chakravyuh-ai" class="btn" target="_blank">&#127775; Become a Contributor</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ WORKFLOW ═══ -->
-  <section id="workflow" class="section">
-    <div class="container">
-      <span class="section-tag reveal">Development</span>
-      <h2 class="section-title reveal">GitHub Workflow</h2>
-      <p class="section-sub reveal">A structured branch strategy for collaborative development.</p>
-      <div class="workflow-vis reveal">
-        <div class="wf-node feature">feature/*</div>
-        <div class="wf-arrow">&darr;</div>
-        <div class="wf-node test">test</div>
-        <div class="wf-arrow">&darr;</div>
-        <div class="wf-node dev">dev</div>
-        <div class="wf-arrow">&darr;</div>
-        <div class="wf-node main">main</div>
-      </div>
-      <p class="workflow-desc reveal">
-        Feature branches &rarr; merged to <strong>test</strong> &rarr; verified &rarr; merged to
-        <strong>dev</strong> &rarr; release &rarr; merged to <strong>main</strong>.
-        Every PR requires lint, typecheck, tests, and review.
-      </p>
-    </div>
-  </section>
-
-  <!-- ═══ ISSUES ═══ -->
-  <section id="issues" class="section">
-    <div class="container">
-      <span class="section-tag reveal">Get Involved</span>
-      <h2 class="section-title reveal">Open Issues</h2>
-      <p class="section-sub reveal">Ready to contribute? Start with one of these open tasks.</p>
-      <div class="issues-grid reveal">
-        <div class="issue-card"><div class="ic-top"><span class="ic-label accent">Core</span></div><div class="ic-title">Design Orchestrator</div><div class="ic-desc">Implement the central engine that manages agent lifecycle and message routing.</div></div>
-        <div class="issue-card"><div class="ic-top"><span class="ic-label green">Provider</span></div><div class="ic-title">Ollama Integration</div><div class="ic-desc">Build the Ollama provider for local model inference support.</div></div>
-        <div class="issue-card"><div class="ic-top"><span class="ic-label orange">Memory</span></div><div class="ic-title">Memory System</div><div class="ic-desc">Implement the four-tier memory architecture with SQLite and Redis backends.</div></div>
-        <div class="issue-card"><div class="ic-top"><span class="ic-label accent">MCP</span></div><div class="ic-title">Browser MCP Server</div><div class="ic-desc">Create the headless browser automation MCP server using Playwright.</div></div>
-        <div class="issue-card"><div class="ic-top"><span class="ic-label yellow">MCP</span></div><div class="ic-title">GitHub MCP Server</div><div class="ic-desc">Build the GitHub integration MCP server for repo management and PRs.</div></div>
-        <div class="issue-card"><div class="ic-top"><span class="ic-label green">Security</span></div><div class="ic-title">Security Agent</div><div class="ic-desc">Develop the security analysis agent with prompt injection detection.</div></div>
+        <div class="collab-card">
+          <h3>&#128220; Submit an Issue</h3>
+          <p>Found a bug or have a feature request? Open an issue on GitHub with the appropriate template.</p>
+          <a href="https://github.com/krushna081/chakravyuh-ai/issues/new" class="btn">Open Issue</a>
+        </div>
+        <div class="collab-card">
+          <h3>&#128736; Contribute Code</h3>
+          <p>Fork the repo, create a feature branch, and submit a PR. All contributions are reviewed and appreciated.</p>
+          <a href="https://github.com/krushna081/chakravyuh-ai/pulls" class="btn">View PRs</a>
+        </div>
+        <div class="collab-card">
+          <h3>&#128172; Join the Discussion</h3>
+          <p>Questions, ideas, and discussions happen on GitHub Discussions. Introduce yourself and share your thoughts.</p>
+          <a href="https://github.com/krushna081/chakravyuh-ai/discussions" class="btn">Start Discussion</a>
+        </div>
+        <div class="collab-card">
+          <h3>&#128214; Read the Docs</h3>
+          <p>Comprehensive documentation covering setup, architecture, agents, MCP, models, and governance.</p>
+          <a href="docs/README.md" class="btn">Read Docs</a>
+        </div>
+        <div class="collab-card">
+          <h3>&#127760; Governance</h3>
+          <p>BDFL + Core Maintainer model with clear roles, decision-making process, and contributor progression path.</p>
+          <a href="docs/GOVERNANCE.md" class="btn">View Governance</a>
+        </div>
+        <div class="collab-card">
+          <h3>&#11088; Star on GitHub</h3>
+          <p>Show your support by starring the repository. It helps others discover the project.</p>
+          <a href="https://github.com/krushna081/chakravyuh-ai" class="btn">Star Now</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ FOOTER ═══ -->
   <footer>
     <div class="container">
-      <div class="f-col">
-        <h3>&#9876;&#65039; Chakravyuh AI</h3>
-        <p>An open-source Multi-Agent AI Operating System. Many Agents. One Intelligence.</p>
-        <p style="margin-top:12px;font-size:0.8rem">
-          Created by <a href="http://krushna081.online/" target="_blank" style="color:var(--accent2);text-decoration:none">krushna081</a>
-        </p>
-      </div>
-      <div class="f-col">
-        <h3>Project</h3>
-        <a href="https://github.com/krushna081/chakravyuh-ai" target="_blank">GitHub Repository</a>
-        <a href="docs/README.md">Documentation</a>
-        <a href="#roadmap">Roadmap</a>
-        <a href="https://github.com/krushna081/chakravyuh-ai/releases" target="_blank">Releases</a>
-      </div>
-      <div class="f-col">
-        <h3>Creator</h3>
-        <a href="http://krushna081.online/" target="_blank">Website</a>
-        <a href="mailto:contact@krushna081.online">Email</a>
-        <a href="https://github.com/krushna081" target="_blank">GitHub Profile</a>
-      </div>
-      <div class="f-col">
-        <h3>Community</h3>
-        <a href="#contributors">Contributors</a>
-        <a href="https://github.com/krushna081/chakravyuh-ai/discussions" target="_blank">Discussions</a>
-        <a href="https://discord.gg/xGeeBAWDq" target="_blank">Discord</a>
-        <a href="CONTRIBUTING.md">Contributing Guide</a>
-        <a href="docs/CODE_OF_CONDUCT.md">Code of Conduct</a>
-      </div>
-      <div class="f-bottom">
-        &copy; 2026 Chakravyuh AI &mdash; Built by
-        <a href="http://krushna081.online/" target="_blank">krushna081</a>
-        &mdash; Apache 2.0 License
-      </div>
+      <p>
+        Built with &#9829; by <a href="https://github.com/krushna081">krushna081</a> |
+        <a href="https://github.com/krushna081/chakravyuh-ai">GitHub</a> |
+        <a href="LICENSE">Apache 2.0 License</a>
+      </p>
     </div>
   </footer>
-
-  <!-- ═══ STICKY DISCORD BUTTON ═══ -->
-  <a href="https://discord.gg/xGeeBAWDq" class="sticky-start" target="_blank">
-    <span class="ss-icon">&#128172;</span>
-    Join Discord
-  </a>
-
-  <!-- ═══ JS ═══ -->
-  <script>
-    const revealEls = document.querySelectorAll('.reveal')
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible')
-        }
-      })
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' })
-    revealEls.forEach(el => observer.observe(el))
-
-    document.querySelectorAll('.nav-links a').forEach(a => {
-      a.addEventListener('click', () => {
-        document.querySelector('.nav-links')?.classList.remove('open')
-      })
-    })
-  </script>
 </body>
 </html>

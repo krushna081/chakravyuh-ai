@@ -1,0 +1,12 @@
+services:
+  ollama:
+    image: ollama/ollama:rocm
+    devices:
+      - "/dev/kfd"
+      - "/dev/dri"
+    group_add:
+      - "video"
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp=unconfined

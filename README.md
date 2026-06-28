@@ -4,130 +4,159 @@
 
 <p align="center">
   <strong>⚔ Multi-Agent AI Operating System</strong><br>
-  <em>Local-first · Ollama-powered · Open-source</em>
+  <em>Ollama Cloud · Local GPU · Cloud APIs — no downloads required</em>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue?style=flat-square" alt="License"></a>
   <a href="#"><img src="https://img.shields.io/badge/version-0.2.0--alpha-orange?style=flat-square" alt="Version"></a>
   <a href="#"><img src="https://img.shields.io/badge/python-3.11+-3776AB?style=flat-square" alt="Python"></a>
-  <a href="#"><img src="https://img.shields.io/badge/ollama-ready-00D4AA?style=flat-square" alt="Ollama"></a>
+  <a href="#"><img src="https://img.shields.io/badge/ollama_cloud-ready-00D4AA?style=flat-square" alt="Ollama Cloud"></a>
   <a href="#"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square" alt="PRs Welcome"></a>
   <a href="https://discord.gg/xGeeBAWDq"><img src="https://img.shields.io/badge/discord-join-5865F2?style=flat-square" alt="Discord"></a>
 </p>
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
-**One command to run the full system:**
+**Zero local model downloads required** — use Ollama Cloud or your own API keys.
 
 ```bash
 git clone https://github.com/krushna081/chakravyuh-ai.git
 cd chakravyuh-ai
 
-# Option A: Native (Python + Ollama)
+# Option A: Ollama Cloud (no GPU, no model downloads)
+cp .env.example .env
+# Edit .env: set OLLAMA_HOST=https://ollama.com and OLLAMA_API_KEY
 python -m pip install -r requirements.txt
-python -m cli setup      # auto-install deps, pull models, create .env
-python -m cli run        # start Ollama + API server + open dashboard
+pip install -e .
+cv setup --no-pull          # skip model pulling, use cloud models
+cv run                      # start API + open dashboard
 
-# Option B: Docker (full stack)
-docker compose up -d
+# Option B: Local Ollama (requires GPU + model downloads)
+# cv setup                  # auto-detect, pull models
+
+# Option C: Textual TUI (no browser needed)
+cv tui                      # multi-pane terminal dashboard
 ```
 
-> **Prerequisites:** [Ollama](https://ollama.com/download) + Python 3.11+ (native) or Docker (container).
+> **No GPU?** Use **Option A** with Ollama Cloud — models run on Ollama's servers, you just need an API key from [ollama.com](https://ollama.com).  
+> **Have GPU?** Use **Option B** with local Ollama for full privacy.
 
 ---
 
-## ✨ What is Chakravyuh?
+## What is Chakravyuh?
 
-Chakravyuh AI is an **open-source, multi-agent AI operating system** that orchestrates specialized AI agents — coder, researcher, planner, QA, security, and more — using **local models** by default (Ollama) with optional cloud fallback.
-
-Think of it as a **self-hosted AI team** that runs on your own hardware:
+Chakravyuh AI is an **open-source, multi-agent AI operating system** — a **Control Agent** orchestrates 10 specialized agents (coder, researcher, planner, QA, security, and more) into a coordinated mesh that breaks down complex tasks and executes them autonomously.
 
 | Capability | What it does |
 |------------|--------------|
-| **Agent Mesh** | 10+ specialized agents collaborate on complex tasks |
-| **Local-First** | Defaults to Ollama (llama3.1, phi3, mistral, qwen2, gemma2) |
-| **Model Router** | Picks local vs cloud based on task size/cost/privacy |
-| **MCP Protocol** | Connects to filesystem, browser, GitHub, databases |
-| **Memory Tiers** | Working, episodic, semantic, procedural — SQLite + ChromaDB |
-| **Web Dashboard** | Real-time agent monitoring, chat, workflow visualizer |
-| **Autonomous Workflows** | Declarative multi-step execution with recovery |
-| **CLI Native** | Beautiful terminal experience — `chakravyuh chat`, `chakravyuh status` |
+| **Control Agent** | Intelligent orchestrator that decomposes tasks, assigns subtasks, and monitors execution |
+| **Agent Mesh** | 10 specialized agents collaborating on complex workflows |
+| **Model Flexibility** | Ollama Cloud, local Ollama, OpenAI, Anthropic, DeepSeek, Google, Groq — or combine them |
+| **Ollama Cloud** | Run cloud models via `OLLAMA_HOST=https://ollama.com` — no GPU or local downloads needed |
+| **Model Router** | Three modes: `local` (Ollama only), `hybrid` (Ollama + cloud), `cloud` (always cloud providers) |
+| **MCP Tools** | Filesystem, web fetch/search, GitHub, Docker, terminal integration |
+| **Memory Tiers** | Working, episodic, semantic, procedural — SQLite + ChromaDB backends |
+| **Terminal-First** | Rich CLI + Textual TUI — full control from the command line |
+| **Web Dashboard** | Light-themed React + Vite UI for visual agent management |
+| **Autonomous Workflows** | Multi-step execution with dependency tracking and error recovery |
 
 ---
 
-## 🎯 Vision
-
-> **"Many models. One intelligence. Your hardware."**
-
-Chakravyuh is designed to be a **true open-source alternative** to proprietary AI agent platforms. It prioritizes:
-
-- **🥇 Ollama as a first-class citizen** — auto-detect, auto-pull models, no API keys required
-- **🔒 Privacy by default** — everything runs locally, no data leaves your machine
-- **🎛️ Flexible provider switching** — use Ollama for daily tasks, cloud APIs for heavy lifting
-- **🛠️ Developer-friendly** — Python CLI, TypeScript engine, one-command setup
-
----
-
-## 🧠 Architecture
+## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                     CLI / Dashboard                      │
-├─────────────────────────────────────────────────────────┤
-│                    Chakravyuh CLI                        │
-│              (chakravyuh run | chat | models)            │
-├─────────────────────────────────────────────────────────┤
-│                    Core Orchestrator                     │
-│  Router → Agent Registry → Workflow Engine → Dispatcher │
-├──────────────────────┬──────────────────────────────────┤
-│    Python Backend    │     TypeScript Engine             │
-│  (FastAPI + CLI)     │  (TS agents + providers)         │
-├──────────────────────┴──────────────────────────────────┤
-│                   Provider Layer                         │
-│  ┌─────────┐ ┌──────────┐ ┌──────────┐ ┌───────────┐   │
-│  │ Ollama  │ │  OpenAI  │ │ Anthropic│ │  Others   │   │
-│  │ (local) │ │  (cloud) │ │ (cloud)  │ │(DeepSeek, │   │
-│  │ 🥇      │ │          │ │          │ │ Google..) │   │
-│  └─────────┘ └──────────┘ └──────────┘ └───────────┘   │
-├─────────────────────────────────────────────────────────┤
-│                   MCP Server Layer                       │
-│  Filesystem · Browser · GitHub · Database · Web · Email │
-├─────────────────────────────────────────────────────────┤
-│                   Memory Layer                           │
-│  SQLite (working) · ChromaDB (vector) · FS (procedural) │
-└─────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│              CLI / TUI / Web Dashboard                        │
+│   cv run │ cv tui │ cv chat │ cv status │ Web UI (React)     │
+├──────────────────────────────────────────────────────────────┤
+│                     FastAPI (api/)                             │
+│     /api/v1/chat  /api/v1/agents  /api/v1/models              │
+│     /api/v1/memory  /api/v1/status  /health                   │
+├──────────────────────────────────────────────────────────────┤
+│                   Control Agent (core/)                        │
+│  Orchestrator → Event Bus → Agent Registry → Task Queue       │
+├──────────────────────────────────────────────────────────────┤
+│                   Agent Mesh (agents/)                         │
+│ Coordinator │ Planner │ Coder │ Researcher │ Browser          │
+│ QA │ Memory Agent │ Security │ GitHub │ Deployment            │
+├──────────────────────────────────────────────────────────────┤
+│                     Tools (tools/)                             │
+│  MCP Client │ Filesystem │ Web Fetch │ Terminal │ GitHub      │
+│  Web Search │ Docker                                           │
+├──────────────────────────────────────────────────────────────┤
+│                   Memory Layer (memory/)                        │
+│  In-Memory │ SQLite │ ChromaDB (vector search)                │
+├──────────────────────────────────────────────────────────────┤
+│                   Providers / Models                            │
+│  Ollama (local) │ Ollama Cloud │ OpenAI │ Anthropic            │
+│  DeepSeek │ Google │ Groq │ OpenRouter                         │
+└──────────────────────────────────────────────────────────────┘
 ```
+
+### Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Control Agent** | Central orchestrator — decomposes tasks, assigns to agents, monitors execution |
+| **Unified Python Backend** | Single FastAPI server handles API, orchestrator, agents, memory |
+| **Terminal-First** | `cv` commands for everything + Textual TUI for real-time monitoring |
+| **Ollama Cloud Support** | Set `OLLAMA_HOST=https://ollama.com` — no local models needed |
+| **10 Python Agents** | Each with isolated communication and tool access |
+| **Memory Backends** | SQLite, ChromaDB, and in-memory — swap with env var |
+| **Tool System** | Plugin-like tools (filesystem, web, GitHub, Docker, terminal) |
 
 ---
 
-## 🖥️ CLI Commands
+## CLI Commands
 
 | Command | Description |
 |---------|-------------|
-| `chakravyuh setup` | One-command setup: install deps, pull models, create .env |
-| `chakravyuh run` | Start full system: Ollama + API + dashboard |
-| `chakravyuh status` | Show system status: Ollama, models, backend |
-| `chakravyuh models` | List, pull, and manage Ollama models |
-| `chakravyuh chat` | Interactive chat with any Ollama model |
-| `chakravyuh dashboard` | Open web dashboard in browser |
-| `chakravyuh version` | Show version info |
+| `cv setup` | One-command setup: install deps, pull models (optional), create .env |
+| `cv run` | Start full system: API + dashboard |
+| `cv status` | Show system status: Ollama, models, backend |
+| `cv models` | List, pull, and manage models |
+| `cv chat` | Interactive chat with any model |
+| `cv tui` | Launch Textual multi-pane TUI dashboard |
+| `cv term` | Manage per-agent terminals (spawn, send, attach) |
+| `cv agents` | List and manage registered agents |
+| `cv task` | Submit a task to the Control Agent |
 
 ---
 
-## 🐳 Docker Compose
+## Configuration
+
+Copy `.env.example` to `.env` and edit:
+
+```ini
+# ── Ollama Cloud (no GPU needed) ──
+OLLAMA_HOST=https://ollama.com
+OLLAMA_API_KEY=your_api_key_here
+
+# ── Local Ollama (requires GPU) ──
+# OLLAMA_HOST=http://127.0.0.1:11434
+
+# ── Router Mode ──
+CHAKRAVYUH_ROUTER_MODE=local   # local, hybrid, or cloud
+```
+
+---
+
+## Docker Compose
 
 ```bash
-# Default (CPU only)
-docker compose up -d
+# CPU only
+docker compose -f docker/docker-compose.yml up -d
 
 # NVIDIA GPU
-COMPOSE_FILE=docker-compose.yml:docker/gpu.nvidia.yml docker compose up -d
+$env:COMPOSE_FILE = "docker/docker-compose.yml;docker/docker-compose.gpu-nvidia.yml"
+docker compose up -d
 
 # AMD ROCm GPU
-COMPOSE_FILE=docker-compose.yml:docker/gpu.amd.yml docker compose up -d
+$env:COMPOSE_FILE = "docker/docker-compose.yml;docker/docker-compose.gpu-amd.yml"
+docker compose up -d
 ```
 
 The stack includes:
@@ -137,86 +166,86 @@ The stack includes:
 
 ---
 
-## 🦙 Ollama Integration
-
-Chakravyuh treats Ollama as a **first-class citizen**:
-
-- **Auto-detection** — checks if Ollama is installed and running
-- **Auto-pull** — downloads recommended models on `setup` if missing
-- **Model management** — `chakravyuh models --list`, `--pull`, `--recommended`
-- **Recommended models** (auto-pulled during setup):
-
-| Model | Size | RAM | Best For |
-|-------|------|-----|----------|
-| `llama3.1:8b` | 4.9GB | 8GB | General-purpose (default) |
-| `phi3:14b` | 7.5GB | 12GB | Reasoning, math |
-| `mistral:7b` | 4.1GB | 6GB | Fast, efficient |
-| `qwen2.5:7b` | 4.2GB | 8GB | Coding, multilingual |
-| `gemma2:9b` | 5.3GB | 8GB | Instruction following |
-| `nomic-embed-text:v1.5` | 0.2GB | 2GB | Embeddings for memory/RAG |
-
----
-
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 chakravyuh-ai/
-├── cli/                  # Python CLI (Typer + Rich)
-│   ├── main.py           #   Entrypoint: chakravyuh commands
-│   └── ollama.py         #   Ollama manager (detect, pull, chat)
-├── backend/
-│   ├── python/           # Python backend (FastAPI)
-│   │   └── api.py        #   REST API + SSE streaming
-│   └── src/              # TypeScript engine (orchestrator, agents)
-├── agents/               # TS agent implementations
-├── mcp/                  # MCP client + servers
-├── config/               # YAML runtime configs
-├── docker/               # Docker support files
-│   ├── entrypoint.sh     #   PUID/PGID privilege drop
-│   ├── gpu.nvidia.yml    #   NVIDIA GPU overlay
-│   └── gpu.amd.yml       #   AMD ROCm overlay
-├── scripts/              # Setup scripts
-│   ├── setup.sh          #   Unix one-click setup
-│   └── setup.ps1         #   Windows one-click setup
-├── tests/                # Test suites
-├── docs/                 # Documentation
-├── examples/             # Usage examples
-├── index.html            # Web dashboard
-├── docker-compose.yml    # Full stack deployment
-├── Dockerfile            # Multi-stage build
+├── cli/                  # Python CLI (Typer + Rich + Textual TUI)
+│   ├── main.py           # Entrypoint: all cv commands
+│   ├── ollama.py         # Ollama manager (local + cloud)
+│   ├── config.py         # Pydantic config (.env)
+│   ├── tui.py            # Textual multi-pane TUI
+│   └── tui_app.py        # TUI application logic
+├── core/                 # Core runtime
+│   ├── types.py          # All type definitions
+│   ├── event_bus.py      # Async pub/sub event system
+│   ├── base_agent.py     # Abstract agent base class
+│   ├── control_agent.py  # Central task orchestrator
+│   ├── orchestrator.py   # System lifecycle manager
+│   ├── terminal_manager.py # Per-agent PTY subprocess manager
+│   └── prompt_engineer.py  # Task analysis + prompt crafting
+├── agents/               # 10 specialized agents
+│   ├── coordinator.py    # Agent mesh coordinator
+│   ├── planner.py        # Task decomposition
+│   ├── coder.py          # Code generation
+│   ├── researcher.py     # Research & analysis
+│   ├── browser.py        # Web browsing
+│   ├── qa.py             # Quality assurance
+│   ├── memory_agent.py   # Memory management
+│   ├── security.py       # Security analysis
+│   ├── github.py         # GitHub operations
+│   └── deployment.py     # Deployment automation
+├── api/                  # FastAPI backend
+│   ├── app.py            # App factory + lifespan
+│   └── routes/           # API route modules
+├── tools/                # Tool system
+│   ├── base.py           # Base tool class
+│   ├── mcp_client.py     # MCP client
+│   ├── filesystem.py     # Sandboxed filesystem
+│   ├── web_fetch.py      # URL fetcher
+│   ├── web_search.py     # DuckDuckGo search
+│   ├── terminal.py       # Sandboxed shell
+│   ├── github.py         # GitHub API
+│   └── docker.py         # Docker API
+├── memory/               # Memory backends
+│   ├── interface.py      # Abstract memory interface
+│   ├── in_memory.py      # In-memory backend
+│   ├── sqlite_backend.py # SQLite backend
+│   └── chroma_backend.py # ChromaDB vector backend
+├── web/                  # React + Vite dashboard
+├── docker/               # Docker support
+├── index.html            # Marketing landing page
+├── dashboard.html        # Live agent control center
+├── .env.example          # Configuration template
 ├── pyproject.toml        # Python project config
 └── requirements.txt      # Python dependencies
 ```
 
 ---
 
-## 📚 Documentation
+## Ollama Integration
 
-| Document | Contents |
-|----------|----------|
-| [Setup Guide](docs/SETUP.md) | Full native + Docker setup |
-| [Architecture](docs/ARCHITECTURE.md) | System design, data flow |
-| [Agents](docs/AGENTS.md) | Agent types and protocols |
-| [Models & Providers](docs/MODELS.md) | Provider config, routing |
-| [MCP Servers](docs/MCP_SERVERS.md) | MCP integration catalog |
-| [Contributing](CONTRIBUTING.md) | Development workflow |
-| [Security](SECURITY.md) | Security policies |
-| [Roadmap](ROADMAP.md) | Version milestones |
-| [Changelog](docs/CHANGELOG.md) | Release history |
+Chakravyuh supports **two modes** for Ollama:
+
+### Ollama Cloud (no GPU, no local downloads)
+Set `OLLAMA_HOST=https://ollama.com` and provide your API key from [ollama.com](https://ollama.com). All inference runs on Ollama's cloud servers. Access models like `gpt-oss:120b-cloud`, `llama4:400b`, and hundreds more without downloading anything.
+
+### Local Ollama (self-hosted, private)
+Run `cv setup` to auto-detect Ollama and pull recommended models. Everything runs locally on your GPU.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
-We welcome contributors from all backgrounds! See [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 - **Branch strategy**: `feature/*` → `dev` → `main`
-- **Stack**: Python (CLI/API) + TypeScript (engine) + Vanilla JS (frontend)
-- **Code style**: Prettier + Ruff (Python)
+- **Stack**: Python (CLI/API/Agents/Tools) + React (Web)
+- **Code style**: Ruff (Python) + Prettier (JS/TS)
 
 ---
 
-## 💬 Community
+## Community
 
 - **Discord**: [Join the community](https://discord.gg/xGeeBAWDq)
 - **GitHub Discussions**: [Ask questions, share ideas](https://github.com/krushna081/chakravyuh-ai/discussions)
@@ -224,7 +253,7 @@ We welcome contributors from all backgrounds! See [CONTRIBUTING.md](CONTRIBUTING
 
 ---
 
-## 📄 License
+## License
 
 Apache 2.0 — see [LICENSE](LICENSE).
 

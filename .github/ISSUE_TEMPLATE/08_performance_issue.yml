@@ -1,0 +1,78 @@
+name: Performance Issue
+description: Report a performance degradation or bottleneck
+labels: [performance, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Help us identify and fix performance issues. Please provide as much detail as possible.
+
+  - type: input
+    id: component
+    attributes:
+      label: Affected Component
+      description: Which part of the system is slow?
+      placeholder: "Orchestrator / Agent / Provider / Memory / MCP"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What is the performance issue?
+      placeholder: "Task routing takes >5s when more than 3 agents are active..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: measurements
+    attributes:
+      label: Measurements
+      description: Actual measurements (latency, throughput, memory, CPU)
+      placeholder: |
+        - P50 latency: 2.3s
+        - P95 latency: 8.7s
+        - Memory: 1.2GB RSS
+        - CPU: 95% during routing
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: How to trigger the performance issue
+      placeholder: |
+        1. Start 5 concurrent projects
+        2. Each with 3 agents assigned
+        3. Send chat message to each project
+        4. Observe routing latency
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Your hardware and software
+      placeholder: "Node v20, 8GB RAM, 4 CPU cores, Windows 11"
+
+  - type: textarea
+    id: profile
+    attributes:
+      label: Profile Output (Optional)
+      description: CPU/memory profile or flame graph
+      render: text
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have searched existing performance issues
+          required: true
+        - label: I have provided measurable data
+          required: true
+        - label: I can reproduce the issue consistently
+          required: true

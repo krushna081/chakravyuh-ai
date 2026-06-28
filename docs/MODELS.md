@@ -1,5 +1,9 @@
 # Models & Providers
 
+> **⚠ Legacy Document (v0.1 TypeScript)** — The system is now **Python-native** (v0.2+).  
+> Provider configuration is done via `.env` file. See [.env.example](../.env.example).  
+> Ollama Cloud (`OLLAMA_HOST=https://ollama.com`) requires no local model downloads.
+
 Chakravyuh AI provides a **unified interface** over 8+ AI providers. Users connect their own API keys, and the capability router automatically selects the optimal model for each task.
 
 ---

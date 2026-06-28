@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chakravyuh AI — Agent Control Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f8f9fb;
+      --bg-card: #ffffff;
+      --bg-sidebar: #1a1d23;
+      --bg-hover: #f0f2f5;
+      --border: #e2e5ea;
+      --border-light: #eef0f3;
+      --text: #1a1d23;
+      --text-secondary: #6b7280;
+      --text-muted: #9ca3af;
+      --accent: #6366f1;
+      --accent-light: #eef2ff;
+      --accent-dark: #4f46e5;
+      --green: #10b981;
+      --green-light: #ecfdf5;
+      --red: #ef4444;
+      --red-light: #fef2f2;
+      --orange: #f59e0b;
+      --orange-light: #fffbeb;
+      --blue: #3b82f6;
+      --blue-light: #eff6ff;
+      --purple: #8b5cf6;
+      --purple-light: #f5f3ff;
+      --pink: #ec4899;
+      --teal: #14b8a6;
+      --font: 'Inter', -apple-system, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+      --radius: 10px;
+      --radius-sm: 6px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-lg: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+    }
+    ::selection { background: var(--accent); color: #fff; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    .sidebar {
+      width: 240px; min-width: 240px;
+      background: var(--bg-sidebar); color: #fff;
+      display: flex; flex-direction: column;
+      height: 100vh; position: sticky; top: 0; overflow-y: auto;
+    }
+    .sidebar-logo {
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 800; font-size: 1.15rem;
+    }
+    .sidebar-logo .logo-icon {
+      width: 32px; height: 32px;
+      background: var(--accent); border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: #fff;
+    }
+    .sidebar-logo .logo-version {
+      font-size: 0.6rem; font-weight: 600;
+      color: rgba(255,255,255,0.35); margin-left: auto;
+      font-family: var(--mono);
+    }
+    .sidebar-nav { padding: 12px; flex: 1; }
+    .sidebar-nav .nav-label {
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.2px; color: rgba(255,255,255,0.35);
+      padding: 16px 12px 8px;
+    }
+    .sidebar-nav a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px;
+      color: rgba(255,255,255,0.6); text-decoration: none;
+      font-size: 0.85rem; font-weight: 500;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s; margin-bottom: 2px;
+    }
+    .sidebar-nav a:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .sidebar-nav a.active { background: var(--accent); color: #fff; font-weight: 600; }
+    .sidebar-nav a .nav-icon { width: 20px; text-align: center; font-size: 0.9rem; }
+    .sidebar-nav a .nav-badge {
+      margin-left: auto;
+      background: rgba(239,68,68,0.2); color: #ef4444;
+      font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 10px;
+    }
+    .sidebar-foot {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 16px 20px; font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .sidebar-foot .status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
+
+    .main { flex: 1; min-width: 0; overflow-x: hidden; }
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 28px; border-bottom: 1px solid var(--border);
+      background: var(--bg-card); position: sticky; top: 0; z-index: 10;
+    }
+    .topbar .page-title { font-size: 1.1rem; font-weight: 700; }
+    .topbar .page-title span { color: var(--text-muted); font-weight: 400; }
+    .topbar-actions { display: flex; align-items: center; gap: 12px; }
+    .topbar-search {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 8px 14px; width: 220px;
+    }
+    .topbar-search input {
+      background: none; border: none; outline: none;
+      color: var(--text); font-family: var(--font);
+      font-size: 0.8rem; width: 100%;
+    }
+    .topbar-search input::placeholder { color: var(--text-muted); }
+
+    .content { padding: 24px 28px 40px; }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px; margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 20px; transition: all 0.2s;
+    }
+    .stat-card:hover { border-color: var(--accent); box-shadow: var(--shadow); }
+    .stat-card .stat-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .stat-card .stat-icon {
+      width: 36px; height: 36px; border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center; font-size: 1rem;
+    }
+    .stat-num { font-size: 1.8rem; font-weight: 800; line-height: 1.1; }
+    .stat-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; margin-top: 2px; }
+
+    .section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px; margin-top: 28px;
+    }
+    .section-header:first-child { margin-top: 0; }
+    .section-header h3 { font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .section-header .count {
+      font-size: 0.75rem; font-weight: 600; color: var(--text-muted);
+      background: var(--bg); padding: 2px 10px; border-radius: 10px;
+    }
+
+    .agent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 14px;
+    }
+    .agent-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px; transition: all 0.2s;
+    }
+    .agent-card:hover { border-color: var(--accent); box-shadow: var(--shadow); }
+    .agent-card .ac-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .agent-card .ac-avatar {
+      width: 40px; height: 40px; min-width: 40px;
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.9rem;
+    }
+    .agent-card .ac-name { font-weight: 700; font-size: 0.9rem; }
+    .agent-card .ac-status { font-size: 0.7rem; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+    .agent-card .ac-status .dot { width: 6px; height: 6px; border-radius: 50%; }
+    .agent-card .ac-body { margin-bottom: 10px; }
+    .agent-card .ac-provider { font-size: 0.72rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .agent-card .ac-provider .tag {
+      background: var(--bg); padding: 2px 8px; border-radius: 4px;
+      font-family: var(--mono); font-size: 0.65rem; border: 1px solid var(--border);
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; font-family: var(--font);
+      font-size: 0.8rem; font-weight: 600;
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      cursor: pointer; transition: all 0.15s;
+      background: var(--bg-card); color: var(--text); text-decoration: none;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+    .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn-primary:hover { background: var(--accent-dark); color: #fff; }
+    .btn-sm { padding: 6px 12px; font-size: 0.75rem; }
+
+    .two-col { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; }
+    @media (max-width: 1100px) { .two-col { grid-template-columns: 1fr; } }
+
+    .issues-feed { display: flex; flex-direction: column; gap: 10px; }
+    .issue-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 14px 16px; transition: all 0.15s;
+    }
+    .issue-item:hover { border-color: var(--accent); }
+    .issue-item .ii-severity { width: 8px; height: 8px; min-width: 8px; border-radius: 50%; margin-top: 6px; }
+    .issue-item .ii-severity.critical { background: var(--red); }
+    .issue-item .ii-severity.high { background: var(--orange); }
+    .issue-item .ii-severity.medium { background: var(--blue); }
+    .issue-item .ii-title { font-size: 0.8rem; font-weight: 600; }
+    .issue-item .ii-desc { font-size: 0.72rem; color: var(--text-secondary); margin-top: 2px; }
+    .issue-item .ii-time { font-size: 0.65rem; color: var(--text-muted); font-family: var(--mono); white-space: nowrap; }
+
+    .project-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 20px; margin-bottom: 12px;
+    }
+    .project-card:hover { border-color: var(--accent); }
+    .project-card .pc-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .project-card .pc-progress { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .progress-bar { flex: 1; height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+    .progress-bar .fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.5s; }
+
+    .tabs { display: flex; gap: 4px; margin-bottom: 20px; }
+    .tab {
+      padding: 8px 16px; font-size: 0.8rem; font-weight: 600;
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      cursor: pointer; background: var(--bg-card); color: var(--text-secondary);
+      transition: all 0.15s;
+    }
+    .tab:hover { border-color: var(--accent); color: var(--accent); }
+    .tab.active { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+
+    .mobile-menu-btn { display: none; }
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .mobile-menu-btn { display: block; }
+      .content { padding: 16px; }
+      .topbar { padding: 12px 16px; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .agent-grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 20px;
+    }
+    .card textarea {
+      width: 100%; padding: 12px; font-family: var(--font);
+      font-size: 0.9rem; border: 1px solid var(--border);
+      border-radius: var(--radius-sm); background: var(--bg);
+      color: var(--text); resize: vertical; margin-bottom: 12px;
+    }
+    .card textarea:focus { outline: none; border-color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">&#9670;</div>
+      <span>Chakravyuh</span> AI
+      <span class="logo-version">v0.2</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-label">Main</div>
+      <a href="#" class="active" onclick="switchTab('dashboard')"><span class="nav-icon">&#9632;</span> Dashboard</a>
+      <a href="#" onclick="switchTab('agents')"><span class="nav-icon">&#129302;</span> Agents</a>
+      <a href="#" onclick="switchTab('tasks')"><span class="nav-icon">&#128203;</span> Tasks</a>
+      <a href="#" onclick="switchTab('models')"><span class="nav-icon">&#9881;</span> Models</a>
+      <div class="nav-label">Resources</div>
+      <a href="index.html"><span class="nav-icon">&#127968;</span> Home</a>
+      <a href="https://github.com/krushna081/chakravyuh-ai" target="_blank"><span class="nav-icon">&#9733;</span> GitHub</a>
+    </nav>
+    <div class="sidebar-foot">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusLabel">Connecting...</span>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-menu-btn" onclick="document.querySelector('.sidebar').style.display='flex'">&#9776;</button>
+        <div class="page-title" id="pageTitle">Dashboard <span>/ Agent Control Center</span></div>
+      </div>
+      <div class="topbar-actions">
+        <div class="topbar-search">
+          <span>&#128269;</span>
+          <input type="text" placeholder="Search agents, tasks..." />
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <div id="tab-dashboard">
+        <div class="stats-row" id="statsRow">
+          <div class="stat-card"><div class="stat-top"><div class="stat-icon" style="background:var(--accent-light);color:var(--accent)">&#129302;</div></div><div class="stat-num" id="statTotalAgents">-</div><div class="stat-label">Total Agents</div></div>
+          <div class="stat-card"><div class="stat-top"><div class="stat-icon" style="background:var(--blue-light);color:var(--blue)">&#128220;</div></div><div class="stat-num" id="statActiveTasks">-</div><div class="stat-label">Active Tasks</div></div>
+          <div class="stat-card"><div class="stat-top"><div class="stat-icon" style="background:var(--green-light);color:var(--green)">&#127775;</div></div><div class="stat-num" id="statModels">-</div><div class="stat-label">Models Installed</div></div>
+          <div class="stat-card"><div class="stat-top"><div class="stat-icon" style="background:var(--purple-light);color:var(--purple)">&#9881;</div></div><div class="stat-num" id="statUptime">-</div><div class="stat-label">Uptime</div></div>
+        </div>
+
+        <div class="section-header">
+          <h3>&#129302; Agent Mesh <span class="count" id="agentCount">loading...</span></h3>
+        </div>
+        <div class="agent-grid" id="agentGrid"></div>
+
+        <div class="section-header" style="margin-top:28px">
+          <h3>&#128203; Quick Task</h3>
+        </div>
+        <div class="card">
+          <textarea id="taskInput" rows="2" placeholder="Describe a task for the agent mesh..."></textarea>
+          <button class="btn btn-primary" onclick="submitTask()">&#9654; Submit Task</button>
+          <div id="taskResult" style="margin-top:12px;font-size:0.8rem;color:var(--text-secondary)"></div>
+        </div>
+      </div>
+
+      <div id="tab-agents" style="display:none">
+        <div class="section-header"><h3>All Agents</h3></div>
+        <div class="agent-grid" id="agentGridFull"></div>
+      </div>
+
+      <div id="tab-tasks" style="display:none">
+        <div class="section-header"><h3>&#128203; Submit a Task</h3></div>
+        <div class="card">
+          <textarea id="taskInputFull" rows="4" placeholder="Describe the task..."></textarea>
+          <div style="display:flex;gap:8px;align-items:center">
+            <select id="taskPriority" style="padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);background:var(--bg)">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+              <option value="critical">Critical</option>
+            </select>
+            <button class="btn btn-primary" onclick="submitTaskFull()">Submit</button>
+          </div>
+          <div id="taskResultFull" style="margin-top:12px"></div>
+        </div>
+      </div>
+
+      <div id="tab-models" style="display:none">
+        <div class="section-header"><h3>&#9881; Model Manager</h3></div>
+        <div class="card" style="margin-bottom:20px">
+          <div style="display:flex;gap:8px">
+            <input id="pullModelInput" type="text" placeholder="e.g., llama3.2:3b" style="flex:1;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);background:var(--bg);color:var(--text)" />
+            <button class="btn btn-primary" onclick="pullModel()">Pull Model</button>
+          </div>
+        </div>
+        <div class="section-header"><h3>Installed Models <span class="count" id="modelCount">-</span></h3></div>
+        <div id="modelList"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const API = window.location.origin;
+
+    async function apiGet(path) {
+      try {
+        const r = await fetch(API + path, { signal: AbortSignal.timeout(5000) });
+        return await r.json();
+      } catch { return null; }
+    }
+
+    async function apiPost(path, body) {
+      try {
+        const r = await fetch(API + path, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+          signal: AbortSignal.timeout(5000),
+        });
+        return await r.json();
+      } catch { return null; }
+    }
+
+    async function refreshDashboard() {
+      const health = await apiGet('/health');
+      if (health) {
+        document.getElementById('statTotalAgents').textContent = health.agents_registered || 0;
+        document.getElementById('statModels').textContent = health.models_installed || 0;
+        document.getElementById('statUptime').textContent = health.router_mode || 'local';
+        document.getElementById('statusDot').style.background = health.ollama_connected ? 'var(--green)' : 'var(--red)';
+        document.getElementById('statusLabel').textContent = health.ollama_connected
+          ? `API Online · ${health.models_installed} models`
+          : 'API Offline';
+      }
+
+      const agents = await apiGet('/api/v1/agents');
+      if (agents && agents.agents) {
+        document.getElementById('agentCount').textContent = agents.total + ' agents';
+        renderAgents('agentGrid', agents.agents);
+        renderAgents('agentGridFull', agents.agents);
+      }
+    }
+
+    function renderAgents(containerId, agents) {
+      const grid = document.getElementById(containerId);
+      const statusColors = {
+        busy: '#3b82f6', idle: '#9ca3af', processing: '#6366f1',
+        free: '#10b981', error: '#ef4444', sleeping: '#8b5cf6',
+      };
+
+      grid.innerHTML = agents.map(a => {
+        const color = statusColors[a.status] || '#9ca3af';
+        return `<div class="agent-card">
+          <div class="ac-head">
+            <div class="ac-avatar" style="background:${color}22;color:${color}">${a.name[0]}</div>
+            <div class="ac-info">
+              <div class="ac-name">${a.name}</div>
+              <div class="ac-status"><span class="dot" style="background:${color}"></span> ${a.status.charAt(0).toUpperCase() + a.status.slice(1)}</div>
+            </div>
+          </div>
+          <div class="ac-body">
+            <div class="ac-provider"><span class="tag">${a.model || '?'}</span> ${a.provider}</div>
+            <div style="font-size:0.7rem;color:var(--text-muted);margin-top:4px">${a.role}</div>
+            <div style="font-size:0.7rem;color:var(--text-muted)">Capabilities: ${(a.capabilities||[]).join(', ') || 'none'}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    async function submitTask() {
+      const desc = document.getElementById('taskInput').value.trim();
+      if (!desc) return;
+      document.getElementById('taskResult').textContent = 'Submitting...';
+      const result = await apiPost('/api/v1/task?description=' + encodeURIComponent(desc) + '&priority=medium', {});
+      document.getElementById('taskResult').innerHTML = result
+        ? `<pre style="font-family:var(--mono);font-size:0.75rem;background:var(--bg);padding:12px;border-radius:var(--radius-sm)">${JSON.stringify(result, null, 2)}</pre>`
+        : '<span style="color:var(--red)">API not available. Run <code>cv run</code> first.</span>';
+    }
+
+    async function submitTaskFull() {
+      const desc = document.getElementById('taskInputFull').value.trim();
+      const priority = document.getElementById('taskPriority').value;
+      if (!desc) return;
+      const resultDiv = document.getElementById('taskResultFull');
+      resultDiv.textContent = 'Submitting...';
+      const result = await apiPost('/api/v1/task?description=' + encodeURIComponent(desc) + '&priority=' + priority, {});
+      resultDiv.innerHTML = result
+        ? `<pre style="font-family:var(--mono);font-size:0.75rem;background:var(--bg);padding:12px;border-radius:var(--radius-sm)">${JSON.stringify(result, null, 2)}</pre>`
+        : '<span style="color:var(--red)">API not available</span>';
+    }
+
+    async function pullModel() {
+      const name = document.getElementById('pullModelInput').value.trim();
+      if (!name) return;
+      const result = await apiPost('/api/v1/models/pull', { name });
+      if (result) {
+        alert(`Pulling ${name}. Check back in a moment.`);
+        setTimeout(loadModels, 2000);
+      } else {
+        alert('API not available. Use: cv models --pull ' + name);
+      }
+    }
+
+    async function loadModels() {
+      const data = await apiGet('/api/v1/models');
+      const list = document.getElementById('modelList');
+      const count = document.getElementById('modelCount');
+      if (data && data.models) {
+        count.textContent = data.total;
+        list.innerHTML = data.models.map(m =>
+          `<div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;margin-bottom:8px">
+            <span style="font-weight:600;font-size:0.85rem">${m.name}</span>
+            <span style="font-size:0.7rem;color:var(--green);background:var(--green-light);padding:2px 8px;border-radius:4px">installed</span>
+          </div>`
+        ).join('') || '<div class="card"><p style="color:var(--text-muted)">No models installed.</p></div>';
+      } else {
+        list.innerHTML = '<div class="card"><p style="color:var(--text-muted)">API not available.</p></div>';
+      }
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('[id^="tab-"]').forEach(t => t.style.display = 'none');
+      const target = document.getElementById('tab-' + tab);
+      if (target) target.style.display = 'block';
+      document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+      const links = document.querySelectorAll('.sidebar-nav a');
+      const idx = { dashboard: 0, agents: 1, tasks: 2, models: 3 }[tab] || 0;
+      if (links[idx]) links[idx].classList.add('active');
+      document.getElementById('pageTitle').innerHTML =
+        (tab.charAt(0).toUpperCase() + tab.slice(1)) + ' <span>/ Agent Control Center</span>';
+
+      if (tab === 'agents') refreshDashboard();
+      if (tab === 'models') loadModels();
+    }
+
+    refreshDashboard();
+    if (document.getElementById('modelList')) loadModels();
+  </script>
+</body>
+</html>

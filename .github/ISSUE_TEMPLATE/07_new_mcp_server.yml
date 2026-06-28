@@ -1,0 +1,87 @@
+name: New MCP Server
+description: Propose a new MCP server implementation
+labels: [new-mcp, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        MCP servers provide standardized tool access to agents via the Model Context Protocol.
+
+  - type: input
+    id: server_name
+    attributes:
+      label: Server Name
+      description: Short name (e.g., "Slack MCP", "Jira MCP")
+      placeholder: "e.g., Slack MCP Server"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What service does this MCP server connect to?
+      placeholder: "Connects to Slack API for messaging, channel management, and search..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: tools
+    attributes:
+      label: Tools / Functions
+      description: List the tools this server should expose to agents
+      placeholder: |
+        - send_message(channel, text) → message_id
+        - list_channels() → Channel[]
+        - search_messages(query) → Message[]
+        - create_channel(name, private) → Channel
+    validations:
+      required: true
+
+  - type: textarea
+    id: env_vars
+    attributes:
+      label: Required Environment Variables
+      description: What credentials/config does this need?
+      placeholder: |
+        - SLACK_BOT_TOKEN
+        - SLACK_SIGNING_SECRET
+    validations:
+      required: true
+
+  - type: dropdown
+    id: auth
+    attributes:
+      label: Auth Type
+      options:
+        - API Key
+        - OAuth 2.0
+        - Token-based
+        - No auth (public API)
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: api_docs
+    attributes:
+      label: API Documentation URL
+      description: Link to the service's API docs
+
+  - type: textarea
+    id: implementation_notes
+    attributes:
+      label: Implementation Notes
+      description: Any special considerations, rate limits, pagination, etc.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have searched existing MCP servers for duplicates
+          required: true
+        - label: This server follows the MCP specification
+          required: true
+        - label: I have listed all tools with inputs/outputs
+          required: true

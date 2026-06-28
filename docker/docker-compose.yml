@@ -1,0 +1,64 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: chakravyuh-ollama
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:11434/api/tags"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  chakravyuh:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: chakravyuh-app
+    depends_on:
+      ollama:
+        condition: service_healthy
+    ports:
+      - "3001:3001"
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - CHAKRAVYUH_ROUTER_MODE=local
+      - CHAKRAVYUH_MEMORY_BACKEND=sqlite
+      - CHAKRAVYUH_SQLITE_PATH=/app/data/memory.db
+      - CHAKRAVYUH_CHROMA_PATH=/app/data/chromadb
+    volumes:
+      - chakravyuh_data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:3001/health"]
+      interval: 30s
+      timeout: 10s
+      start_period: 10s
+
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: chakravyuh-chroma
+    volumes:
+      - chroma_data:/chroma/chroma
+    ports:
+      - "8000:8000"
+    environment:
+      - IS_PERSISTENT=TRUE
+      - PERSIST_DIRECTORY=/chroma/chroma
+      - ANONYMIZED_TELEMETRY=FALSE
+    restart: unless-stopped
+
+volumes:
+  ollama_data:
+  chakravyuh_data:
+  chroma_data:

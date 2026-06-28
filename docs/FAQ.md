@@ -5,7 +5,7 @@
 ## General
 
 **What is Chakravyuh AI?**
-A multi-agent AI operating system that connects AI models, MCP servers, tools, memory, and agents under a central orchestrator. It provides a unified runtime for building autonomous multi-agent systems.
+A multi-agent AI operating system that orchestrates 10 specialized agents (coder, researcher, planner, QA, security, etc.) through a Control Agent. Python-native, terminal-first, with optional web dashboard.
 
 **What does "Chakravyuh" mean?**
 A Sanskrit word (चक्रव्यूह) meaning a strategic battle formation — representing coordinated multi-agent collaboration, where each agent plays a specialized role within a larger strategy.
@@ -14,10 +14,10 @@ A Sanskrit word (चक्रव्यूह) meaning a strategic battle formati
 - **Developers** building AI-powered applications
 - **Organizations** creating internal AI agent workflows
 - **Researchers** experimenting with multi-agent systems
-- **Hobbyists** running local models with Ollama
+- **Anyone** who wants to use AI agents without a powerful GPU
 
 **Is it production-ready?**
-No — currently in pre-alpha (v0.1). The architecture is being designed and core components are being built.
+Currently in alpha (v0.2). Core features work — CLI, TUI, API, 10 agents, tools, memory. Breaking changes may occur.
 
 **What's the license?**
 Apache 2.0 — free to use, modify, and distribute.
@@ -27,36 +27,46 @@ Apache 2.0 — free to use, modify, and distribute.
 ## Technical
 
 **What language is used?**
-TypeScript (Node.js) for the core orchestrator, providers, and API. MCP servers can be implemented in any language (Python, Go, Rust, etc.).
+**Python** — unified backend (FastAPI + CLI + agents + tools + memory). The old TypeScript engine was replaced in v0.2.
+
+**Can I run it without a GPU?**
+**Yes** — use **Ollama Cloud** (`OLLAMA_HOST=https://ollama.com`) with an API key from ollama.com. All models run on Ollama's servers.
+
+**Can I use local models?**
+**Yes** — if you have a GPU, run `cv setup` to install local Ollama and pull models.
+
+**Can I use cloud API providers?**
+**Yes** — set `CHAKRAVYUH_ROUTER_MODE=cloud` and add keys for OpenAI, Anthropic, DeepSeek, Google, Groq, or OpenRouter.
+
+**Do I need API keys?**
+- **Ollama Cloud** — yes, get one at [ollama.com](https://ollama.com)
+- **Local Ollama** — no, everything runs locally
+- **Cloud providers** — yes, bring your own keys
+
+**Can I run it fully offline?**
+Yes — use local Ollama with downloaded models. No internet connection required.
 
 **What databases are supported?**
 
 | Memory Type | Storage Backends |
 |-------------|-----------------|
-| Working | Redis, In-Memory |
-| Episodic | SQLite, PostgreSQL |
-| Semantic | pgvector, Qdrant, Pinecone, Chroma |
+| Working | In-Memory |
+| Episodic | SQLite |
+| Semantic | ChromaDB (vector) |
 | Procedural | File System |
-
-**Do I need API keys?**
-Yes for cloud providers (OpenAI, Anthropic, Google, DeepSeek, Grok). Ollama runs fully offline with local models.
-
-**Can I use my own API keys?**
-Yes — that's a core design principle. You bring your own keys and Chakravyuh handles the rest.
-
-**Can I run it fully offline?**
-Yes — configure Ollama with local models and disable cloud providers. No internet connection required.
 
 **How is this different from LangChain / CrewAI / AutoGen?**
 
 | Feature | Chakravyuh | LangChain | CrewAI | AutoGen |
 |---------|------------|-----------|--------|---------|
 | Multi-agent | ✅ Native | ⚠️ Extensions | ✅ | ✅ |
-| MCP protocol | ✅ First-class | ❌ | ❌ | ❌ |
-| Provider agnostic | ✅ Core | ⚠️ Partial | ⚠️ Partial | ⚠️ Partial |
+| Python-native | ✅ | ✅ | ✅ | ✅ |
+| Terminal-first | ✅ | ❌ | ❌ | ❌ |
+| Per-agent terminals | ✅ | ❌ | ❌ | ❌ |
+| Ollama Cloud | ✅ | ❌ | ❌ | ❌ |
+| 10 specialized agents | ✅ | Custom | Custom | Custom |
+| MCP tools | ✅ | ❌ | ❌ | ❌ |
 | 4-tier memory | ✅ | ⚠️ Basic | ⚠️ Basic | ⚠️ Basic |
-| Structured agent comms | ✅ | ❌ | ✅ | ✅ |
-| Capability routing | ✅ | ❌ | ❌ | ❌ |
 | BYO API keys | ✅ | ✅ | ✅ | ✅ |
 
 ---
@@ -68,58 +78,40 @@ Yes — configure Ollama with local models and disable cloud providers. No inter
 ```bash
 git clone https://github.com/krushna081/chakravyuh-ai.git
 cd chakravyuh-ai
-cp .env.example .env   # add your API keys
-npm install
-npm run dev
+
+# Option A: Ollama Cloud (no GPU)
+cp .env.example .env
+# Edit .env: set OLLAMA_HOST=https://ollama.com and OLLAMA_API_KEY
+pip install -r requirements.txt
+pip install -e .
+cv setup --no-pull
+cv run
+
+# Option B: Local Ollama (requires GPU)
+pip install -r requirements.txt
+pip install -e .
+cv setup
+cv run
 ```
 
-See the [Setup Guide](SETUP.md) for detailed instructions.
-
 **How do I create a custom agent?**
-Extend `BaseAgent` and implement the `onMessage` method. See [Custom Agent Development](AGENTS.md#custom-agent-development).
+Extend `BaseAgent` from `core/base_agent.py` and implement `handle_message()`. Add it to `agents/__init__.py`.
 
-**How do I connect a custom MCP server?**
-Any MCP-compatible server works. Configure it in `config/mcp.yaml`. See [MCP Servers](MCP_SERVERS.md#custom-mcp-server).
+**How do I use the TUI?**
+```bash
+pip install textual
+cv tui
+```
 
-**Can I use Chakravyuh with OpenRouter?**
-Yes — OpenRouter is supported as a provider, giving access to 200+ models through a single API.
+**How do I submit a task?**
+```bash
+cv task "Write a Python script to sort files"
+```
 
-**How does model selection work?**
-The capability router automatically selects the best model based on task requirements, cost, speed, and availability. You can also configure static assignments or fallback chains.
+**How do I check system status?**
+```bash
+cv status
+```
 
-**What is the cost?**
-Chakravyuh itself is free (Apache 2.0). You pay only for the API usage of the models you use (if using cloud providers). Local models through Ollama are free.
-
----
-
-## Community
-
-**How can I contribute?**
-See [CONTRIBUTING.md](../CONTRIBUTING.md) for development workflow, coding standards, and contribution guidelines.
-
-**How do I report a bug?**
-Open a [Bug Report](https://github.com/krushna081/chakravyuh-ai/issues/new?template=01_bug_report.yml).
-
-**How do I report a security issue?**
-Email **security@chakravyuh.dev** — see [SECURITY.md](../SECURITY.md).
-
-**How do I suggest a feature?**
-Open a [Feature Request](https://github.com/krushna081/chakravyuh-ai/issues/new?template=02_feature_request.yml).
-
-**Where can I ask questions?**
-- [GitHub Discussions](https://github.com/krushna081/chakravyuh-ai/discussions)
-- [Discord Community](https://discord.gg/xGeeBAWDq)
-
----
-
-## Troubleshooting
-
-| Issue | Solution |
-|-------|----------|
-| Build fails | `npm run clean && npm install && npm run build` |
-| Provider not configured | Set the required API key in `.env` |
-| Ollama connection refused | Run `ollama serve` |
-| MCP server not found | Install the required package |
-| Agent timeout | Increase `limits.timeout` in agent config |
-| Rate limited | Wait or increase rate limit config |
-| Memory backend error | Check Redis/PostgreSQL is running |
+**How do I stop the API?**
+Press `Ctrl+C` in the terminal running `cv run`.

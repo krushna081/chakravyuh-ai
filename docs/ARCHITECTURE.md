@@ -1,5 +1,9 @@
 # Architecture
 
+> **⚠ Legacy Document (v0.1 TypeScript)** — The system is now **Python-native** (v0.2+).  
+> See the actual architecture in [`core/`](../core/) and [`api/`](../api/).  
+> The current system uses a unified FastAPI backend with Python agents, tools, and memory.
+
 Chakravyuh AI uses a **layered microkernel architecture** with a central orchestrator, a mesh of specialized agents, an abstraction layer over AI providers, and a standardized protocol (MCP) for tool and data access.
 
 ---

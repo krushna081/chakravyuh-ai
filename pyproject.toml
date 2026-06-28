@@ -5,7 +5,7 @@ build-backend = "setuptools.backends._legacy:_Backend"
 [project]
 name = "chakravyuh"
 version = "0.2.0-alpha"
-description = "Multi-Agent AI Operating System — local-first, Ollama-powered"
+description = "Multi-Agent AI Operating System — local-first, Ollama-powered, terminal-first"
 readme = "README.md"
 license = { text = "Apache-2.0" }
 authors = [
@@ -19,16 +19,22 @@ dependencies = [
   "pydantic>=2.0.0",
   "pydantic-settings>=2.0.0",
   "python-dotenv>=1.0.0",
-  "questionary>=2.0.0",
-  "textual>=1.0.0",
+  "fastapi>=0.111.0",
+  "uvicorn[standard]>=0.29.0",
+  "sse-starlette>=2.0.0",
 ]
+
+[project.optional-dependencies]
+tui = ["textual>=1.0.0"]
+memory = ["chromadb>=0.5.0"]
+all = ["chakravyuh[tui,memory]"]
 
 [project.scripts]
 chakravyuh = "cli.main:app"
 cv = "cli.main:app"
 
 [tool.setuptools.packages.find]
-include = ["cli*", "backend*"]
+include = ["core*", "cli*", "api*", "agents*", "tools*", "memory*"]
 
 [tool.pytest.ini_options]
 minversion = "8.0"

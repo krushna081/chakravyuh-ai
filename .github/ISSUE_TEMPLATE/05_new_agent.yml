@@ -1,0 +1,91 @@
+name: New Agent Proposal
+description: Propose a new specialized agent for the mesh
+labels: [new-agent, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a new agent! Agents are specialized workers that each master one domain.
+
+  - type: input
+    id: agent_name
+    attributes:
+      label: Agent Name
+      description: Short, descriptive name (e.g., "Data Analyst", "DevOps")
+      placeholder: "e.g., Data Analyst Agent"
+    validations:
+      required: true
+
+  - type: textarea
+    id: role
+    attributes:
+      label: Role & Responsibility
+      description: What does this agent do? What is its single domain?
+      placeholder: "This agent handles database queries, generates charts, and translates natural language to SQL..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: tools
+    attributes:
+      label: Required Tools / MCP Servers
+      description: Which tools does this agent need to access?
+      placeholder: |
+        - Database MCP
+        - FileSystem MCP
+        - Web Fetch
+    validations:
+      required: true
+
+  - type: dropdown
+    id: provider
+    attributes:
+      label: Recommended Provider
+      description: Which AI provider fits best?
+      options:
+        - OpenAI (GPT-4o)
+        - Anthropic (Claude)
+        - Google (Gemini)
+        - DeepSeek
+        - Ollama (local)
+        - Capability Router (auto-select)
+    validations:
+      required: true
+
+  - type: textarea
+    id: peers
+    attributes:
+      label: Peer Agents
+      description: Which other agents should this agent communicate with?
+      placeholder: "coordinator, planner, memory"
+    validations:
+      required: true
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Example Tasks
+      description: 2-3 concrete tasks this agent should handle
+      placeholder: |
+        1. "Show me monthly sales data as a bar chart"
+        2. "Find all customers who churned last quarter"
+        3. "Generate a daily summary report from the database"
+
+  - type: textarea
+    id: system_prompt
+    attributes:
+      label: Draft System Prompt (Optional)
+      description: Initial instructions for this agent
+      render: markdown
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have searched existing agents for overlap
+          required: true
+        - label: This agent has a single, well-defined responsibility
+          required: true
+        - label: I have described required tools and peers
+          required: true
