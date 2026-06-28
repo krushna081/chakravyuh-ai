@@ -42,7 +42,7 @@
   "devDependencies": {
     "prettier": "^3.0.0",
     "typescript": "^5.5.0",
-    "vitest": "^2.0.0",
+    "vitest": "^4.1.9",
     "eslint": "^9.0.0",
     "typedoc": "^0.26.0",
     "rimraf": "^5.0.0",
