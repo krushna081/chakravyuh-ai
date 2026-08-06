@@ -37,20 +37,20 @@
 }
 
 [data-theme="light"] {
-  --bg: #f8fafc;
+  --bg: #f4f6f9;
   --bg-card: #ffffff;
   --bg-sidebar: #0f172a;
   --bg-hover: #f1f5f9;
   --border: #e2e8f0;
-  --border-light: #f1f5f9;
+  --border-light: #edf2f7;
   --text: #0f172a;
   --text-secondary: #475569;
-  --text-muted: #94a3b8;
+  --text-muted: #64748b;
   --accent: #2563eb;
-  --accent-light: rgba(37, 99, 235, 0.1);
+  --accent-light: rgba(37, 99, 235, 0.08);
   --accent-dark: #1d4ed8;
-  --shadow: 0 4px 20px rgba(0,0,0,0.06);
-  --shadow-lg: 0 10px 30px rgba(0,0,0,0.12);
+  --shadow: 0 4px 20px rgba(0,0,0,0.05);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.08);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -226,11 +226,12 @@ h1, h2, h3, h4, h5, h6, .page-title, .sidebar-logo, .ac-name {
   justify-content: space-between;
   padding: 14px 28px;
   border-bottom: 1px solid var(--border);
-  background: rgba(11, 19, 38, 0.85);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   position: sticky;
   top: 0;
   z-index: 10;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 .topbar .page-title {

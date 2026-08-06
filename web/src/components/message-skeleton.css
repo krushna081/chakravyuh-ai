@@ -37,3 +37,12 @@
     background-position: 150% 0;
   }
 }
+
+[data-theme="light"] .skeleton-avatar {
+  background: #e2e8f0;
+  border: 1px solid #cbd5e1;
+}
+
+[data-theme="light"] .skeleton-line {
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+}
