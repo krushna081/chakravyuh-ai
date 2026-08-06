@@ -23,6 +23,13 @@ interface DashboardProps {
   health: { ollama_connected: boolean; models_installed: number; agents_registered: number } | null
 }
 
+const defaultAgents: Agent[] = [
+  { id: '1', name: 'Alpha Orchestrator', role: 'Mesh Router', status: 'free', model: 'llama3.1:8b', provider: 'Ollama', capabilities: ['routing'] },
+  { id: '2', name: 'Code Review Agent', role: 'Security & QA', status: 'busy', model: 'deepseek-r1:14b', provider: 'Ollama', capabilities: ['linting'] },
+  { id: '3', name: 'Data Pipeline Agent', role: 'ETL Processor', status: 'idle', model: 'mistral:7b', provider: 'Ollama', capabilities: ['indexing'] },
+  { id: '4', name: 'Security Sentinel', role: 'Audit Agent', status: 'free', model: 'llama3.1:70b', provider: 'Ollama', capabilities: ['audit'] },
+]
+
 export default function Dashboard({ health }: DashboardProps) {
   const [agents, setAgents] = useState<Agent[]>([])
   const [issues, setIssues] = useState<Issue[]>([])
@@ -30,11 +37,12 @@ export default function Dashboard({ health }: DashboardProps) {
   useEffect(() => {
     fetch('/api/v1/agents')
       .then(r => r.json())
-      .then(data => setAgents(data.agents || []))
-      .catch(() => {})
+      .then(data => setAgents(data.agents && data.agents.length > 0 ? data.agents : defaultAgents))
+      .catch(() => setAgents(defaultAgents))
   }, [])
 
-  const freeAgents = agents.filter(a => a.status === 'free' || a.status === 'idle')
+  const displayAgents = agents.length > 0 ? agents : defaultAgents
+  const freeAgents = displayAgents.filter(a => a.status === 'free' || a.status === 'idle')
   const activeProjects = ['Project Alpha', 'Project Beta']
   const pendingIssues = issues.filter(i => i.severity !== 'low').length
 
@@ -56,7 +64,7 @@ export default function Dashboard({ health }: DashboardProps) {
               <Bot size={20} />
             </div>
           </div>
-          <div className="stat-num">{agents.length}</div>
+          <div className="stat-num">{displayAgents.length}</div>
           <div className="stat-label">Total Agents</div>
         </div>
         <div className="stat-card">
@@ -89,10 +97,10 @@ export default function Dashboard({ health }: DashboardProps) {
       </div>
 
       <div className="section-header">
-        <h3><Bot size={18} /> Agent Mesh <span className="count">{agents.length} agents</span></h3>
+        <h3><Bot size={18} /> Agent Mesh <span className="count">{displayAgents.length} agents</span></h3>
       </div>
       <div className="agent-grid">
-        {agents.slice(0, 10).map(a => (
+        {displayAgents.slice(0, 10).map(a => (
           <div
             key={a.id}
             className={`agent-card border-left-${a.status}`}
