@@ -8,8 +8,8 @@
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  background: #21262d;
-  border: 1px solid #30363d;
+  background: #1c2642;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   flex: 0 0 40px;
 }
 .skeleton-body {
@@ -20,7 +20,7 @@
 }
 .skeleton-line {
   height: 12px;
-  background: linear-gradient(90deg, #21262d 25%, #30363d 50%, #21262d 75%);
+  background: linear-gradient(90deg, #1c2642 25%, #2a375c 50%, #1c2642 75%);
   background-size: 200% 100%;
   border-radius: 6px;
   animation: shimmer 1.2s infinite;
