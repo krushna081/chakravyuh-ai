@@ -36,6 +36,23 @@
   --shadow-lg: 0 10px 30px rgba(0,0,0,0.6);
 }
 
+[data-theme="light"] {
+  --bg: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-sidebar: #0f172a;
+  --bg-hover: #f1f5f9;
+  --border: #e2e8f0;
+  --border-light: #f1f5f9;
+  --text: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --accent: #2563eb;
+  --accent-light: rgba(37, 99, 235, 0.1);
+  --accent-dark: #1d4ed8;
+  --shadow: 0 4px 20px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.12);
+}
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
@@ -47,6 +64,29 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Global Keyframe Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
 }
 
 h1, h2, h3, h4, h5, h6, .page-title, .sidebar-logo, .ac-name {
@@ -241,6 +281,7 @@ h1, h2, h3, h4, h5, h6, .page-title, .sidebar-logo, .ac-name {
 /* Content */
 .content {
   padding: 24px 28px 40px;
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) ease-out;
 }
 
 /* Stats */
@@ -257,13 +298,14 @@ h1, h2, h3, h4, h5, h6, .page-title, .sidebar-logo, .ac-name {
   border-radius: var(--radius);
   padding: 18px 20px;
   backdrop-filter: blur(12px);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: var(--transition);
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) ease-out;
 }
 
 .stat-card:hover {
   border-color: var(--accent);
   box-shadow: var(--shadow);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
 
 .stat-card .stat-top {
@@ -332,13 +374,14 @@ h1, h2, h3, h4, h5, h6, .page-title, .sidebar-logo, .ac-name {
   border-radius: var(--radius);
   padding: 18px;
   backdrop-filter: blur(12px);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: var(--transition);
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) ease-out;
 }
 
 .agent-card:hover {
   border-color: var(--accent);
   box-shadow: var(--shadow);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
 
 .agent-card .ac-head {
@@ -415,6 +458,8 @@ h1, h2, h3, h4, h5, h6, .page-title, .sidebar-logo, .ac-name {
   border-radius: var(--radius);
   padding: 18px 20px;
   backdrop-filter: blur(12px);
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) ease-out;
+  transition: var(--transition);
 }
 
 /* Buttons */
