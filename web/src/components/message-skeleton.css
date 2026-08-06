@@ -1,0 +1,38 @@
+.message-skeleton {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+}
+.skeleton-avatar {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background: #e6e6e6;
+  flex: 0 0 40px;
+}
+.skeleton-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.skeleton-line {
+  height: 12px;
+  background: linear-gradient(90deg, #e6e6e6 25%, #f5f5f5 50%, #e6e6e6 75%);
+  background-size: 200% 100%;
+  border-radius: 6px;
+  animation: shimmer 1.2s infinite;
+  width: calc(100% - 10%);
+}
+.skeleton-line:last-child {
+  width: 65%;
+}
+@keyframes shimmer {
+  0% {
+    background-position: -150% 0;
+  }
+  100% {
+    background-position: 150% 0;
+  }
+}
