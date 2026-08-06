@@ -1,16 +1,19 @@
 import { useState } from 'react'
-import { ClipboardList, FolderGit2, Play, Loader2 } from 'lucide-react'
+import { ClipboardList, FolderGit2, Play, Loader2, Eye } from 'lucide-react'
 import MessageSkeleton from './MessageSkeleton'
 
 export default function TaskPanel() {
   const [taskDesc, setTaskDesc] = useState('')
   const [result, setResult] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [forceSkeleton, setForceSkeleton] = useState(false)
 
   const submitTask = async () => {
     if (!taskDesc.trim()) return
     setIsLoading(true)
     setResult(null)
+    // 2.5 second artificial delay so the skeleton screen is clearly visible & animates even when backend API is offline
+    await new Promise(resolve => setTimeout(resolve, 2500))
     try {
       const r = await fetch('/api/v1/task?description=' + encodeURIComponent(taskDesc) + '&priority=medium', {
         method: 'POST',
@@ -48,26 +51,36 @@ export default function TaskPanel() {
             marginBottom: 12,
           }}
         />
-        <button className="btn btn-primary" onClick={submitTask} disabled={isLoading}>
-          {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Play size={16} />}
-          {isLoading ? 'Processing...' : 'Submit to Agent Mesh'}
-        </button>
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          <button className="btn btn-primary" onClick={submitTask} disabled={isLoading}>
+            {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Play size={16} />}
+            {isLoading ? 'Processing...' : 'Submit to Agent Mesh'}
+          </button>
+          <button
+            className="btn"
+            style={{ background: forceSkeleton ? 'var(--accent-light)' : undefined, borderColor: forceSkeleton ? 'var(--accent)' : undefined }}
+            onClick={() => setForceSkeleton(!forceSkeleton)}
+          >
+            <Eye size={16} />
+            {forceSkeleton ? 'Hide Skeleton Preview' : 'Preview Skeleton Screen'}
+          </button>
+        </div>
       </div>
 
-      {isLoading && (
+      {(isLoading || forceSkeleton) && (
         <div className="card" style={{ marginBottom: 20 }}>
           <div aria-live="polite" className="sr-only" style={{ position: 'absolute', width: 1, height: 1, padding: 0, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0 }}>
             Agent is responding…
           </div>
           <div style={{ fontSize: '0.8rem', fontWeight: 600, marginBottom: 12, color: 'var(--text-muted)' }}>
-            Agent Mesh Processing...
+            Agent Mesh Processing... {forceSkeleton && '(Preview Mode)'}
           </div>
           <MessageSkeleton lines={3} />
           <MessageSkeleton lines={2} />
         </div>
       )}
 
-      {result && !isLoading && (
+      {result && !isLoading && !forceSkeleton && (
         <div className="card">
           <div style={{ fontSize: '0.8rem', fontWeight: 600, marginBottom: 8 }}>Result</div>
           <pre style={{
