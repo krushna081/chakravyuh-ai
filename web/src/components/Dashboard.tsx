@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Bot, FolderKanban, Sparkles, AlertTriangle } from 'lucide-react'
 
 interface Agent {
   id: string
@@ -51,28 +52,36 @@ export default function Dashboard({ health }: DashboardProps) {
       <div className="stats-row">
         <div className="stat-card">
           <div className="stat-top">
-            <div className="stat-icon" style={{ background: 'var(--accent-light)', color: 'var(--accent)' }}>&#129302;</div>
+            <div className="stat-icon" style={{ background: 'var(--accent-light)', color: 'var(--accent)' }}>
+              <Bot size={20} />
+            </div>
           </div>
           <div className="stat-num">{agents.length}</div>
           <div className="stat-label">Total Agents</div>
         </div>
         <div className="stat-card">
           <div className="stat-top">
-            <div className="stat-icon" style={{ background: 'var(--blue-light)', color: 'var(--blue)' }}>&#128220;</div>
+            <div className="stat-icon" style={{ background: 'var(--blue-light)', color: 'var(--blue)' }}>
+              <FolderKanban size={20} />
+            </div>
           </div>
           <div className="stat-num">{activeProjects.length}</div>
           <div className="stat-label">Active Projects</div>
         </div>
         <div className="stat-card">
           <div className="stat-top">
-            <div className="stat-icon" style={{ background: 'var(--green-light)', color: 'var(--green)' }}>&#127775;</div>
+            <div className="stat-icon" style={{ background: 'var(--green-light)', color: 'var(--green)' }}>
+              <Sparkles size={20} />
+            </div>
           </div>
           <div className="stat-num">{freeAgents.length}</div>
           <div className="stat-label">Free Agents</div>
         </div>
         <div className="stat-card">
           <div className="stat-top">
-            <div className="stat-icon" style={{ background: 'var(--orange-light)', color: 'var(--orange)' }}>&#9888;</div>
+            <div className="stat-icon" style={{ background: 'var(--orange-light)', color: 'var(--orange)' }}>
+              <AlertTriangle size={20} />
+            </div>
           </div>
           <div className="stat-num">{pendingIssues || 0}</div>
           <div className="stat-label">Pending Issues</div>
@@ -80,7 +89,7 @@ export default function Dashboard({ health }: DashboardProps) {
       </div>
 
       <div className="section-header">
-        <h3>&#129302; Agent Mesh <span className="count">{agents.length} agents</span></h3>
+        <h3><Bot size={18} /> Agent Mesh <span className="count">{agents.length} agents</span></h3>
       </div>
       <div className="agent-grid">
         {agents.slice(0, 10).map(a => (

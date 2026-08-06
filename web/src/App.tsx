@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { Search } from 'lucide-react'
 import Sidebar from './components/Sidebar'
 import Dashboard from './components/Dashboard'
 import AgentGrid from './components/AgentGrid'
@@ -39,7 +40,7 @@ export default function App() {
           </div>
           <div className="topbar-actions">
             <div className="topbar-search">
-              <span>&#128269;</span>
+              <Search size={15} style={{ color: 'var(--text-muted)' }} />
               <input type="text" placeholder="Search agents, tasks..." />
             </div>
           </div>

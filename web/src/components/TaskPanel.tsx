@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ClipboardList, FolderGit2, Play, Loader2 } from 'lucide-react'
 import MessageSkeleton from './MessageSkeleton'
 
 export default function TaskPanel() {
@@ -26,7 +27,7 @@ export default function TaskPanel() {
   return (
     <>
       <div className="section-header">
-        <h3>&#128203; Submit Task</h3>
+        <h3><ClipboardList size={18} /> Submit Task</h3>
       </div>
       <div className="card" style={{ marginBottom: 20 }}>
         <textarea
@@ -37,7 +38,7 @@ export default function TaskPanel() {
           style={{
             width: '100%',
             padding: '12px',
-            fontFamily: 'var(--font)',
+            fontFamily: 'var(--font-body)',
             fontSize: '0.9rem',
             border: '1px solid var(--border)',
             borderRadius: 'var(--radius-sm)',
@@ -48,7 +49,8 @@ export default function TaskPanel() {
           }}
         />
         <button className="btn btn-primary" onClick={submitTask} disabled={isLoading}>
-          &#9654; {isLoading ? 'Processing...' : 'Submit to Agent Mesh'}
+          {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Play size={16} />}
+          {isLoading ? 'Processing...' : 'Submit to Agent Mesh'}
         </button>
       </div>
 
@@ -83,7 +85,7 @@ export default function TaskPanel() {
       )}
 
       <div className="section-header" style={{ marginTop: 28 }}>
-        <h3>&#128220; Active Projects</h3>
+        <h3><FolderGit2 size={18} /> Active Projects</h3>
       </div>
       <div className="project-card">
         <div className="pc-head">
@@ -103,4 +105,3 @@ export default function TaskPanel() {
     </>
   )
 }
-
