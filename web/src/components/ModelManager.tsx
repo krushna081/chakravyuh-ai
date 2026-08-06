@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Cpu, Download, Trash2, CheckCircle2 } from 'lucide-react'
 
-const defaultModels = ['llama3.1:8b', 'deepseek-r1:14b', 'mistral:7b']
-const defaultRecommended = ['llama3.2:3b', 'qwen2.5-coder:7b', 'phi4:14b']
-
 export default function ModelManager() {
   const [models, setModels] = useState<string[]>([])
   const [recommended, setRecommended] = useState<string[]>([])
@@ -17,26 +14,29 @@ export default function ModelManager() {
     try {
       const r = await fetch('/api/v1/models')
       const data = await r.json()
-      const fetched = data.models?.map((m: { name: string }) => m.name) || []
-      setModels(fetched.length > 0 ? fetched : defaultModels)
-      setRecommended(data.recommended && data.recommended.length > 0 ? data.recommended : defaultRecommended)
-    } catch {
-      setModels(defaultModels)
-      setRecommended(defaultRecommended)
-    }
+      setModels(data.models?.map((m: { name: string }) => m.name) || [])
+      setRecommended(data.recommended || [])
+    } catch {}
   }
 
   const pullModel = async () => {
     if (!pullName.trim()) return
-    if (!models.includes(pullName)) {
-      setModels([...models, pullName])
-    }
-    setPullName('')
-    alert(`Pulling ${pullName} in background...`)
+    try {
+      await fetch('/api/v1/models/pull', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: pullName }),
+      })
+      setPullName('')
+      alert(`Pulling ${pullName} in background...`)
+    } catch {}
   }
 
   const deleteModel = async (name: string) => {
-    setModels(models.filter(m => m !== name))
+    try {
+      await fetch(`/api/v1/models/${name}`, { method: 'DELETE' })
+      fetchModels()
+    } catch {}
   }
 
   return (
