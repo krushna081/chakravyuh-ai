@@ -1,33 +1,33 @@
 :root {
-  --bg: #0b1326;
-  --bg-card: rgba(23, 31, 51, 0.75);
-  --bg-sidebar: #060e20;
-  --bg-hover: rgba(255, 255, 255, 0.06);
-  --border: rgba(144, 143, 160, 0.2);
-  --border-light: rgba(144, 143, 160, 0.1);
-  --text: #dae2fd;
-  --text-secondary: #c7c4d7;
-  --text-muted: #908fa0;
-  --accent: #6366f1;
-  --accent-light: rgba(99, 102, 241, 0.18);
-  --accent-dark: #4f46e5;
-  --green: #10b981;
-  --green-light: rgba(16, 185, 129, 0.15);
-  --red: #ef4444;
-  --red-light: rgba(239, 68, 68, 0.15);
-  --orange: #f59e0b;
-  --orange-light: rgba(245, 158, 11, 0.15);
-  --blue: #3b82f6;
-  --blue-light: rgba(59, 130, 246, 0.15);
-  --purple: #8b5cf6;
-  --purple-light: rgba(139, 92, 246, 0.15);
-  --teal: #14b8a6;
-  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --mono: 'JetBrains Mono', monospace;
-  --radius: 12px;
-  --radius-sm: 8px;
-  --shadow: 0 4px 20px rgba(0,0,0,0.3), 0 0 15px rgba(99, 102, 241, 0.12);
-  --shadow-lg: 0 10px 30px rgba(0,0,0,0.4);
+  --bg: #0d1117;
+  --bg-card: #161b22;
+  --bg-sidebar: #010409;
+  --bg-hover: #1c2128;
+  --border: #30363d;
+  --border-light: #21262d;
+  --text: #f0f6fc;
+  --text-secondary: #c9d1d9;
+  --text-muted: #8b949e;
+  --accent: #1f6feb;
+  --accent-light: rgba(31, 111, 235, 0.15);
+  --accent-dark: #1158c7;
+  --green: #238636;
+  --green-light: rgba(35, 134, 54, 0.15);
+  --red: #da3633;
+  --red-light: rgba(218, 54, 51, 0.15);
+  --orange: #d29922;
+  --orange-light: rgba(210, 153, 34, 0.15);
+  --blue: #388bfd;
+  --blue-light: rgba(56, 139, 253, 0.15);
+  --purple: #8957e5;
+  --purple-light: rgba(137, 87, 229, 0.15);
+  --teal: #2fb1a6;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  --radius: 8px;
+  --radius-sm: 6px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,6 +40,7 @@ body {
   color: var(--text);
   line-height: 1.5;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
 ::selection { background: var(--accent); color: #fff; }
