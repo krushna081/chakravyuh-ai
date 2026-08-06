@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Bot, Play, BarChart2 } from 'lucide-react'
 
 interface Agent {
   id: string
@@ -27,18 +28,19 @@ export default function AgentGrid() {
 
   const getStatusColor = (status: string) => {
     const map: Record<string, string> = {
-      busy: '#3b82f6', idle: '#9ca3af', processing: '#6366f1',
-      free: '#10b981', error: '#ef4444', sleeping: '#8b5cf6',
+      busy: 'var(--blue)', idle: 'var(--text-muted)', processing: 'var(--accent)',
+      free: 'var(--green)', error: 'var(--red)', sleeping: 'var(--purple)',
     }
-    return map[status] || '#9ca3af'
+    return map[status] || 'var(--text-muted)'
   }
 
-  if (loading) return <p style={{ color: 'var(--text-muted)' }}>Loading agents...</p>
+  if (loading) return <p style={{ color: 'var(--text-muted)', padding: 20 }}>Loading agents...</p>
 
   return (
     <>
       <div className="section-header">
-        <h3>All Agents — Full Control</h3>
+        <h3><Bot size={18} /> All Agents — Full Control</h3>
+        <span className="count">{agents.length} active</span>
       </div>
       <div className="agent-grid">
         {agents.map(a => (
@@ -71,8 +73,8 @@ export default function AgentGrid() {
               </div>
             </div>
             <div className="ac-foot">
-              <button className="btn btn-sm btn-primary">&#9654; Assign Task</button>
-              <button className="btn btn-sm">&#128200; Details</button>
+              <button className="btn btn-sm btn-primary"><Play size={12} /> Assign Task</button>
+              <button className="btn btn-sm"><BarChart2 size={12} /> Details</button>
             </div>
           </div>
         ))}

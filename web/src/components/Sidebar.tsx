@@ -1,3 +1,5 @@
+import { LayoutDashboard, Bot, CheckSquare, Cpu, FileText, Hexagon } from 'lucide-react'
+
 interface SidebarProps {
   currentTab: string
   onNavigate: (path: string) => void
@@ -6,29 +8,31 @@ interface SidebarProps {
 
 export default function Sidebar({ currentTab, onNavigate, health }: SidebarProps) {
   const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: '\u25A0' },
-    { id: 'agents', label: 'Agents', icon: '\uD83E\uDD16' },
-    { id: 'tasks', label: 'Tasks', icon: '\uD83D\uDCCB' },
-    { id: 'models', label: 'Models', icon: '\u2699' },
+    { id: 'dashboard', label: 'Dashboard', Icon: LayoutDashboard },
+    { id: 'agents', label: 'Agents', Icon: Bot },
+    { id: 'tasks', label: 'Tasks', Icon: CheckSquare },
+    { id: 'models', label: 'Models', Icon: Cpu },
   ]
 
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
-        <div className="logo-icon">&#9670;</div>
+        <div className="logo-icon">
+          <Hexagon size={18} />
+        </div>
         <span>Chakravyuh</span> AI
         <span className="logo-version">v0.2</span>
       </div>
       <nav className="sidebar-nav">
         <div className="nav-label">Main</div>
-        {navItems.map(item => (
+        {navItems.map(({ id, label, Icon }) => (
           <button
-            key={item.id}
-            className={currentTab === item.id ? 'active' : ''}
-            onClick={() => onNavigate(item.id === 'dashboard' ? '/' : `/${item.id}`)}
+            key={id}
+            className={currentTab === id ? 'active' : ''}
+            onClick={() => onNavigate(id === 'dashboard' ? '/' : `/${id}`)}
           >
-            <span className="nav-icon">{item.icon}</span>
-            {item.label}
+            <span className="nav-icon"><Icon size={16} /></span>
+            {label}
           </button>
         ))}
         <div className="nav-label">System</div>
@@ -36,7 +40,7 @@ export default function Sidebar({ currentTab, onNavigate, health }: SidebarProps
           className={currentTab === 'logs' ? 'active' : ''}
           onClick={() => onNavigate('/logs')}
         >
-          <span className="nav-icon">&#128196;</span> Logs
+          <span className="nav-icon"><FileText size={16} /></span> Logs
         </button>
       </nav>
       <div className="sidebar-foot">

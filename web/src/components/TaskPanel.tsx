@@ -1,11 +1,16 @@
 import { useState } from 'react'
+import { ClipboardList, FolderGit2, Play, Loader2 } from 'lucide-react'
+import MessageSkeleton from './MessageSkeleton'
 
 export default function TaskPanel() {
   const [taskDesc, setTaskDesc] = useState('')
   const [result, setResult] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const submitTask = async () => {
     if (!taskDesc.trim()) return
+    setIsLoading(true)
+    setResult(null)
     try {
       const r = await fetch('/api/v1/task?description=' + encodeURIComponent(taskDesc) + '&priority=medium', {
         method: 'POST',
@@ -14,13 +19,15 @@ export default function TaskPanel() {
       setResult(JSON.stringify(data, null, 2))
     } catch {
       setResult('Error: Could not reach API')
+    } finally {
+      setIsLoading(false)
     }
   }
 
   return (
     <>
       <div className="section-header">
-        <h3>&#128203; Submit Task</h3>
+        <h3><ClipboardList size={18} /> Submit Task</h3>
       </div>
       <div className="card" style={{ marginBottom: 20 }}>
         <textarea
@@ -31,7 +38,7 @@ export default function TaskPanel() {
           style={{
             width: '100%',
             padding: '12px',
-            fontFamily: 'var(--font)',
+            fontFamily: 'var(--font-body)',
             fontSize: '0.9rem',
             border: '1px solid var(--border)',
             borderRadius: 'var(--radius-sm)',
@@ -41,12 +48,26 @@ export default function TaskPanel() {
             marginBottom: 12,
           }}
         />
-        <button className="btn btn-primary" onClick={submitTask}>
-          &#9654; Submit to Agent Mesh
+        <button className="btn btn-primary" onClick={submitTask} disabled={isLoading}>
+          {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Play size={16} />}
+          {isLoading ? 'Processing...' : 'Submit to Agent Mesh'}
         </button>
       </div>
 
-      {result && (
+      {isLoading && (
+        <div className="card" style={{ marginBottom: 20 }}>
+          <div aria-live="polite" className="sr-only" style={{ position: 'absolute', width: 1, height: 1, padding: 0, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0 }}>
+            Agent is responding…
+          </div>
+          <div style={{ fontSize: '0.8rem', fontWeight: 600, marginBottom: 12, color: 'var(--text-muted)' }}>
+            Agent Mesh Processing...
+          </div>
+          <MessageSkeleton lines={3} />
+          <MessageSkeleton lines={2} />
+        </div>
+      )}
+
+      {result && !isLoading && (
         <div className="card">
           <div style={{ fontSize: '0.8rem', fontWeight: 600, marginBottom: 8 }}>Result</div>
           <pre style={{
@@ -64,7 +85,7 @@ export default function TaskPanel() {
       )}
 
       <div className="section-header" style={{ marginTop: 28 }}>
-        <h3>&#128220; Active Projects</h3>
+        <h3><FolderGit2 size={18} /> Active Projects</h3>
       </div>
       <div className="project-card">
         <div className="pc-head">

@@ -1,0 +1,48 @@
+.message-skeleton {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+}
+.skeleton-avatar {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background: #2c2c2c;
+  border: 1px solid #363636;
+  flex: 0 0 40px;
+}
+.skeleton-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.skeleton-line {
+  height: 12px;
+  background: linear-gradient(90deg, #2c2c2c 25%, #383838 50%, #2c2c2c 75%);
+  background-size: 200% 100%;
+  border-radius: 6px;
+  animation: shimmer 1.2s infinite;
+  width: calc(100% - 10%);
+}
+.skeleton-line:last-child {
+  width: 65%;
+}
+@keyframes shimmer {
+  0% {
+    background-position: -150% 0;
+  }
+  100% {
+    background-position: 150% 0;
+  }
+}
+
+[data-theme="light"] .skeleton-avatar {
+  background: #e2e8f0;
+  border: 1px solid #cbd5e1;
+}
+
+[data-theme="light"] .skeleton-line {
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+}

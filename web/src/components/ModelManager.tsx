@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Cpu, Download, Trash2, CheckCircle2 } from 'lucide-react'
 
 export default function ModelManager() {
   const [models, setModels] = useState<string[]>([])
@@ -41,7 +42,7 @@ export default function ModelManager() {
   return (
     <>
       <div className="section-header">
-        <h3>&#9881; Model Manager</h3>
+        <h3><Cpu size={18} /> Model Manager</h3>
       </div>
 
       <div className="card" style={{ marginBottom: 20 }}>
@@ -55,14 +56,16 @@ export default function ModelManager() {
               padding: '10px 12px',
               border: '1px solid var(--border)',
               borderRadius: 'var(--radius-sm)',
-              fontFamily: 'var(--font)',
+              fontFamily: 'var(--font-body)',
               fontSize: '0.85rem',
               background: 'var(--bg)',
               color: 'var(--text)',
             }}
             onKeyDown={e => e.key === 'Enter' && pullModel()}
           />
-          <button className="btn btn-primary" onClick={pullModel}>Pull Model</button>
+          <button className="btn btn-primary" onClick={pullModel} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <Download size={14} /> Pull Model
+          </button>
         </div>
       </div>
 
@@ -78,13 +81,15 @@ export default function ModelManager() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {models.map(name => (
             <div key={name} className="card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px' }}>
-              <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{ fontWeight: 600, fontSize: '0.85rem' }}>{name}</span>
-                <span style={{ marginLeft: 8, fontSize: '0.7rem', color: 'var(--green)', background: 'var(--green-light)', padding: '2px 8px', borderRadius: 4 }}>
-                  installed
+                <span style={{ fontSize: '0.7rem', color: 'var(--green)', background: 'var(--green-light)', padding: '2px 8px', borderRadius: 4, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                  <CheckCircle2 size={12} /> installed
                 </span>
               </div>
-              <button className="btn btn-sm btn-red" onClick={() => deleteModel(name)}>Remove</button>
+              <button className="btn btn-sm btn-red" onClick={() => deleteModel(name)} style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                <Trash2 size={12} /> Remove
+              </button>
             </div>
           ))}
         </div>
@@ -104,7 +109,7 @@ export default function ModelManager() {
                 style={models.includes(name) ? { opacity: 0.5, cursor: 'default' } : {}}
                 disabled={models.includes(name)}
               >
-                {name} {models.includes(name) ? '(installed)' : '\u2795 Pull'}
+                {name} {models.includes(name) ? '(installed)' : '+ Pull'}
               </button>
             ))}
           </div>
