@@ -1,37 +1,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --bg: #0b101d;
-  --bg-card: #131a2e;
-  --bg-sidebar: #070a14;
-  --bg-hover: #1c2642;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-light: rgba(255, 255, 255, 0.04);
-  --text: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --accent: #6366f1;
-  --accent-gold: #ffb800;
-  --accent-light: rgba(99, 102, 241, 0.15);
-  --accent-dark: #4f46e5;
-  --green: #00b894;
-  --green-light: rgba(0, 184, 148, 0.15);
-  --red: #ff7675;
-  --red-light: rgba(255, 118, 117, 0.15);
-  --orange: #ffb800;
-  --orange-light: rgba(255, 184, 0, 0.15);
-  --blue: #0984e3;
-  --blue-light: rgba(9, 132, 227, 0.15);
-  --purple: #a29bfe;
-  --purple-light: rgba(162, 155, 254, 0.15);
+  --bg: #121212;
+  --bg-card: #1e1e1e;
+  --bg-sidebar: #181818;
+  --bg-hover: #2c2c2c;
+  --border: #2c2c2c;
+  --border-light: #242424;
+  --text: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --text-muted: #707070;
+  --accent: #2563eb;
+  --accent-gold: #f59e0b;
+  --accent-light: rgba(37, 99, 235, 0.15);
+  --accent-dark: #1d4ed8;
+  --green: #10b981;
+  --green-light: rgba(16, 185, 129, 0.15);
+  --red: #ef4444;
+  --red-light: rgba(239, 68, 68, 0.15);
+  --orange: #f59e0b;
+  --orange-light: rgba(245, 158, 11, 0.15);
+  --blue: #2563eb;
+  --blue-light: rgba(37, 99, 235, 0.15);
+  --teal: #0f766e;
+  --teal-light: rgba(15, 118, 110, 0.15);
+  --purple: #8b5cf6;
+  --purple-light: rgba(139, 92, 246, 0.15);
   --font-body: 'Inter', sans-serif;
   --font-heading: 'Outfit', sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
-  --radius: 12px;
-  --radius-sm: 8px;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --shadow: 0 4px 20px rgba(0,0,0,0.25);
-  --shadow-lg: 0 10px 30px rgba(0,0,0,0.35);
+  --radius: 10px;
+  --radius-sm: 6px;
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow: 0 4px 16px rgba(0,0,0,0.5);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.6);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
