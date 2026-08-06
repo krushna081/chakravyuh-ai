@@ -1,33 +1,33 @@
 :root {
-  --bg: #f8f9fb;
-  --bg-card: #ffffff;
-  --bg-sidebar: #1a1d23;
-  --bg-hover: #f0f2f5;
-  --border: #e2e5ea;
-  --border-light: #eef0f3;
-  --text: #1a1d23;
-  --text-secondary: #6b7280;
-  --text-muted: #9ca3af;
+  --bg: #0b1326;
+  --bg-card: rgba(23, 31, 51, 0.75);
+  --bg-sidebar: #060e20;
+  --bg-hover: rgba(255, 255, 255, 0.06);
+  --border: rgba(144, 143, 160, 0.2);
+  --border-light: rgba(144, 143, 160, 0.1);
+  --text: #dae2fd;
+  --text-secondary: #c7c4d7;
+  --text-muted: #908fa0;
   --accent: #6366f1;
-  --accent-light: #eef2ff;
+  --accent-light: rgba(99, 102, 241, 0.18);
   --accent-dark: #4f46e5;
   --green: #10b981;
-  --green-light: #ecfdf5;
+  --green-light: rgba(16, 185, 129, 0.15);
   --red: #ef4444;
-  --red-light: #fef2f2;
+  --red-light: rgba(239, 68, 68, 0.15);
   --orange: #f59e0b;
-  --orange-light: #fffbeb;
+  --orange-light: rgba(245, 158, 11, 0.15);
   --blue: #3b82f6;
-  --blue-light: #eff6ff;
+  --blue-light: rgba(59, 130, 246, 0.15);
   --purple: #8b5cf6;
-  --purple-light: #f5f3ff;
+  --purple-light: rgba(139, 92, 246, 0.15);
   --teal: #14b8a6;
   --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --mono: 'JetBrains Mono', monospace;
-  --radius: 10px;
-  --radius-sm: 6px;
-  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-lg: 0 4px 24px rgba(0,0,0,0.08);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 4px 20px rgba(0,0,0,0.3), 0 0 15px rgba(99, 102, 241, 0.12);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.4);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -174,7 +174,8 @@ body {
   justify-content: space-between;
   padding: 14px 28px;
   border-bottom: 1px solid var(--border);
-  background: var(--bg-card);
+  background: rgba(11, 19, 38, 0.85);
+  backdrop-filter: blur(16px);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -205,6 +206,12 @@ body {
   border-radius: var(--radius-sm);
   padding: 8px 14px;
   width: 220px;
+  transition: all 0.2s ease;
+}
+
+.topbar-search:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.25);
 }
 
 .topbar-search input {
@@ -237,12 +244,14 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 18px 20px;
-  transition: all 0.2s;
+  backdrop-filter: blur(12px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .stat-card:hover {
   border-color: var(--accent);
   box-shadow: var(--shadow);
+  transform: translateY(-2px);
 }
 
 .stat-card .stat-top {
@@ -310,12 +319,14 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 18px;
-  transition: all 0.2s;
+  backdrop-filter: blur(12px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .agent-card:hover {
   border-color: var(--accent);
   box-shadow: var(--shadow);
+  transform: translateY(-2px);
 }
 
 .agent-card .ac-head {
@@ -391,6 +402,7 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 18px 20px;
+  backdrop-filter: blur(12px);
 }
 
 /* Buttons */
