@@ -60,7 +60,7 @@ Chakravyuh AI is an **open-source, multi-agent AI operating system** — a **Con
 | **MCP Tools** | Filesystem, web fetch/search, GitHub, Docker, terminal integration |
 | **Memory Tiers** | Working, episodic, semantic, procedural — SQLite + ChromaDB backends |
 | **Terminal-First** | Rich CLI + Textual TUI — full control from the command line |
-| **Web Dashboard** | Light-themed React + Vite UI for visual agent management |
+| **Web Dashboard** | Dark-themed React + Vite Command Center for visual agent formation & live execution |
 | **Autonomous Workflows** | Multi-step execution with dependency tracking and error recovery |
 
 ---

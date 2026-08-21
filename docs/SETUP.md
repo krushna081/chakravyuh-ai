@@ -1,6 +1,6 @@
 # Setup Guide
 
-> **Note:** Chakravyuh is now **Python-native** (v0.2+). The old TypeScript engine has been replaced.
+Chakravyuh AI is a multi-agent command center. The system runs a **Python FastAPI backend** (`:3001`) with a **React + Vite Command Center** (`:5174`).
 
 ---
 
@@ -8,85 +8,92 @@
 
 | Tool | Required | Notes |
 |------|----------|-------|
-| Python | 3.11+ | [python.org](https://python.org) |
-| Ollama | Optional | Only for local models. Not needed for Ollama Cloud. |
-| Git | 2.x | For cloning the repo |
+| Python | 3.11+ | `python3 --version` |
+| Node.js | 18+ | `node --version` (for the Web Command Center) |
+| Ollama | Optional | Recommended for local inference (`ollama serve`). Not required for startup. |
+| Git | 2.x | For cloning and version control |
 
 ---
 
-## Quick Install (Ollama Cloud — No GPU, No Downloads)
+## 1. Quick Backend Setup
 
 ```bash
 git clone https://github.com/krushna081/chakravyuh-ai.git
 cd chakravyuh-ai
 
-python -m pip install -r requirements.txt
-pip install -e .
+# Create virtual environment and install dependencies
+python3 -m venv venv
+./venv/bin/pip install -r requirements.txt
 
+# Configure environment (copy template)
 cp .env.example .env
-# Edit .env:
-#   Set OLLAMA_HOST=https://ollama.com
-#   Set OLLAMA_API_KEY=your_key
 
-cv setup --no-pull
-cv run
+# Run FastAPI backend
+./venv/bin/python -m uvicorn api.app:app --host 127.0.0.1 --port 3001
 ```
 
-> **Ollama Cloud** lets you run models on Ollama's servers — no GPU or model downloads needed.  
-> Get an API key at [ollama.com](https://ollama.com).
-
----
-
-## Quick Install (Local Ollama)
-
+Verify backend health:
 ```bash
-git clone https://github.com/krushna081/chakravyuh-ai.git
-cd chakravyuh-ai
-
-python -m pip install -r requirements.txt
-pip install -e .
-
-cp .env.example .env
-# Edit .env if needed (OLLAMA_HOST defaults to http://127.0.0.1:11434)
-
-cv setup     # auto-detect Ollama and pull models
-cv run       # start API + dashboard
+curl http://127.0.0.1:3001/health
 ```
 
 ---
 
-## Cloud Providers (Optional)
+## 2. Web Command Center Setup
 
-If you prefer OpenAI, Anthropic, DeepSeek, etc., set `CHAKRAVYUH_ROUTER_MODE=cloud` in `.env` and add your API keys.
+In a new terminal:
+
+```bash
+cd chakravyuh-ai/web
+
+# Install dependencies
+npm install
+
+# Run dev server
+npm run dev -- --port 5174 --strictPort
+```
+
+Open `http://localhost:5174` in your browser.
+
+To create a production build served directly by FastAPI:
+```bash
+npm run build
+# The compiled bundle in `web/dist` will be served by FastAPI at http://127.0.0.1:3001/
+```
 
 ---
 
-## Docker Setup
+## 3. Connecting Ollama (Agent Brain)
 
 ```bash
+# Start Ollama service
+ollama serve
+
+# Pull default model
+ollama pull llama3.1:8b
+```
+
+Once connected, the engine readiness probe in the command center automatically turns green (`engine ready`).
+
+---
+
+## 4. Docker Setup
+
+```bash
+# CPU only
 docker compose -f docker/docker-compose.yml up -d
-```
 
-For GPU support, see `docker/docker-compose.gpu-nvidia.yml` or `docker/docker-compose.gpu-amd.yml`.
+# NVIDIA GPU
+docker compose -f docker/docker-compose.yml -f docker/docker-compose.gpu-nvidia.yml up -d
+```
 
 ---
 
-## TUI (No Browser Needed)
-
-```bash
-pip install textual
-cv tui
-```
-
-Launches a multi-pane Textual dashboard with Prompt Engineer input + 10 agent terminal panels.
-
----
-
-## Troubleshooting
+## 5. Troubleshooting
 
 | Problem | Solution |
 |---------|----------|
-| `cv` command not found | Run `pip install -e .` to register the CLI |
-| Ollama Cloud unreachable | Check `OLLAMA_API_KEY` in `.env` is correct |
-| `python` not found | Install Python 3.11+ from python.org |
-| Port 3001 in use | Change `CHAKRAVYUH_API_PORT` in `.env` |
+| `Port 3001 or 5174 in use` | Run `fuser -k 3001/tcp` or `fuser -k 5174/tcp` |
+| `LLM unavailable` | Start Ollama with `ollama serve` and pull `llama3.1:8b` |
+| `Readiness Screen connection error` | Ensure the backend is running on `127.0.0.1:3001` |
+| `ModuleNotFoundError` | Verify running Python with `./venv/bin/python` |

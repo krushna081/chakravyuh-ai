@@ -2,6 +2,8 @@ import logging
 
 from fastapi import APIRouter, HTTPException
 
+from core.session_store import get_session_store
+
 logger = logging.getLogger("chakravyuh.api.agents")
 router = APIRouter()
 
@@ -53,4 +55,19 @@ async def get_agent(agent_id: str):
         "tools": agent.config.tools,
         "memory_scope": [m.value for m in agent.config.memory_scope],
         "allowed_peers": agent.config.allowed_peers,
+        "session": get_session_store().lines(agent_id, limit=400),
+    }
+
+
+@router.get("/agents/{agent_id}/session")
+async def get_agent_session(agent_id: str):
+    orch = _get_orchestrator()
+    if not orch:
+        raise HTTPException(status_code=503, detail="Orchestrator not ready")
+    agent = orch.get_agent(agent_id)
+    if not agent:
+        raise HTTPException(status_code=404, detail=f"Agent '{agent_id}' not found")
+    return {
+        "agent_id": agent_id,
+        "lines": get_session_store().lines(agent_id, limit=400),
     }

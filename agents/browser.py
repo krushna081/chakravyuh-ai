@@ -1,23 +1,9 @@
-import logging
-from typing import Any
-
 from core.base_agent import BaseAgent
-from core.types import AgentMessage
-
-logger = logging.getLogger("chakravyuh.agents.browser")
 
 
 class BrowserAgent(BaseAgent):
-    async def handle_message(self, message: AgentMessage) -> dict[str, Any]:
-        task = message.payload.get("task", "")
-        url = message.payload.get("data", {}).get("url", "")
-        logger.info(f"Browser navigating: {task[:100]}")
+    """Browser agent — real work loop inherited from BaseAgent.
 
-        return {
-            "status": "browsing_complete",
-            "url": url or "not_specified",
-            "actions_performed": [],
-            "extracted_data_size": "0 KB",
-            "screenshot": None,
-            "summary": f"Browser automation completed for: {task[:80]}",
-        }
+    System prompt: prompts/browser.md (loaded automatically).
+    Tools and model come from AgentConfig (see agents/__init__.py).
+    """

@@ -14,6 +14,8 @@ from api.routes.agents import router as agents_router
 from api.routes.models import router as models_router
 from api.routes.memory import router as memory_router
 from api.routes.system import router as system_router
+from api.routes.tasks import router as tasks_router
+from api.routes.integrations import router as integrations_router
 from core.orchestrator import Orchestrator
 from core.types import RouterMode
 
@@ -74,6 +76,8 @@ app.include_router(chat_router, prefix="/api/v1", tags=["Chat"])
 app.include_router(agents_router, prefix="/api/v1", tags=["Agents"])
 app.include_router(models_router, prefix="/api/v1", tags=["Models"])
 app.include_router(memory_router, prefix="/api/v1", tags=["Memory"])
+app.include_router(tasks_router, prefix="/api/v1", tags=["Tasks"])
+app.include_router(integrations_router, prefix="/api/v1", tags=["Integrations"])
 
 
 @app.get("/health")
