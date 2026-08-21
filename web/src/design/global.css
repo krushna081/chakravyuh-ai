@@ -1,0 +1,169 @@
+/* Chakravyuh AI — global styles. Premium dark cybersecurity aesthetic:
+   dark-gray surfaces, subtle hairlines, soft glows, smooth transitions. */
+@import './tokens.css';
+
+*, *::before, *::after { box-sizing: border-box; }
+
+:root { color-scheme: dark; }
+
+html, body, #root {
+  margin: 0;
+  height: 100%;
+  background: var(--cv-cream-100);
+  color: var(--cv-ink-900);
+  font-family: var(--cv-font-ui);
+  overflow: hidden;
+}
+
+body {
+  background-image: var(--cv-grad-ambient);
+  font-size: var(--cv-text-body-md);
+  line-height: var(--cv-lh-body-md);
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+input, textarea, select { caret-color: var(--cv-cyan); }
+
+canvas, img, svg { image-rendering: auto; }
+
+:focus-visible {
+  outline: 1px solid var(--cv-cyan);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--cv-cyan-glow);
+  color: var(--cv-ink-900);
+}
+
+/* ── Utility ─────────────────────────────────────────────────────────────── */
+
+.cv-tabbar, .cv-scroll-hidden {
+  scrollbar-width: none;
+}
+.cv-tabbar::-webkit-scrollbar, .cv-scroll-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+.cv-settings-btn {
+  transition: background 120ms ease, box-shadow 120ms ease, color 120ms ease;
+}
+.cv-settings-btn:hover {
+  background: var(--cv-cyan-glow) !important;
+  box-shadow: inset 0 0 0 1px var(--cv-cyan) !important;
+  color: var(--cv-cyan) !important;
+}
+
+/* ── Animations (subtle, purposeful) ────────────────────────────────────── */
+
+@keyframes cv-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes cv-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes cv-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.72); opacity: 0.55; }
+}
+
+@keyframes cv-pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+@keyframes cv-bubble-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes cv-envelope-fly {
+  0% { transform: translate(-50%, -50%); }
+  100% { transform: translate(-50%, -50%); }
+}
+
+@keyframes cv-scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+/* ── Scrollbars ──────────────────────────────────────────────────────────── */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--cv-ink-300) var(--cv-cream-200);
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: var(--cv-cream-200);
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--cv-ink-300);
+  border-radius: 5px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--cv-ink-500);
+}
+
+/* ── Markdown preview ────────────────────────────────────────────────────── */
+
+.cv-md-preview {
+  font-family: var(--cv-font-ui);
+  font-size: var(--cv-text-body-md);
+  line-height: 1.65;
+  max-width: 72ch;
+  word-wrap: break-word;
+}
+.cv-md-preview h1, .cv-md-preview h2, .cv-md-preview h3 {
+  border-bottom: 1px solid var(--cv-ink-100);
+  padding-bottom: 4px;
+  color: var(--cv-ink-900);
+}
+.cv-md-preview a { color: var(--cv-cyan); }
+.cv-md-preview code {
+  background: var(--cv-cream-200);
+  padding: 1px 5px;
+  font-family: var(--cv-font-mono);
+  font-size: 0.9em;
+  color: var(--cv-violet-soft);
+}
+.cv-md-preview pre {
+  background: var(--cv-cream-100);
+  box-shadow: inset 0 0 0 1px var(--cv-ink-100);
+  padding: 10px 12px;
+  overflow-x: auto;
+}
+.cv-md-preview pre code { background: none; padding: 0; color: var(--cv-ink-700); }
+.cv-md-preview blockquote {
+  border-left: 3px solid var(--cv-ink-300);
+  margin-left: 0;
+  padding-left: 12px;
+  color: var(--cv-ink-500);
+}
+.cv-md-preview table { border-collapse: collapse; }
+.cv-md-preview th, .cv-md-preview td {
+  border: 1px solid var(--cv-ink-100);
+  padding: 4px 8px;
+}
+.cv-md-preview input[type='checkbox'] { accent-color: var(--cv-cyan); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

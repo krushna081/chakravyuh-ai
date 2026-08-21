@@ -1,0 +1,120 @@
+/* Design tokens — single source of truth for the Chakravyuh AI command center.
+   Premium dark cybersecurity aesthetic:
+   - deep charcoal backgrounds, dark-gray surfaces
+   - white/off-white text, muted gray secondary
+   - ONE primary accent: electric cyan/teal
+   - ONE secondary accent: violet/indigo (agent identity)
+   - status colors (muted green/amber/red) ONLY for status
+   Token names are kept stable so every component restyles via this swap. */
+:root {
+  /* Base — deep charcoal scale */
+  --cv-cream-50:  #F4F7FA;
+  --cv-cream-100: #12161B;
+  --cv-cream-200: #0C0F14;
+  --cv-cream-300: #171C23;
+  --cv-paper-100: #12161B;
+  --cv-paper-200: #0F1318;
+
+  /* Ink — text on dark */
+  --cv-ink-900: #E8ECF1;
+  --cv-ink-700: #C3CAD4;
+  --cv-ink-500: #9AA5B1;
+  --cv-ink-300: #6B7683;
+  --cv-ink-100: #3A424E;
+
+  /* Identity — violet/indigo (secondary accent, agent identity only) */
+  --cv-coral: #818CF8;
+  --cv-coral-light: #1B2140;
+  --cv-mint:  #818CF8;
+  --cv-mint-light:  #1B2140;
+  --cv-sky:   #818CF8;
+  --cv-sky-light:   #1B2140;
+  --cv-lemon: #818CF8;
+  --cv-lemon-light: #1B2140;
+  --cv-lilac: #A5B4FC;
+  --cv-lilac-light: #1B2140;
+  --cv-peach: #818CF8;
+  --cv-peach-light: #1B2140;
+
+  /* Primary accent — electric cyan/teal */
+  --cv-cyan:       #22D3EE;
+  --cv-cyan-soft:  #67E8F9;
+  --cv-cyan-deep:  #0E7490;
+  --cv-cyan-glow:  rgba(34, 211, 238, 0.28);
+
+  /* Secondary accent — violet/indigo */
+  --cv-violet:      #818CF8;
+  --cv-violet-soft: #A5B4FC;
+  --cv-violet-deep: #4F46E5;
+  --cv-violet-glow: rgba(129, 140, 248, 0.25);
+
+  /* Status — muted, only for status */
+  --cv-status-idle:     #6B7683;
+  --cv-status-thinking: #818CF8;
+  --cv-status-working:  #22D3EE;
+  --cv-status-waiting:  #A5B4FC;
+  --cv-status-blocked:  #E5484D;
+  --cv-status-success:  #34D399;
+  --cv-status-ghost:    #565E6A;
+  --cv-status-compacting: #8B96A5;
+  --cv-status-looping:    #D9A441;
+  --cv-status-typing:     #22D3EE;
+
+  /* Spacing */
+  --cv-space-0: 0px;
+  --cv-space-1: 4px;
+  --cv-space-2: 8px;
+  --cv-space-3: 12px;
+  --cv-space-4: 16px;
+  --cv-space-5: 24px;
+  --cv-space-6: 32px;
+  --cv-space-7: 48px;
+  --cv-space-8: 64px;
+
+  /* Type — modern professional: Space Grotesk display, Inter UI, JetBrains Mono code */
+  --cv-font-display: "Space Grotesk", "Inter", sans-serif;
+  --cv-font-ui:      "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --cv-font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Type scale */
+  --cv-text-display-lg: 20px;
+  --cv-text-display-md: 15px;
+  --cv-text-display-sm: 12px;
+  --cv-text-body-lg:    15px;
+  --cv-text-body-md:    13px;
+  --cv-text-body-sm:    12px;
+  --cv-text-mono-md:    13px;
+  --cv-text-mono-sm:    12px;
+
+  /* Line heights */
+  --cv-lh-display-lg: 26px;
+  --cv-lh-display-md: 22px;
+  --cv-lh-display-sm: 18px;
+  --cv-lh-body-lg:    22px;
+  --cv-lh-body-md:    20px;
+  --cv-lh-body-sm:    17px;
+  --cv-lh-mono:       20px;
+
+  /* Soft premium shadows — minimal, low-alpha */
+  --cv-shadow-hard: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.25);
+  --cv-shadow-glow: 0 0 0 1px rgba(34, 211, 238, 0.18), 0 0 24px rgba(34, 211, 238, 0.10);
+
+  /* Panel borders — subtle hairlines on dark-gray surfaces */
+  --cv-panel-border:          inset 0 0 0 1px #232B35;
+  --cv-on-accent: #081018;
+  --cv-panel-border-inset:    inset 0 0 0 1px #1D242D;
+  --cv-panel-border-terminal: inset 0 0 0 1px #232B35;
+  --cv-panel-border-dialog:   inset 0 0 0 1px #2E3844;
+
+  /* Ambient gradients — very subtle cyan/violet presence */
+  --cv-grad-ambient: radial-gradient(1200px 600px at 15% -10%, rgba(34, 211, 238, 0.06), transparent 60%),
+                     radial-gradient(1000px 500px at 110% 110%, rgba(129, 140, 248, 0.05), transparent 60%);
+  --cv-grad-header: linear-gradient(180deg, #0F141A 0%, #0C0F14 100%);
+}
+
+/* Dark-only: the premium theme is the single theme. Kept for API compat so
+   components that read data-cv-theme never see a light variant. */
+:root[data-cv-theme='dark'],
+:root {
+  --cv-shadow-hard: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.25);
+}

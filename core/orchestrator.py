@@ -126,6 +126,31 @@ class Orchestrator:
         if models is not None:
             self._ollama_models = models
 
+    def get_integrations(self) -> list[dict]:
+        """Honest per-integration status for the readiness UI."""
+        from core import llm
+        from core.tool_executor import get_executor
+
+        checks = [llm.status()]
+        checks += get_executor().availability()
+
+        control = self._control_agent
+        tasks = []
+        if control:
+            try:
+                tasks = control.get_status_summary().get("tasks", [])
+            except Exception:
+                tasks = []
+        from core.session_store import get_session_store
+        sessions = {}
+        for agent_id in self._agents:
+            sessions[agent_id] = get_session_store().lines(agent_id, limit=5)
+        return {
+            "integrations": checks,
+            "tasks": tasks,
+            "sessions_sample": sessions,
+        }
+
     @property
     def agents(self) -> dict[str, BaseAgent]:
         return dict(self._agents)

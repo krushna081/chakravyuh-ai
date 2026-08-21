@@ -78,7 +78,7 @@ def create_default_configs():
         "memory_agent": AgentConfig(
             id="memory_agent", name="Memory Agent", role="Memory management & retrieval",
             system_prompt="You manage the memory system: store, retrieve, and prune memories.",
-            provider=ProviderType.OLLAMA, model="nomic-embed-text",
+            provider=ProviderType.OLLAMA, model="llama3.1:8b",
             tools=[], capabilities=[AgentCapability.MEMORY],
             memory_scope=[MemoryType.WORKING, MemoryType.EPISODIC, MemoryType.SEMANTIC, MemoryType.PROCEDURAL],
             allowed_peers=["coordinator", "*"],
